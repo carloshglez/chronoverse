@@ -1,0 +1,62 @@
+import { rotatePoint } from './helpers';
+
+export default class Bullet {
+  constructor(args) {
+    this.rotation = args.ship.rotation;
+    let posDelta = rotatePoint({x:args.direction, y:-20}, {x:0,y:0}, this.rotation * Math.PI / 180);
+    this.position = {
+      x: args.ship.position.x + posDelta.x,
+      y: args.ship.position.y + posDelta.y
+    };
+    this.velocity = {
+      x:posDelta.x / 2,
+      y:posDelta.y / 2
+    };
+    this.radius = args.radius;
+    this.bounce = args.bounce;
+  }
+
+  destroy(){
+    this.delete = true;
+  }
+
+  render(state){
+    // Move
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+
+    if (this.bounce) {
+      //Bounce them!
+      if(  this.position.x < 0
+        || this.position.x > state.screen.width) {
+        this.velocity.x *= (-1);
+      }
+      if(  this.position.y < 0
+        || this.position.y > state.screen.height) {
+        this.velocity.y *= (-1);
+      }
+    } else {
+      // Delete if it goes out of bounds
+      if ( this.position.x < 0
+        || this.position.y < 0
+        || this.position.x > state.screen.width
+        || this.position.y > state.screen.height ) {
+          this.destroy();
+      }
+    }
+
+    // Draw
+    const context = state.context;
+    context.save();
+    context.translate(this.position.x, this.position.y);
+    context.rotate(this.rotation * Math.PI / 180);
+    context.fillStyle = 'yellow';
+    context.lineWidth = 0,5;
+    context.beginPath();
+    context.arc(0, 0, this.radius, 0, 2 * Math.PI);
+    context.closePath();
+    context.fill();
+    context.restore();
+  }
+}
