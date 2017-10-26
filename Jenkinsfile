@@ -24,7 +24,7 @@ pipeline {
         stage('Archive') {
             steps {
                 echo 'Archiving....'
-                archiveArtifacts artifacts: '**/dist/*.js', fingerprint: true
+                archiveArtifacts artifacts: 'dist/*.js', fingerprint: true
             }
         }
     }
