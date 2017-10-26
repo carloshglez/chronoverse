@@ -2,8 +2,19 @@ import React, { Component } from 'react';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
-import { randomNumBetweenExcluding, randomNumBetween, PW, getRandomPowerUp } from './util/helpers'
-import Notifications, {notify} from 'react-notify-toast';
+import { randomNumBetweenExcluding, randomNumBetween, PW, getRandomPowerUp } from './util/helpers';
+
+import Notifications, {notify} from 'react-notify-toast'
+import FaShield from 'react-icons/lib/fa/shield'
+import MdAccessAlarm from 'react-icons/lib/md/access-alarm'
+import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
+import MdStars from 'react-icons/lib/md/stars'
+import MdStarOutline from 'react-icons/lib/md/star-outline'
+import MdArrowBack from 'react-icons/lib/md/arrow-back'
+import MdArrowDownward from 'react-icons/lib/md/arrow-downward'
+import MdArrowForward from 'react-icons/lib/md/arrow-forward'
+import MdArrowUpward from 'react-icons/lib/md/arrow-upward'
+
 
 const KEY = {
   LEFT:  37,
@@ -205,8 +216,8 @@ export class Reacteroids extends Component {
 
     this.powerUps = [];
     let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    this.generatePowerUp(powerUpCount)
-    //this.generatePowerUp(20);
+    //this.generatePowerUp(powerUpCount)
+    this.generatePowerUp(10);
   }
 
   gameOver(){
@@ -389,28 +400,28 @@ export class Reacteroids extends Component {
     return (
       <div>
         { endgame }
-        <span className='score top-score' >Top Score: {this.state.topScore}</span>
-        <span className='score current-score' >Score: {this.state.currentScore}</span>
-        <span className='score shield-score' >Shield: {Math.floor((this.state.currentShield))}</span>
-        <span className='score time-score' >Time: {this.state.timeValue} seg</span>
-        <span className='controls-info' >
-          Use [A][W][D] or [&lt;][^][&gt;] to MOVE<br/>
+        <span className='score top-score'>    <MdStars /> Top Score: {this.state.topScore}</span>
+        <span className='score current-score'><MdStarOutline /> Score: {this.state.currentScore}</span>
+        <span className='score shield-score'> <FaShield /> Shield: {Math.floor((this.state.currentShield))}</span>
+        <span className='score time-score'>   <MdAccessAlarm /> Time: {this.state.timeValue} seg</span>
+        <span className='controls-info'>
+          Use [A][W][D] or [<MdArrowBack />][<MdArrowUpward />][<MdArrowForward />] to MOVE<br/>
           Use [SPACE] to SHOOT<br/>
-          Use [S] or [v] to SHIELD
+          Use [S] or [<MdArrowDownward />] to SHIELD
         </span>
         <Notifications />
 
         {/*
         <span className='controls c-direction' >
-          <button id='left' {...events}>&lt;</button>
-          <button id='up' {...events}>^</button>
-          <button id='right' {...events}>&gt;</button>
+          <button id='left' {...events}><MdArrowBack /></button>
+          <button id='up' {...events}><MdArrowUpward /></button>
+          <button id='right' {...events}><MdArrowForward /></button>
         </span>
         <span className='controls c-fire' >
-          <button id='space' {...events}>F</button>
+          <button id='space' {...events}><MdGpsFixed /></button>
         </span>
         <span className='controls c-shield' >
-          <button id='down' {...events}>S</button>
+          <button id='down' {...events}><FaShield /></button>
         </span>
         */}
 

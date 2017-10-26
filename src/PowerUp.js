@@ -42,11 +42,13 @@ export default class PowerUp {
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
     context.fillStyle = this.type.color;
+
     context.lineWidth = 0,5;
     context.beginPath();
     context.arc(0, 0, this.radius, 0, 2 * Math.PI);
     context.closePath();
     context.fill();
+
     context.restore();
   }
 }
