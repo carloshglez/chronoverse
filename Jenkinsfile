@@ -3,7 +3,7 @@
 pipeline {
     agent any
     options {
-        timeout(time: 5, unit: 'MINUTES')
+        timeout(time: 6, unit: 'MINUTES')
     }
     environment {
         CUSTOM_VARIABLE = 'This is my custom environment variable'
@@ -36,7 +36,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                timeout(time: 3, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {
                     bat 'npm install'
                     bat 'npm run-script build'
                 }
