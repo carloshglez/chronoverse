@@ -19,6 +19,7 @@ pipeline {
             }
             steps {
                 echo 'Testing..'
+                bat 'npm run-script lint'
             }
         }
         stage('Deploy') {
@@ -40,6 +41,7 @@ pipeline {
             steps {
                 echo 'Archiving....'
                 archiveArtifacts artifacts: 'dist/*.js', fingerprint: true
+                archiveArtifacts artifacts: '*.html', fingerprint: true
             }
         }
     }
