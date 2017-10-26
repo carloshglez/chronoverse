@@ -2,7 +2,12 @@
 
 pipeline {
     agent any
-
+    environment {
+        CUSTOM_VARIABLE = 'This is my custom environment variable'
+    }
+    parameters {
+        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
+    }
     stages {
         stage('Information') {
             steps {
@@ -20,6 +25,9 @@ pipeline {
                 echo "Node Name: ${env.NODE_NAME}"
                 echo "Workspace: ${env.WORKSPACE}"
                 echo "Home: ${env.JENKINS_HOME}"
+                echo "============CUSTOM============="
+                echo "Custom Env Variable: ${env.CUSTOM_VARIABLE}"
+                echo "Custom property: ${params.Greeting} World!"
             }
         }
         stage('Build') {
@@ -60,6 +68,20 @@ pipeline {
                 echo 'Archiving....'
                 archiveArtifacts artifacts: 'dist/*.js', fingerprint: true
                 archiveArtifacts artifacts: '*.html', fingerprint: true
+            }
+        }
+        post {
+            always {
+                echo "Pipeline Completed! [${currentBuild.result}]"
+            }
+            success {
+                echo 'Pipeline Sucess!'
+            }
+            failure {
+                echo 'Pipeline Failure!'
+            }
+            changed {
+                echo 'Pipeline Status Changed!'
             }
         }
     }
