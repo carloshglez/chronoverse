@@ -7,21 +7,36 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                bat 'npm install'
-                bat 'npm run-script build'
+                bat 'npm installl'
+                //bat 'npm run-script build'
             }
         }
         stage('Test') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 echo 'Testing..'
             }
         }
         stage('Deploy') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 echo 'Deploying....'
             }
         }
         stage('Archive') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 echo 'Archiving....'
                 archiveArtifacts artifacts: 'dist/*.js', fingerprint: true
