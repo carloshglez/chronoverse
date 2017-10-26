@@ -21,6 +21,12 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+        stage('Archive') {
+            steps {
+                echo 'Archiving....'
+                archiveArtifacts artifacts: '**/dist/*.js', fingerprint: true
+            }
+        }
     }
 }
 
