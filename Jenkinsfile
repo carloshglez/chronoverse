@@ -27,7 +27,7 @@ pipeline {
                 echo "Home: ${env.JENKINS_HOME}"
                 echo "============CUSTOM============="
                 echo "Custom Env Variable: ${env.CUSTOM_VARIABLE}"
-                echo "Custom property: ${params.Greeting} World!"
+                echo "Custom property (Greeting): ${params.Greeting} World!"
             }
         }
         stage('Build') {
@@ -76,7 +76,7 @@ pipeline {
             echo "Pipeline Completed! [${currentBuild.result}]"
         }
         success {
-            echo 'Pipeline Sucess!'
+            echo 'Pipeline Success!'
         }
         failure {
             echo 'Pipeline Failure!'
