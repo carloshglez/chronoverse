@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
-import { randomNumBetweenExcluding, randomNumBetween, PW, getRandomPowerUp } from './helpers'
+import { randomNumBetweenExcluding, randomNumBetween, PW, getRandomPowerUp } from './util/helpers'
 import Notifications, {notify} from 'react-notify-toast';
 
 const KEY = {

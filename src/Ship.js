@@ -1,6 +1,6 @@
 import Bullet from './Bullet';
 import Particle from './Particle';
-import { rotatePoint, randomNumBetween, doExplode, PW } from './helpers';
+import { rotatePoint, randomNumBetween, doExplode, PW } from './util/helpers';
 import Notifications, {notify} from 'react-notify-toast';
 
 export default class Ship {

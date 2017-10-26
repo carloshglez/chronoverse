@@ -9,11 +9,11 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         publicPath: 'dist'
     },
-    /*devServer: {
+    devServer: {
         inline: true,
         contentBase: './',
         port: 3000
-    },*/
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()

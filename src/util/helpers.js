@@ -1,4 +1,4 @@
-import Particle from './Particle';
+import Particle from '../Particle';
 
 // From: http://codepen.io/bungu/pen/rawvJe
 

@@ -1,6 +1,5 @@
 import Particle from './Particle';
-import { randomNumBetween, doExplode } from './helpers';
-import { PW } from './helpers'
+import { randomNumBetween, doExplode, PW } from './util/helpers';
 
 export default class PowerUp {
   constructor(args) {
