@@ -3,9 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
-  entry: [
-    './src/index'
-  ],
+  entry: './src/index',
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist'),
@@ -28,7 +26,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader"
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.js$/,

@@ -3,17 +3,17 @@ var path = require('path');
 
 module.exports = {
     devtool: 'env',
-    entry: "./src/index.js",
+    entry: './src/index.js',
     output: {
         filename: 'bundle.js',
         path: path.join(__dirname, 'dist'),
-        publicPath: "dist"
+        publicPath: 'dist'
     },
-    devServer: {
+    /*devServer: {
         inline: true,
-        contentBase: "./",
+        contentBase: './',
         port: 3000
-    },
+    },*/
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
@@ -21,16 +21,15 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react', 'stage-0']
-                }
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
             },
             {
-                test: /\.css$/,
-                loader: "style-loader!css-loader"
+                test: /\.js$/,
+                loaders: 'babel-loader',
+                query: {
+                  presets: ['react', 'es2015', 'stage-0']
+                }
             }
         ]
     }
