@@ -169,8 +169,8 @@ export class Reacteroids extends Component {
         currentShield: this.state.currentShield + points,
       });
     }
-    let notificationColor = { background: PW.SHIELD.color, text: "#FFFFFF" };
-    notify.show("Shield Up!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.SHIELD.color, text: '#FFFFFF' };
+    notify.show('Shield Up!', 'custom', 5000, notificationColor);
   }
 
   increaseTimeCounter(time){
@@ -311,8 +311,8 @@ export class Reacteroids extends Component {
             item2.enableMultiBullets();
             item1.destroy();
           } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.TIME_BONUS) {
-            let notificationColor = { background: PW.TIME_BONUS.color, text: "black" };
-            notify.show("Time Bonus! (+5)", "custom", 5000, notificationColor);
+            let notificationColor = { background: PW.TIME_BONUS.color, text: 'black' };
+            notify.show('Time Bonus! (+5)', 'custom', 5000, notificationColor);
             this.increaseTimeCounter(5);
             item1.destroy();
           } else {
@@ -368,7 +368,7 @@ export class Reacteroids extends Component {
 
     if(!this.state.inGame){
       endgame = (
-        <div className="endgame">
+        <div className='endgame'>
           <p>Game over, man!</p>
           <p>{message}</p>
           <button
@@ -389,11 +389,11 @@ export class Reacteroids extends Component {
     return (
       <div>
         { endgame }
-        <span className="score top-score" >Top Score: {this.state.topScore}</span>
-        <span className="score current-score" >Score: {this.state.currentScore}</span>
-        <span className="score shield-score" >Shield: {Math.floor((this.state.currentShield))}</span>
-        <span className="score time-score" >Time: {this.state.timeValue} seg</span>
-        <span className="controls-info" >
+        <span className='score top-score' >Top Score: {this.state.topScore}</span>
+        <span className='score current-score' >Score: {this.state.currentScore}</span>
+        <span className='score shield-score' >Shield: {Math.floor((this.state.currentShield))}</span>
+        <span className='score time-score' >Time: {this.state.timeValue} seg</span>
+        <span className='controls-info' >
           Use [A][W][D] or [&lt;][^][&gt;] to MOVE<br/>
           Use [SPACE] to SHOOT<br/>
           Use [S] or [v] to SHIELD
@@ -401,20 +401,20 @@ export class Reacteroids extends Component {
         <Notifications />
 
         {/*
-        <span className="controls c-direction" >
-          <button id="left" {...events}>&lt;</button>
-          <button id="up" {...events}>^</button>
-          <button id="right" {...events}>&gt;</button>
+        <span className='controls c-direction' >
+          <button id='left' {...events}>&lt;</button>
+          <button id='up' {...events}>^</button>
+          <button id='right' {...events}>&gt;</button>
         </span>
-        <span className="controls c-fire" >
-          <button id="space" {...events}>F</button>
+        <span className='controls c-fire' >
+          <button id='space' {...events}>F</button>
         </span>
-        <span className="controls c-shield" >
-          <button id="down" {...events}>S</button>
+        <span className='controls c-shield' >
+          <button id='down' {...events}>S</button>
         </span>
         */}
 
-        <canvas ref="canvas"
+        <canvas ref='canvas'
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />

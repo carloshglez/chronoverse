@@ -5,35 +5,35 @@ import Particle from './Particle';
 export const PW = {
   SHIELD: {
     id: 1,
-    color: "blue",
+    color: 'blue',
   },
   BIG_BULLET: {
     id: 2,
-    color: "yellow",
+    color: 'yellow',
   },
   FAST_BULLET: {
     id: 3,
-    color: "green",
+    color: 'green',
   },
   BIG_SHIP: {
     id: 4,
-    color: "purple",
+    color: 'purple',
   },
   SPEED: {
     id: 5,
-    color: "orange",
+    color: 'orange',
   },
   BOUNCE_BULLET: {
     id: 6,
-    color: "aqua",
+    color: 'aqua',
   },
   MULTI_BULLET: {
     id: 7,
-    color: "pink",
+    color: 'pink',
   },
   TIME_BONUS: {
     id: 8,
-    color: "white",
+    color: 'white',
   }
 };
 

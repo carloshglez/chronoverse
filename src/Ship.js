@@ -41,39 +41,39 @@ export default class Ship {
   enableSuperBullets() {
     this.bulletRadius = 40;
     this.shotFrequency = 700;
-    let notificationColor = { background: PW.BIG_BULLET.color, text: "#FFFFFF" };
-    notify.show("Giant Bullets!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.BIG_BULLET.color, text: '#FFFFFF' };
+    notify.show('Giant Bullets!', 'custom', 5000, notificationColor);
   }
 
   enableFastBullets() {
     this.shotFrequency = 100;
-    let notificationColor = { background: PW.FAST_BULLET.color, text: "#FFFFFF" };
-    notify.show("WOW Fast Bullets!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.FAST_BULLET.color, text: '#FFFFFF' };
+    notify.show('WOW Fast Bullets!', 'custom', 5000, notificationColor);
   }
 
   enableBigShip() {
     this.bigShip = true;
-    let notificationColor = { background: PW.BIG_SHIP.color, text: "#FFFFFF" };
-    notify.show("Giant Ship!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.BIG_SHIP.color, text: '#FFFFFF' };
+    notify.show('Giant Ship!', 'custom', 5000, notificationColor);
   }
 
   enableShipSpeed() {
     this.speed = 0.45;
-    let notificationColor = { background: PW.SPEED.color, text: "#FFFFFF" };
-    notify.show("WOW Fast Ship!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.SPEED.color, text: '#FFFFFF' };
+    notify.show('WOW Fast Ship!', 'custom', 5000, notificationColor);
   }
 
   enableBounceBullets() {
     this.shotFrequency = 700;
     this.bounceSkill = true;
-    let notificationColor = { background: PW.BOUNCE_BULLET.color, text: "#FFFFFF" };
-    notify.show("Bounce Bullets!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.BOUNCE_BULLET.color, text: '#FFFFFF' };
+    notify.show('Bounce Bullets!', 'custom', 5000, notificationColor);
   }
 
   enableMultiBullets() {
     this.multiBulletSkill = true;
-    let notificationColor = { background: PW.MULTI_BULLET.color, text: "#FFFFFF" };
-    notify.show("Weapon Increased!", "custom", 5000, notificationColor);
+    let notificationColor = { background: PW.MULTI_BULLET.color, text: '#FFFFFF' };
+    notify.show('Weapon Increased!', 'custom', 5000, notificationColor);
   }
 
   disableAllPowerUp() {
