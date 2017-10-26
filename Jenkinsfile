@@ -70,19 +70,22 @@ pipeline {
                 archiveArtifacts artifacts: '*.html', fingerprint: true
             }
         }
-        post {
-            always {
-                echo "Pipeline Completed! [${currentBuild.result}]"
-            }
-            success {
-                echo 'Pipeline Sucess!'
-            }
-            failure {
-                echo 'Pipeline Failure!'
-            }
-            changed {
-                echo 'Pipeline Status Changed!'
-            }
+    }
+    post {
+        always {
+            echo "Pipeline Completed! [${currentBuild.result}]"
+        }
+        success {
+            echo 'Pipeline Sucess!'
+        }
+        failure {
+            echo 'Pipeline Failure!'
+        }
+        changed {
+            echo 'Pipeline Status Changed!'
+        }
+        aborted {
+            echo 'Pipeline Process Aborted!'
         }
     }
 }
