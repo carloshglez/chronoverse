@@ -10,11 +10,11 @@ export const PW = {
     drawShape: getShieldShape,
     text: 'Shield Up!'
   },
-  BIG_BULLET: {
+  SUPER_BULLET: {
     id: 2,
     color: 'gold',
     drawShape: getDefaultShape,
-    text: 'Giant Bullets!'
+    text: 'SUPER Bullets!'
   },
   FAST_BULLET: {
     id: 3,

@@ -297,7 +297,7 @@ export class Reacteroids extends Component {
           } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SHIELD) {
             this.increaseShield();
             item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.BIG_BULLET) {
+          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SUPER_BULLET) {
             this.startTimer(item2);
             item2.enableSuperBullets();
             item1.destroy();

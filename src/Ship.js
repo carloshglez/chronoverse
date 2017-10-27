@@ -41,7 +41,7 @@ export default class Ship {
   enableSuperBullets() {
     this.bulletRadius = 40;
     this.shotFrequency = 700;
-    showNotification(PW.BIG_BULLET.color, PW.BIG_BULLET.text)
+    showNotification(PW.SUPER_BULLET.color, PW.SUPER_BULLET.text)
   }
 
   enableFastBullets() {
@@ -109,7 +109,7 @@ export default class Ship {
     this.create(particle, 'particles');
   }
 
-  fireBullet() {
+  fireBullet(){
     let bulletArrayDirections = [0];
     if(this.multiBulletSkill) {
       bulletArrayDirections = [0, -5, 5];
@@ -122,11 +122,28 @@ export default class Ship {
         ship: this,
         radius: this.bulletRadius,
         direction : directionValue,
-        bounce : this.bounceSkill
+        bounce : this.bounceSkill,
+        color: this.setBulletColor()
       });
       this.create(bullet, 'bullets');
     }
     this.lastShot = Date.now();
+  }
+
+  setBulletColor() {
+    let color = 'yellow'
+
+    if(this.bounceSkill) {
+      color = PW.BOUNCE_BULLET.color
+    } else if (this.multiBulletSkill) {
+      color = PW.MULTI_BULLET.color
+    } else if(this.shotFrequency == 700) {
+      color = PW.SUPER_BULLET.color
+    } else if(this.shotFrequency == 100) {
+      color = PW.FAST_BULLET.color
+    }
+
+    return color
   }
 
   render(state){

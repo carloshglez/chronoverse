@@ -14,6 +14,7 @@ export default class Bullet {
     };
     this.radius = args.radius;
     this.bounce = args.bounce;
+    this.color = args.color;
   }
 
   destroy(){
@@ -51,7 +52,7 @@ export default class Bullet {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.fillStyle = 'yellow';
+    context.fillStyle = this.color;
     context.lineWidth = 0,5;
     context.beginPath();
     context.arc(0, 0, this.radius, 0, 2 * Math.PI);
