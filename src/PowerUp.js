@@ -1,11 +1,12 @@
 import Particle from './Particle';
-import { randomNumBetween, doExplode, PW } from './util/helpers';
+import { randomNumBetween, doExplode } from './util/helpers';
 
 export default class PowerUp {
   constructor(args) {
-    this.type = args.type;
+    this.powerUp = args.powerUp;
     this.position = args.position;
     this.rotation = 0;
+    this.rotationSpeed = randomNumBetween(-1, 1)
     this.velocity = {
         x: randomNumBetween(-1.5, 1.5),
         y: randomNumBetween(-1.5, 1.5)
@@ -22,13 +23,22 @@ export default class PowerUp {
   }
 
   getPowerUpType() {
-    return this.type;
+    return this.powerUp;
   }
 
   render(state){
     // Move
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+
+    // Rotation
+    this.rotation += this.rotationSpeed;
+    if (this.rotation >= 360) {
+      this.rotation -= 360;
+    }
+    if (this.rotation < 0) {
+      this.rotation += 360;
+    }
 
     // Screen edges
     if(this.position.x > state.screen.width + this.radius) this.position.x = -this.radius;
@@ -41,14 +51,13 @@ export default class PowerUp {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.fillStyle = this.type.color;
-
+    context.fillStyle = this.powerUp.color;
     context.lineWidth = 0,5;
-    context.beginPath();
-    context.arc(0, 0, this.radius, 0, 2 * Math.PI);
-    context.closePath();
-    context.fill();
 
+    this.powerUp.drawShape(context);
+
+    context.fill();
+    context.stroke();
     context.restore();
   }
 }

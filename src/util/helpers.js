@@ -2,41 +2,6 @@ import Particle from '../Particle';
 
 // From: http://codepen.io/bungu/pen/rawvJe
 
-export const PW = {
-  SHIELD: {
-    id: 1,
-    color: 'blue',
-  },
-  BIG_BULLET: {
-    id: 2,
-    color: 'yellow',
-  },
-  FAST_BULLET: {
-    id: 3,
-    color: 'green',
-  },
-  BIG_SHIP: {
-    id: 4,
-    color: 'purple',
-  },
-  SPEED: {
-    id: 5,
-    color: 'orange',
-  },
-  BOUNCE_BULLET: {
-    id: 6,
-    color: 'aqua',
-  },
-  MULTI_BULLET: {
-    id: 7,
-    color: 'pink',
-  },
-  TIME_BONUS: {
-    id: 8,
-    color: 'white',
-  }
-};
-
 /**
  * Generates vertices for asteroid polygon with certain count and radius
  * @param  {Number} count   Number of vertices
@@ -72,17 +37,6 @@ export function rotatePoint(p, center, angle) {
  */
 export function randomNumBetween(min, max) {
   return Math.random() * (max - min + 1) + min;
-};
-
-/**
- *
- */
-export function getRandomPowerUp() {
-  var obj_keys = Object.keys(PW);
-  var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)];
-  var powerUp = PW[ran_key];
-
-  return powerUp;
 };
 
 /**

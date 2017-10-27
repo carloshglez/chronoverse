@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
-import { randomNumBetweenExcluding, randomNumBetween, PW, getRandomPowerUp } from './util/helpers';
+import { randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
+import { PW, getRandomPowerUp, showNotification } from './util/powerUpHelper';
 
-import Notifications, {notify} from 'react-notify-toast'
+import Notifications from 'react-notify-toast'
 import FaShield from 'react-icons/lib/fa/shield'
 import MdAccessAlarm from 'react-icons/lib/md/access-alarm'
 import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
@@ -174,17 +175,16 @@ export class Reacteroids extends Component {
     }
   }
 
-  increaseShield(points){
+  increaseShield(points=30){
     if(this.state.inGame){
       this.setState({
         currentShield: this.state.currentShield + points,
       });
     }
-    let notificationColor = { background: PW.SHIELD.color, text: '#FFFFFF' };
-    notify.show('Shield Up!', 'custom', 5000, notificationColor);
+    showNotification(PW.SHIELD.color, PW.SHIELD.text)
   }
 
-  increaseTimeCounter(time){
+  increaseTimeCounter(time=5){
     if(this.state.inGame){
       this.setState({
         timeValue: this.state.timeValue + time
@@ -216,8 +216,8 @@ export class Reacteroids extends Component {
 
     this.powerUps = [];
     let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    //this.generatePowerUp(powerUpCount)
-    this.generatePowerUp(10);
+    this.generatePowerUp(powerUpCount)
+    //this.generatePowerUp(15);
   }
 
   gameOver(){
@@ -261,7 +261,7 @@ export class Reacteroids extends Component {
           y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
         },
         create: this.createObject.bind(this),
-        type: getRandomPowerUp()
+        powerUp: getRandomPowerUp()
       });
       this.createObject(powerUp, 'powerUps');
     }
@@ -295,7 +295,7 @@ export class Reacteroids extends Component {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
           } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SHIELD) {
-            this.increaseShield(30);
+            this.increaseShield();
             item1.destroy();
           } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.BIG_BULLET) {
             this.startTimer(item2);
@@ -322,9 +322,8 @@ export class Reacteroids extends Component {
             item2.enableMultiBullets();
             item1.destroy();
           } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.TIME_BONUS) {
-            let notificationColor = { background: PW.TIME_BONUS.color, text: 'black' };
-            notify.show('Time Bonus! (+5)', 'custom', 5000, notificationColor);
-            this.increaseTimeCounter(5);
+            showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
+            this.increaseTimeCounter();
             item1.destroy();
           } else {
             item1.destroy();

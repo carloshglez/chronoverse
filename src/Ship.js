@@ -1,7 +1,7 @@
 import Bullet from './Bullet';
 import Particle from './Particle';
-import { rotatePoint, randomNumBetween, doExplode, PW } from './util/helpers';
-import Notifications, {notify} from 'react-notify-toast';
+import { rotatePoint, randomNumBetween, doExplode } from './util/helpers';
+import { PW, showNotification } from './util/powerUpHelper';
 
 export default class Ship {
   constructor(args) {
@@ -41,39 +41,33 @@ export default class Ship {
   enableSuperBullets() {
     this.bulletRadius = 40;
     this.shotFrequency = 700;
-    let notificationColor = { background: PW.BIG_BULLET.color, text: '#FFFFFF' };
-    notify.show('Giant Bullets!', 'custom', 5000, notificationColor);
+    showNotification(PW.BIG_BULLET.color, PW.BIG_BULLET.text)
   }
 
   enableFastBullets() {
     this.shotFrequency = 100;
-    let notificationColor = { background: PW.FAST_BULLET.color, text: '#FFFFFF' };
-    notify.show('WOW Fast Bullets!', 'custom', 5000, notificationColor);
+    showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text)
   }
 
   enableBigShip() {
     this.bigShip = true;
-    let notificationColor = { background: PW.BIG_SHIP.color, text: '#FFFFFF' };
-    notify.show('Giant Ship!', 'custom', 5000, notificationColor);
+    showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text)
   }
 
   enableShipSpeed() {
     this.speed = 0.45;
-    let notificationColor = { background: PW.SPEED.color, text: '#FFFFFF' };
-    notify.show('WOW Fast Ship!', 'custom', 5000, notificationColor);
+    showNotification(PW.SPEED.color, PW.SPEED.text)
   }
 
   enableBounceBullets() {
     this.shotFrequency = 700;
     this.bounceSkill = true;
-    let notificationColor = { background: PW.BOUNCE_BULLET.color, text: '#FFFFFF' };
-    notify.show('Bounce Bullets!', 'custom', 5000, notificationColor);
+    showNotification(PW.BOUNCE_BULLET.color, PW.BOUNCE_BULLET.text)
   }
 
   enableMultiBullets() {
     this.multiBulletSkill = true;
-    let notificationColor = { background: PW.MULTI_BULLET.color, text: '#FFFFFF' };
-    notify.show('Weapon Increased!', 'custom', 5000, notificationColor);
+    showNotification(PW.MULTI_BULLET.color, PW.MULTI_BULLET.text)
   }
 
   disableAllPowerUp() {
