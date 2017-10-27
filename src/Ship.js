@@ -49,7 +49,7 @@ export default class Ship {
     showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text)
   }
 
-  enablesuperShip() {
+  enableSuperShip() {
     this.superShip = true;
     showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text)
   }

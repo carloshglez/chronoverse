@@ -309,7 +309,7 @@ export class Reacteroids extends Component {
                 break;
               case PW.BIG_SHIP:
                 this.startTimer(item2, 5);
-                item2.enableBigShip();
+                item2.enableSuperShip();
                 break;
               case PW.SPEED:
                 this.startTimer(item2);
