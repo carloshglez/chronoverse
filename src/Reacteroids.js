@@ -294,36 +294,41 @@ export class Reacteroids extends Component {
         if(this.checkCollision(item1, item2)) {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SHIELD) {
-            this.increaseShield();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SUPER_BULLET) {
-            this.startTimer(item2);
-            item2.enableSuperBullets();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.FAST_BULLET) {
-            this.startTimer(item2);
-            item2.enableFastBullets();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.BIG_SHIP) {
-            this.startTimer(item2, 5);
-            item2.enableBigShip();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.SPEED) {
-            this.startTimer(item2);
-            item2.enableShipSpeed();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.BOUNCE_BULLET) {
-            this.startTimer(item2, 5);
-            item2.enableBounceBullets();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.MULTI_BULLET) {
-            this.startTimer(item2, 15);
-            item2.enableMultiBullets();
-            item1.destroy();
-          } else if(typeof item1.getPowerUpType == 'function' && item1.getPowerUpType() === PW.TIME_BONUS) {
-            showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
-            this.increaseTimeCounter();
+          } else if(typeof item1.getPowerUpType == 'function') {
+            switch(item1.getPowerUpType()) {
+              case PW.SHIELD:
+                this.increaseShield();
+                break;
+              case PW.SUPER_BULLET:
+                this.startTimer(item2);
+                item2.enableSuperBullets();
+                break;
+              case PW.FAST_BULLET:
+                this.startTimer(item2);
+                item2.enableFastBullets();
+                break;
+              case PW.BIG_SHIP:
+                this.startTimer(item2, 5);
+                item2.enableBigShip();
+                break;
+              case PW.SPEED:
+                this.startTimer(item2);
+                item2.enableShipSpeed();
+                break;
+              case PW.BOUNCE_BULLET:
+                this.startTimer(item2, 5);
+                item2.enableBounceBullets();
+                break;
+              case PW.MULTI_BULLET:
+                this.startTimer(item2, 15);
+                item2.enableMultiBullets();
+                break;
+              case PW.TIME_BONUS:
+                showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
+                this.increaseTimeCounter();
+                break;
+              default:
+            }
             item1.destroy();
           } else {
             item1.destroy();

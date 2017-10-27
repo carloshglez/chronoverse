@@ -21,7 +21,7 @@ export default class Ship {
     this.create = args.create;
     this.onDie = args.onDie;
     this.invencible = false;
-    this.bigShip = false;
+    this.superShip = false;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
   }
@@ -49,8 +49,8 @@ export default class Ship {
     showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text)
   }
 
-  enableBigShip() {
-    this.bigShip = true;
+  enablesuperShip() {
+    this.superShip = true;
     showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text)
   }
 
@@ -73,7 +73,7 @@ export default class Ship {
   disableAllPowerUp() {
     this.bulletRadius = 2;
     this.shotFrequency = 300;
-    this.bigShip = false;
+    this.superShip = false;
     this.speed = 0.15;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
@@ -203,7 +203,7 @@ export default class Ship {
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -15);
-    if(this.bigShip) {
+    if(this.superShip) {
       context.lineTo(25, 50);
       context.lineTo(15, 42);
       context.lineTo(-15, 42);
