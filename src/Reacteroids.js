@@ -327,6 +327,11 @@ export class Reacteroids extends Component {
                 showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
                 this.increaseTimeCounter();
                 break;
+              case PW.FIRE_RING:
+                showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
+                this.startTimer(item2, 5);
+                item2.enableFireRing();
+                break;
               default:
             }
             item1.destroy();

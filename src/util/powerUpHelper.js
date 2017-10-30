@@ -6,51 +6,57 @@ import { notify } from 'react-notify-toast'
 export const PW = {
   SHIELD: {
     id: 1,
-    color: 'blue',
+    color: 'Blue',
     drawShape: getShieldShape,
     text: 'Shield Up!'
   },
   SUPER_BULLET: {
     id: 2,
-    color: 'gold',
+    color: 'GoldenRod ',
     drawShape: getDefaultShape,
     text: 'SUPER Bullets!'
   },
   FAST_BULLET: {
     id: 3,
-    color: 'green',
+    color: 'ForestGreen',
     drawShape: getFastBulletShape,
     text: 'WOW Fast Bullets!'
   },
   BIG_SHIP: {
     id: 4,
-    color: 'purple',
+    color: 'Purple',
     drawShape: getBigShipShape,
     text: 'Giant Ship!'
   },
   SPEED: {
     id: 5,
-    color: 'orange',
+    color: 'Orange',
     drawShape: getSpeedShape,
     text: 'WOW Fast Ship!'
   },
   BOUNCE_BULLET: {
     id: 6,
-    color: 'aqua',
+    color: 'Aqua',
     drawShape: getBounceBulletShape,
     text: 'Bounce Bullets!'
   },
   MULTI_BULLET: {
     id: 7,
-    color: 'pink',
+    color: 'Pink',
     drawShape: getMultiBulletShape,
     text: 'Weapon Increased!'
   },
   TIME_BONUS: {
     id: 8,
-    color: 'white',
+    color: 'White',
     drawShape: getTimeBonusShape,
     text: 'Time Bonus! (+5)'
+  },
+  FIRE_RING: {
+    id: 9,
+    color: 'SkyBlue',
+    drawShape: getDefaultShape,
+    text: 'Fire Ring!'
   }
 };
 

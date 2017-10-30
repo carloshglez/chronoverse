@@ -24,6 +24,7 @@ export default class Ship {
     this.superShip = false;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
+    this.fireRingSkill = false;
   }
 
   destroy(){
@@ -70,6 +71,11 @@ export default class Ship {
     showNotification(PW.MULTI_BULLET.color, PW.MULTI_BULLET.text)
   }
 
+  enableFireRing(){
+    this.disableAllPowerUp();
+    this.fireRingSkill = true;
+  }
+
   disableAllPowerUp() {
     this.bulletRadius = 2;
     this.shotFrequency = 300;
@@ -77,6 +83,7 @@ export default class Ship {
     this.speed = 0.15;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
+    this.fireRingSkill = false;
   }
 
   rotate(dir){
@@ -110,24 +117,48 @@ export default class Ship {
   }
 
   fireBullet(){
-    let bulletArrayDirections = [0];
-    if(this.multiBulletSkill) {
-      bulletArrayDirections = [0, -5, 5];
-      //bulletArrayDirections = [0, 5, 10, 15, 20, 25, -5, -10, -15, -20, -25];
+    if(this.fireRingSkill) {
+      this.fireRing();
+
+    } else {
+      let bulletArrayDirectionsX = [0];
+      if(this.multiBulletSkill) {
+        bulletArrayDirectionsX = [-5, 0, 5];
+      }
+
+      for (var index = 0; index < bulletArrayDirectionsX.length; index++) {
+        var directionValueX = bulletArrayDirectionsX[index];
+        const bullet = new Bullet({
+          shipRotation: this.rotation,
+          shipPosition: this.position,
+          radius: this.bulletRadius,
+          directionValueX : directionValueX,
+          bounce : this.bounceSkill,
+          color: this.setBulletColor()
+        });
+        this.create(bullet, 'bullets');
+      }
     }
 
-    for (var index = 0; index < bulletArrayDirections.length; index++) {
-      var directionValue = bulletArrayDirections[index];
+    this.lastShot = Date.now();
+  }
+
+  fireRing(){
+    this.enableFireRing()
+
+    //let bulletArrayRotation = [-160, -140, -120, -100, -80, -60, -40, -20, 0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
+    for (var index = -160; index <= 180; index+=20) {
+      var rotationValue = index;
       const bullet = new Bullet({
-        ship: this,
+        shipRotation: rotationValue,
+        shipPosition: this.position,
         radius: this.bulletRadius,
-        direction : directionValue,
-        bounce : this.bounceSkill,
+        directionValueX : 0,
+        bounce : false,
         color: this.setBulletColor()
       });
       this.create(bullet, 'bullets');
     }
-    this.lastShot = Date.now();
   }
 
   setBulletColor() {
@@ -141,6 +172,8 @@ export default class Ship {
       color = PW.SUPER_BULLET.color
     } else if(this.shotFrequency == 100) {
       color = PW.FAST_BULLET.color
+    } else if(this.fireRingSkill) {
+      color = PW.FIRE_RING.color
     }
 
     return color

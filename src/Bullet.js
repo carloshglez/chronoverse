@@ -2,11 +2,11 @@ import { rotatePoint } from './util/helpers';
 
 export default class Bullet {
   constructor(args) {
-    this.rotation = args.ship.rotation;
-    let posDelta = rotatePoint({x:args.direction, y:-20}, {x:0,y:0}, this.rotation * Math.PI / 180);
+    this.rotation = args.shipRotation;
+    let posDelta = rotatePoint({x:args.directionValueX, y:-20}, {x:0,y:0}, this.rotation * Math.PI / 180);
     this.position = {
-      x: args.ship.position.x + posDelta.x,
-      y: args.ship.position.y + posDelta.y
+      x: args.shipPosition.x + posDelta.x,
+      y: args.shipPosition.y + posDelta.y
     };
     this.velocity = {
       x:posDelta.x / 2,
