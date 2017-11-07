@@ -74,6 +74,7 @@ export default class Ship {
   enableFireRing(){
     this.disableAllPowerUp();
     this.fireRingSkill = true;
+    showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
   }
 
   disableAllPowerUp() {

@@ -83,6 +83,8 @@ button{
   margin: 10px;
   font-family: 'PT Mono', serif;
   cursor: pointer;
+  flex: '1 1 0';
+  user-select: none;
 }
 button:hover{
   background-color: #ffffff;
