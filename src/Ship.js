@@ -1,7 +1,7 @@
 import Bullet from './Bullet';
 import Particle from './Particle';
 import { rotatePoint, randomNumBetween, doExplode } from './util/helpers';
-import { PW, showNotification } from './util/powerUpHelper';
+import { PW } from './util/powerUpHelper';
 
 export default class Ship {
   constructor(args) {
@@ -42,39 +42,32 @@ export default class Ship {
   enableSuperBullets() {
     this.bulletRadius = 40;
     this.shotFrequency = 700;
-    showNotification(PW.SUPER_BULLET.color, PW.SUPER_BULLET.text)
   }
 
   enableFastBullets() {
     this.shotFrequency = 100;
-    showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text)
   }
 
   enableSuperShip() {
     this.superShip = true;
-    showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text)
   }
 
   enableShipSpeed() {
     this.speed = 0.45;
-    showNotification(PW.SPEED.color, PW.SPEED.text)
   }
 
   enableBounceBullets() {
     this.shotFrequency = 700;
     this.bounceSkill = true;
-    showNotification(PW.BOUNCE_BULLET.color, PW.BOUNCE_BULLET.text)
   }
 
   enableMultiBullets() {
     this.multiBulletSkill = true;
-    showNotification(PW.MULTI_BULLET.color, PW.MULTI_BULLET.text)
   }
 
   enableFireRing(){
     this.disableAllPowerUp();
     this.fireRingSkill = true;
-    showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
   }
 
   disableAllPowerUp() {

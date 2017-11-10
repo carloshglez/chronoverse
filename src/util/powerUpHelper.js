@@ -80,7 +80,7 @@ export function getRandomPowerUp() {
     return powerUp;
 };
 
-export function showNotification(color, text) {
+function showNotification(color, text) {
     let textColor = '#FFFFFF'
     if (color === 'White') {
         textColor = 'black'
@@ -96,37 +96,43 @@ function applyShield(_this) {
           currentShield: _this.state.currentShield + 30,
         });
     }
-    showNotification(PW.SHIELD.color, PW.SHIELD.text)
+    showNotification(PW.SHIELD.color, PW.SHIELD.text);
 }
 
 function applySuperBullet(_this, ship) {
     _this.startTimer(ship);
     ship.enableSuperBullets();
+    showNotification(PW.SUPER_BULLET.color, PW.SUPER_BULLET.text);
 }
 
 function applyFastBullet(_this, ship) {
     _this.startTimer(ship);
     ship.enableFastBullets();
+    showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text);
 }
 
 function applyBigShip(_this, ship) {
     _this.startTimer(ship, 5);
     ship.enableSuperShip();
+    showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text);
 }
 
 function applySpeed(_this, ship) {
     _this.startTimer(ship);
     ship.enableShipSpeed();
+    showNotification(PW.SPEED.color, PW.SPEED.text);
 }
 
 function applyBounceBullet(_this, ship) {
     _this.startTimer(ship, 5);
     ship.enableBounceBullets();
+    showNotification(PW.BOUNCE_BULLET.color, PW.BOUNCE_BULLET.text);
 }
 
 function applyMultiBullet(_this, ship) {
     _this.startTimer(ship, 15);
     ship.enableMultiBullets();
+    showNotification(PW.MULTI_BULLET.color, PW.MULTI_BULLET.text);
 }
 
 function applyTimeBonus(_this) {
@@ -137,6 +143,7 @@ function applyTimeBonus(_this) {
 function applyFireRing(_this, ship) {
     _this.startTimer(ship, 5);
     ship.enableFireRing();
+    showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
 }
 
 function getDefaultShape(context) {
