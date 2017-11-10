@@ -199,7 +199,7 @@ export class Reacteroids extends Component {
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let asteroid = new Asteroid({
-        size: randomNumBetween(10, 80),
+        size: randomNumBetween(10, 50),
         position: {
           x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
           y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)

@@ -10,7 +10,7 @@ export default class Asteroid {
     this.rotation = 0;
     this.rotationSpeed = randomNumBetween(-1, 1)
     this.radius = args.size;
-    this.score = Math.floor((80/this.radius)*5);
+    this.score = Math.floor((50/this.radius)*5);
     this.create = args.create;
     this.addScore = args.addScore;
     this.vertices = asteroidVertices(8, args.size)

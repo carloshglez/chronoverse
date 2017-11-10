@@ -40,7 +40,7 @@ canvas {
 .score {
     display: block;
     position: absolute;
-    font-size: 20px;
+    font-size: 15px;
     z-index: 1;
 }
 .top-score {
@@ -80,8 +80,8 @@ canvas {
 	background-color: transparent;
 	color: #ffffff;
 	font-size: 40px;
-	width: 70px;
-	height: 70px;
+	width: 60px;
+	height: 60px;
 	cursor: pointer;
 	flex: '1 1 0';
 	user-select: none;
