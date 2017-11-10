@@ -78,18 +78,8 @@ export class Reacteroids extends Component {
 
     if(value === 'mouseDown' || value === 'touchStart') {
       keys[action] = true;
-      /*if(action === 'up') keys.up = true;
-      if(action === 'left') keys.left = true;
-      if(action === 'right') keys.right = true;
-      if(action === 'space') keys.space = true;
-      if(action === 'down') keys.down = true;*/
     } else if(value === 'mouseUp' || value === 'touchEnd') {
       keys[action] = false;
-      /*if(action === 'up') keys.up = false;
-      if(action === 'left') keys.left = false;
-      if(action === 'right') keys.right = false;
-      if(action === 'space') keys.space = false;
-      if(action === 'down') keys.down = false;*/
     }
     this.setState({
       keys : keys
