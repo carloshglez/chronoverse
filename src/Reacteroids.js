@@ -176,8 +176,8 @@ export class Reacteroids extends Component {
 
     this.powerUps = [];
     let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    //this.generatePowerUp(powerUpCount)
-    this.generatePowerUp(15);
+    this.generatePowerUp(powerUpCount)
+    //this.generatePowerUp(15);
   }
 
   gameOver(){
@@ -331,9 +331,12 @@ export class Reacteroids extends Component {
 
     return (
       <div>
+        {/*
         <div className='debugLabel'>
           {JSON.stringify(this.state)}
         </div>
+        */}
+
         { endgame }
         <ControlPanel
           topScore={this.state.topScore}
