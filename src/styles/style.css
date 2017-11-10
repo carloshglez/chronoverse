@@ -1,92 +1,129 @@
+.debugLabel {
+    display: block;
+    position: absolute;
+    font-family: 'PT Mono', serif;
+    color: #ffffff;
+    z-index: 1;
+    font-size: 10px;
+    left: 10px;
+    top: 5px;
+    user-select: none;
+}
 body {
-  padding: 0;
-  margin: 0;
-  font-family: 'PT Mono', serif;
-  color: #ffffff;
+    padding: 0;
+    margin: 0;
+    font-family: 'PT Mono', serif;
+    color: #ffffff;
 }
 canvas {
-  display: block;
-  background-color: #000000;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-}
-.score {
-  display: block;
-  position: absolute;
-  top: 15px;
-  z-index: 1;
-  font-size: 20px;
-}
-.top-score {
-  left: 20px;
-}
-.current-score {
-  left: 20px;
-  top: 35px !important
-}
-.shield-score {
-  right: 20px;
-}
-.time-score {
-  right: 20px;
-  top: 35px !important
-}
-
-.controls-info {
-  display: block;
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 1;
-  font-size: 11px;
-  text-align: center;
-  line-height: 1.6;
-}
-.controls {
-  display: block;
-  position: fixed;
-  z-index: 1;
-}
-.c-direction {
-  bottom:5%;
-  left: 5%;
-}
-.c-fire {
-  bottom:15%;
-  right: 5%;
-}
-.c-shield {
-  bottom:5%;
-  right: 15%;
+    display: block;
+    position: absolute;
+    background-color: #000000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 .endgame{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 16px;
-  z-index: 1;
-  text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px;
+    z-index: 1;
+    text-align: center;
 }
-button{
-  border: 4px solid #ffffff;
-  background-color: transparent;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px;
-  margin: 10px;
-  font-family: 'PT Mono', serif;
-  cursor: pointer;
-  flex: '1 1 0';
-  user-select: none;
+
+.score {
+    display: block;
+    position: absolute;
+    font-size: 20px;
+    z-index: 1;
 }
-button:hover{
-  background-color: #ffffff;
-  color: #000000;
+.top-score {
+    top: 15px;
+    left: 20px;
+}
+.current-score {
+    top: 35px;
+    left: 20px;
+}
+.shield-score {
+    top: 15px;
+    right: 20px;
+}
+.time-score {
+    top: 35px;
+    right: 20px;
+}
+.help-info {
+    display: block;
+    position: absolute;
+    font-size: 10px;
+    z-index: 1;
+    transform: translate(-50%, 0);
+    text-align: center;
+    line-height: 1.6;
+    top: 15px;
+    left: 50%;
+    user-select: none;
+}
+
+.actionButton{
+	display: block;
+	position: fixed;
+	z-index: 1;
+	border: 2px solid #ffffff;
+	background-color: transparent;
+	color: #ffffff;
+	font-size: 40px;
+	width: 70px;
+	height: 70px;
+	cursor: pointer;
+	flex: '1 1 0';
+	user-select: none;
+}
+.actionButton:hover{
+	background-color: #ffffff;
+	color: #000000;
+}
+.btnLeft {
+	bottom: 5%;
+	left: 5%;
+}
+.btnUp {
+	bottom: 15%;
+	left: 15%;
+}
+.btnRight {
+	bottom: 5%;
+	left: 25%;
+}
+.btnShoot {
+	bottom: 15%;
+	right: 5%;
+}
+.btnShield {
+	bottom: 5%;
+	right: 15%;
+}
+
+.infoButton{
+	border: 4px solid #ffffff;
+	background-color: transparent;
+	color: #ffffff;
+	font-size: 20px;
+	padding: 10px 20px;
+	margin: 10px;
+	font-family: 'PT Mono', serif;
+	cursor: pointer;
+	flex: '1 1 0';
+	user-select: none;
+}
+.infoButton:hover{
+	background-color: #ffffff;
+	color: #000000;
 }

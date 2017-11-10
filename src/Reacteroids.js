@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
+import ControlPanel from './ControlPanel';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
 import { randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
 import { PW, getRandomPowerUp, showNotification } from './util/powerUpHelper';
-
-import Notifications from 'react-notify-toast'
-import FaShield from 'react-icons/lib/fa/shield'
-import MdAccessAlarm from 'react-icons/lib/md/access-alarm'
-import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
-import MdStars from 'react-icons/lib/md/stars'
-import MdStarOutline from 'react-icons/lib/md/star-outline'
-import MdArrowBack from 'react-icons/lib/md/arrow-back'
-import MdArrowDownward from 'react-icons/lib/md/arrow-downward'
-import MdArrowForward from 'react-icons/lib/md/arrow-forward'
-import MdArrowUpward from 'react-icons/lib/md/arrow-upward'
-
 
 const KEY = {
   LEFT:  37,
@@ -85,20 +74,22 @@ export class Reacteroids extends Component {
 
   handleTouch(value, e) {
     let keys = this.state.keys;
-    let target = e.target.id;
+    let action = e.currentTarget.id;
 
     if(value === 'mouseDown' || value === 'touchStart') {
-      if(target === 'up') keys.up = true;
-      if(target === 'left') keys.left = true;
-      if(target === 'right') keys.right = true;
-      if(target === 'space') keys.space = true;
-      if(target === 'down') keys.down = true;
+      keys[action] = true;
+      /*if(action === 'up') keys.up = true;
+      if(action === 'left') keys.left = true;
+      if(action === 'right') keys.right = true;
+      if(action === 'space') keys.space = true;
+      if(action === 'down') keys.down = true;*/
     } else if(value === 'mouseUp' || value === 'touchEnd') {
-      if(target === 'up') keys.up = false;
-      if(target === 'left') keys.left = false;
-      if(target === 'right') keys.right = false;
-      if(target === 'space') keys.space = false;
-      if(target === 'down') keys.down = false;
+      keys[action] = false;
+      /*if(action === 'up') keys.up = false;
+      if(action === 'left') keys.left = false;
+      if(action === 'right') keys.right = false;
+      if(action === 'space') keys.space = false;
+      if(action === 'down') keys.down = false;*/
     }
     this.setState({
       keys : keys
@@ -391,6 +382,7 @@ export class Reacteroids extends Component {
           <p>Game over, man!</p>
           <p>{message}</p>
           <button
+            className='infoButton'
             onClick={ this.startGame.bind(this) }>
             try again?
           </button>
@@ -407,31 +399,16 @@ export class Reacteroids extends Component {
 
     return (
       <div>
+        <div className='debugLabel'>
+          {JSON.stringify(this.state.keys)}
+        </div>
         { endgame }
-        <span className='score top-score'>    <MdStars /> Top Score: {this.state.topScore}</span>
-        <span className='score current-score'><MdStarOutline /> Score: {this.state.currentScore}</span>
-        <span className='score shield-score'> <FaShield /> Shield: {Math.floor((this.state.currentShield))}</span>
-        <span className='score time-score'>   <MdAccessAlarm /> Time: {this.state.timeValue} seg</span>
-        <span className='controls-info'>
-          Use [A][W][D] or [<MdArrowBack />][<MdArrowUpward />][<MdArrowForward />] to MOVE<br/>
-          Use [SPACE] to SHOOT<br/>
-          Use [S] or [<MdArrowDownward />] to SHIELD
-        </span>
-        <Notifications />
-
-        {/*
-        <span className='controls c-direction' >
-          <button id='left' {...events}><MdArrowBack /></button>
-          <button id='up' {...events}><MdArrowUpward /></button>
-          <button id='right' {...events}><MdArrowForward /></button>
-        </span>
-        <span className='controls c-fire' >
-          <button id='space' {...events}><MdGpsFixed /></button>
-        </span>
-        <span className='controls c-shield' >
-          <button id='down' {...events}><FaShield /></button>
-        </span>
-        */}
+        <ControlPanel
+          topScore={this.state.topScore}
+          currentScore={this.state.currentScore}
+          currentShield={this.state.currentShield}
+          timeValue={this.state.timeValue}
+          customEvents={events}/>
 
         <canvas ref='canvas'
           width={this.state.screen.width * this.state.screen.ratio}
