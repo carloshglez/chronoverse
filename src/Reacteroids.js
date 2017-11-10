@@ -3,20 +3,8 @@ import ControlPanel from './ControlPanel';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
-import { randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
-import { PW, getRandomPowerUp, showNotification } from './util/powerUpHelper';
-
-const KEY = {
-  LEFT:  37,
-  RIGHT: 39,
-  UP: 38,
-  A: 65,
-  D: 68,
-  W: 87,
-  S: 83,
-  SPACE: 32,
-  DOWN: 40
-};
+import { KEY, randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
+import { PW, getRandomPowerUp } from './util/powerUpHelper';
 
 export class Reacteroids extends Component {
   constructor() {
@@ -156,15 +144,6 @@ export class Reacteroids extends Component {
     }
   }
 
-  increaseShield(points=30){
-    if(this.state.inGame){
-      this.setState({
-        currentShield: this.state.currentShield + points,
-      });
-    }
-    showNotification(PW.SHIELD.color, PW.SHIELD.text)
-  }
-
   increaseTimeCounter(time=5){
     if(this.state.inGame){
       this.setState({
@@ -197,8 +176,8 @@ export class Reacteroids extends Component {
 
     this.powerUps = [];
     let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    this.generatePowerUp(powerUpCount)
-    //this.generatePowerUp(15);
+    //this.generatePowerUp(powerUpCount)
+    this.generatePowerUp(15);
   }
 
   gameOver(){
@@ -276,44 +255,7 @@ export class Reacteroids extends Component {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
           } else if(typeof item1.getPowerUpType == 'function') {
-            switch(item1.getPowerUpType()) {
-              case PW.SHIELD:
-                this.increaseShield();
-                break;
-              case PW.SUPER_BULLET:
-                this.startTimer(item2);
-                item2.enableSuperBullets();
-                break;
-              case PW.FAST_BULLET:
-                this.startTimer(item2);
-                item2.enableFastBullets();
-                break;
-              case PW.BIG_SHIP:
-                this.startTimer(item2, 5);
-                item2.enableSuperShip();
-                break;
-              case PW.SPEED:
-                this.startTimer(item2);
-                item2.enableShipSpeed();
-                break;
-              case PW.BOUNCE_BULLET:
-                this.startTimer(item2, 5);
-                item2.enableBounceBullets();
-                break;
-              case PW.MULTI_BULLET:
-                this.startTimer(item2, 15);
-                item2.enableMultiBullets();
-                break;
-              case PW.TIME_BONUS:
-                showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
-                this.increaseTimeCounter();
-                break;
-              case PW.FIRE_RING:
-                this.startTimer(item2, 5);
-                item2.enableFireRing();
-                break;
-              default:
-            }
+            item1.getPowerUpType().apply(this, item2);
             item1.destroy();
           } else {
             item1.destroy();
@@ -369,12 +311,12 @@ export class Reacteroids extends Component {
     if(!this.state.inGame){
       endgame = (
         <div className='endgame'>
-          <p>Game over, man!</p>
+          <p>Game Over!</p>
           <p>{message}</p>
           <button
             className='infoButton'
             onClick={ this.startGame.bind(this) }>
-            try again?
+            Try again?
           </button>
         </div>
       )
@@ -390,7 +332,7 @@ export class Reacteroids extends Component {
     return (
       <div>
         <div className='debugLabel'>
-          {JSON.stringify(this.state.keys)}
+          {JSON.stringify(this.state)}
         </div>
         { endgame }
         <ControlPanel
