@@ -1,33 +1,15 @@
 import React, { Component } from 'react';
+
+import Intro from './components/Intro';
+import ControlPanel from './components/ControlPanel';
+import EndGame from './components/EndGame';
+
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
-import { randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
-import { PW, getRandomPowerUp, showNotification } from './util/powerUpHelper';
 
-import Notifications from 'react-notify-toast'
-import FaShield from 'react-icons/lib/fa/shield'
-import MdAccessAlarm from 'react-icons/lib/md/access-alarm'
-import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
-import MdStars from 'react-icons/lib/md/stars'
-import MdStarOutline from 'react-icons/lib/md/star-outline'
-import MdArrowBack from 'react-icons/lib/md/arrow-back'
-import MdArrowDownward from 'react-icons/lib/md/arrow-downward'
-import MdArrowForward from 'react-icons/lib/md/arrow-forward'
-import MdArrowUpward from 'react-icons/lib/md/arrow-upward'
-
-
-const KEY = {
-  LEFT:  37,
-  RIGHT: 39,
-  UP: 38,
-  A: 65,
-  D: 68,
-  W: 87,
-  S: 83,
-  SPACE: 32,
-  DOWN: 40
-};
+import { KEY, randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
+import { PW, getRandomPowerUp } from './util/powerUpHelper';
 
 export class Reacteroids extends Component {
   constructor() {
@@ -51,7 +33,11 @@ export class Reacteroids extends Component {
       currentScore: 0,
       currentShield: 100,
       topScore: localStorage['topscore'] || 0,
-      inGame: false,
+      game: {
+        intro: true,
+        inGame: false,
+        over: false
+      },
       timeValue: 0
     }
     this.ship = [];
@@ -85,20 +71,12 @@ export class Reacteroids extends Component {
 
   handleTouch(value, e) {
     let keys = this.state.keys;
-    let target = e.target.id;
+    let action = e.currentTarget.id;
 
     if(value === 'mouseDown' || value === 'touchStart') {
-      if(target === 'up') keys.up = true;
-      if(target === 'left') keys.left = true;
-      if(target === 'right') keys.right = true;
-      if(target === 'space') keys.space = true;
-      if(target === 'down') keys.down = true;
+      keys[action] = true;
     } else if(value === 'mouseUp' || value === 'touchEnd') {
-      if(target === 'up') keys.up = false;
-      if(target === 'left') keys.left = false;
-      if(target === 'right') keys.right = false;
-      if(target === 'space') keys.space = false;
-      if(target === 'down') keys.down = false;
+      keys[action] = false;
     }
     this.setState({
       keys : keys
@@ -112,7 +90,7 @@ export class Reacteroids extends Component {
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({ context: context });
-    this.startGame();
+    //this.startGame();
     requestAnimationFrame(() => {this.update()});
   }
 
@@ -137,9 +115,9 @@ export class Reacteroids extends Component {
     context.globalAlpha = 1;
 
     // Next set of asteroids
-    if(this.state.inGame && !this.asteroids.length){
+    if(this.state.game.inGame && !this.asteroids.length){
       let asteroidCount = this.state.asteroidCount + 1;
-      let powerUpCount = Math.floor(asteroidCount / 2);
+      let powerUpCount = Math.floor(asteroidCount / 3);
       this.setState({
         asteroidCount: asteroidCount,
         powerUpCount: powerUpCount
@@ -167,7 +145,7 @@ export class Reacteroids extends Component {
   }
 
   addScore(points){
-    if(this.state.inGame){
+    if(this.state.game.inGame){
       this.setState({
         currentScore: this.state.currentScore + points,
         currentShield: this.state.currentShield,
@@ -175,28 +153,53 @@ export class Reacteroids extends Component {
     }
   }
 
-  increaseShield(points=30){
-    if(this.state.inGame){
-      this.setState({
-        currentShield: this.state.currentShield + points,
-      });
+  useShield() {
+    if(this.state.game.inGame){
+      if(this.state.currentShield > 1) {
+        this.setState({
+          currentShield: this.state.currentShield - 0.1
+        });
+        return true;
+      }
     }
-    showNotification(PW.SHIELD.color, PW.SHIELD.text)
+    return false;
   }
 
   increaseTimeCounter(time=5){
-    if(this.state.inGame){
+    if(this.state.game.inGame){
       this.setState({
         timeValue: this.state.timeValue + time
       });
     }
   }
 
+  setIntro(){
+    this.setState({
+      game: {
+        intro: true,
+        inGame: false,
+        over: false
+      }
+    });
+  }
+
   startGame(){
     this.setState({
-      inGame: true,
+      keys : {
+        left  : 0,
+        right : 0,
+        up    : 0,
+        down  : 0,
+        space : 0,
+      },
+      game: {
+        intro: false,
+        inGame: true,
+        over: false
+      },
       currentScore: 0,
-      currentShield: 100
+      currentShield: 100,
+      asteroidCount: 1
     });
 
     // Make ship
@@ -206,7 +209,8 @@ export class Reacteroids extends Component {
         y: this.state.screen.height/2
       },
       create: this.createObject.bind(this),
-      onDie: this.gameOver.bind(this)
+      onDie: this.gameOver.bind(this),
+      useShield: this.useShield.bind(this)
     });
     this.createObject(ship, 'ship');
 
@@ -222,7 +226,12 @@ export class Reacteroids extends Component {
 
   gameOver(){
     this.setState({
-      inGame: false,
+      game: {
+        intro: false,
+        inGame: false,
+        over: true
+      },
+      asteroidCount: 1
     });
 
     // Replace top score
@@ -239,7 +248,7 @@ export class Reacteroids extends Component {
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let asteroid = new Asteroid({
-        size: randomNumBetween(10, 80),
+        size: randomNumBetween(10, 60),
         position: {
           x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
           y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
@@ -295,45 +304,7 @@ export class Reacteroids extends Component {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
           } else if(typeof item1.getPowerUpType == 'function') {
-            switch(item1.getPowerUpType()) {
-              case PW.SHIELD:
-                this.increaseShield();
-                break;
-              case PW.SUPER_BULLET:
-                this.startTimer(item2);
-                item2.enableSuperBullets();
-                break;
-              case PW.FAST_BULLET:
-                this.startTimer(item2);
-                item2.enableFastBullets();
-                break;
-              case PW.BIG_SHIP:
-                this.startTimer(item2, 5);
-                item2.enableSuperShip();
-                break;
-              case PW.SPEED:
-                this.startTimer(item2);
-                item2.enableShipSpeed();
-                break;
-              case PW.BOUNCE_BULLET:
-                this.startTimer(item2, 5);
-                item2.enableBounceBullets();
-                break;
-              case PW.MULTI_BULLET:
-                this.startTimer(item2, 15);
-                item2.enableMultiBullets();
-                break;
-              case PW.TIME_BONUS:
-                showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
-                this.increaseTimeCounter();
-                break;
-              case PW.FIRE_RING:
-                showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
-                this.startTimer(item2, 5);
-                item2.enableFireRing();
-                break;
-              default:
-            }
+            item1.getPowerUpType().apply(this, item2);
             item1.destroy();
           } else {
             item1.destroy();
@@ -375,30 +346,6 @@ export class Reacteroids extends Component {
   }
 
   render() {
-    let endgame;
-    let message;
-
-    if (this.state.currentScore <= 0) {
-      message = '0 points... So sad.';
-    } else if (this.state.currentScore >= this.state.topScore){
-      message = 'Top score with ' + this.state.currentScore + ' points. Woo!';
-    } else {
-      message = this.state.currentScore + ' Points though :)'
-    }
-
-    if(!this.state.inGame){
-      endgame = (
-        <div className='endgame'>
-          <p>Game over, man!</p>
-          <p>{message}</p>
-          <button
-            onClick={ this.startGame.bind(this) }>
-            try again?
-          </button>
-        </div>
-      )
-    }
-
     let events = {
 			onTouchStart: this.handleTouch.bind(this, 'touchStart'),
       onTouchEnd: this.handleTouch.bind(this, 'touchEnd'),
@@ -406,33 +353,47 @@ export class Reacteroids extends Component {
 			onMouseUp: this.handleTouch.bind(this, 'mouseUp')
     };
 
+    let introGame;
+    let controlPanel;
+    let endGame;
+
+    if(this.state.game.intro) {
+      introGame = <Intro 
+        topScore={this.state.topScore}
+        game={this.state.game}
+        startGame={this.startGame.bind(this)}
+      />
+    }
+    if(this.state.game.inGame) {
+      controlPanel = <ControlPanel
+        topScore={this.state.topScore}
+        currentScore={this.state.currentScore}
+        currentShield={this.state.currentShield}
+        timeValue={this.state.timeValue}
+        customEvents={events}
+      />
+    }
+    if(this.state.game.over) {
+      endGame = <EndGame 
+        topScore={this.state.topScore}
+        currentScore={this.state.currentScore}
+        game={this.state.game}
+        startGame={this.startGame.bind(this)}
+        setIntro={this.setIntro.bind(this)}
+      />
+    }
+
     return (
       <div>
-        { endgame }
-        <span className='score top-score'>    <MdStars /> Top Score: {this.state.topScore}</span>
-        <span className='score current-score'><MdStarOutline /> Score: {this.state.currentScore}</span>
-        <span className='score shield-score'> <FaShield /> Shield: {Math.floor((this.state.currentShield))}</span>
-        <span className='score time-score'>   <MdAccessAlarm /> Time: {this.state.timeValue} seg</span>
-        <span className='controls-info'>
-          Use [A][W][D] or [<MdArrowBack />][<MdArrowUpward />][<MdArrowForward />] to MOVE<br/>
-          Use [SPACE] to SHOOT<br/>
-          Use [S] or [<MdArrowDownward />] to SHIELD
-        </span>
-        <Notifications />
-
         {/*
-        <span className='controls c-direction' >
-          <button id='left' {...events}><MdArrowBack /></button>
-          <button id='up' {...events}><MdArrowUpward /></button>
-          <button id='right' {...events}><MdArrowForward /></button>
-        </span>
-        <span className='controls c-fire' >
-          <button id='space' {...events}><MdGpsFixed /></button>
-        </span>
-        <span className='controls c-shield' >
-          <button id='down' {...events}><FaShield /></button>
-        </span>
+        <div className='debugLabel'>
+          {JSON.stringify(this.state)}
+        </div>
         */}
+
+        { introGame }
+        { endGame }
+        { controlPanel }
 
         <canvas ref='canvas'
           width={this.state.screen.width * this.state.screen.ratio}

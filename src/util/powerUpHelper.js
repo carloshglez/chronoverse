@@ -8,55 +8,64 @@ export const PW = {
     id: 1,
     color: 'Blue',
     drawShape: getShieldShape,
-    text: 'Shield Up!'
+    text: 'Shield Up!',
+    apply: applyShield
   },
   SUPER_BULLET: {
     id: 2,
-    color: 'GoldenRod ',
+    color: 'GoldenRod',
     drawShape: getDefaultShape,
-    text: 'SUPER Bullets!'
+    text: 'SUPER Bullets!',
+    apply: applySuperBullet
   },
   FAST_BULLET: {
     id: 3,
     color: 'ForestGreen',
     drawShape: getFastBulletShape,
-    text: 'WOW Fast Bullets!'
+    text: 'WOW Fast Bullets!',
+    apply: applyFastBullet
   },
   BIG_SHIP: {
     id: 4,
     color: 'Purple',
     drawShape: getBigShipShape,
-    text: 'Giant Ship!'
+    text: 'Giant Ship!',
+    apply: applyBigShip
   },
   SPEED: {
     id: 5,
     color: 'Orange',
     drawShape: getSpeedShape,
-    text: 'WOW Fast Ship!'
+    text: 'WOW Fast Ship!',
+    apply: applySpeed
   },
   BOUNCE_BULLET: {
     id: 6,
-    color: 'Aqua',
+    color: '#00CED1',
     drawShape: getBounceBulletShape,
-    text: 'Bounce Bullets!'
+    text: 'Bounce Bullets!',
+    apply: applyBounceBullet
   },
   MULTI_BULLET: {
     id: 7,
     color: 'Pink',
     drawShape: getMultiBulletShape,
-    text: 'Weapon Increased!'
+    text: 'Weapon Increased!',
+    apply: applyMultiBullet
   },
   TIME_BONUS: {
     id: 8,
     color: 'White',
     drawShape: getTimeBonusShape,
-    text: 'Time Bonus! (+5)'
+    text: 'Time Bonus! (+5)',
+    apply: applyTimeBonus
   },
   FIRE_RING: {
     id: 9,
-    color: 'SkyBlue',
+    color: '#8B0000',
     drawShape: getDefaultShape,
-    text: 'Fire Ring!'
+    text: 'Fire Ring!',
+    apply: applyFireRing
   }
 };
 
@@ -71,13 +80,70 @@ export function getRandomPowerUp() {
     return powerUp;
 };
 
-export function showNotification(color, text) {
+function showNotification(color, text) {
     let textColor = '#FFFFFF'
-    if (color === 'white') {
+    if (color === 'White') {
         textColor = 'black'
     }
     let notificationColor = { background: color, text: textColor };
     notify.show(text, 'custom', 5000, notificationColor);
+}
+
+
+function applyShield(_this) {
+    if(_this.state.game.inGame){
+        _this.setState({
+          currentShield: _this.state.currentShield + 30,
+        });
+    }
+    showNotification(PW.SHIELD.color, PW.SHIELD.text);
+}
+
+function applySuperBullet(_this, ship) {
+    _this.startTimer(ship);
+    ship.enableSuperBullets();
+    showNotification(PW.SUPER_BULLET.color, PW.SUPER_BULLET.text);
+}
+
+function applyFastBullet(_this, ship) {
+    _this.startTimer(ship);
+    ship.enableFastBullets();
+    showNotification(PW.FAST_BULLET.color, PW.FAST_BULLET.text);
+}
+
+function applyBigShip(_this, ship) {
+    _this.startTimer(ship, 5);
+    ship.enableSuperShip();
+    showNotification(PW.BIG_SHIP.color, PW.BIG_SHIP.text);
+}
+
+function applySpeed(_this, ship) {
+    _this.startTimer(ship);
+    ship.enableShipSpeed();
+    showNotification(PW.SPEED.color, PW.SPEED.text);
+}
+
+function applyBounceBullet(_this, ship) {
+    _this.startTimer(ship, 5);
+    ship.enableBounceBullets();
+    showNotification(PW.BOUNCE_BULLET.color, PW.BOUNCE_BULLET.text);
+}
+
+function applyMultiBullet(_this, ship) {
+    _this.startTimer(ship, 15);
+    ship.enableMultiBullets();
+    showNotification(PW.MULTI_BULLET.color, PW.MULTI_BULLET.text);
+}
+
+function applyTimeBonus(_this) {
+    showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
+    _this.increaseTimeCounter();
+}
+
+function applyFireRing(_this, ship) {
+    _this.startTimer(ship, 5);
+    ship.enableFireRing();
+    showNotification(PW.FIRE_RING.color, PW.FIRE_RING.text)
 }
 
 function getDefaultShape(context) {

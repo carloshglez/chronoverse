@@ -10,7 +10,7 @@ export default class Asteroid {
     this.rotation = 0;
     this.rotationSpeed = randomNumBetween(-1, 1)
     this.radius = args.size;
-    this.score = Math.floor((80/this.radius)*5);
+    this.score = Math.floor((60/this.radius)*5);
     this.create = args.create;
     this.addScore = args.addScore;
     this.vertices = asteroidVertices(8, args.size)
@@ -24,7 +24,7 @@ export default class Asteroid {
     doExplode(this.radius, this.position, this.create);
 
     // Break into smaller asteroids
-    if(this.radius > 10){
+    if(this.radius > 20){
       for (let i = 0; i < 2; i++) {
         let asteroid = new Asteroid({
 

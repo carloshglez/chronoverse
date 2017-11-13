@@ -3,6 +3,21 @@ import Particle from '../Particle';
 // From: http://codepen.io/bungu/pen/rawvJe
 
 /**
+ *
+ */
+export const KEY = {
+  LEFT:  37,
+  RIGHT: 39,
+  UP: 38,
+  A: 65,
+  D: 68,
+  W: 87,
+  S: 83,
+  SPACE: 32,
+  DOWN: 40
+};
+
+/**
  * Generates vertices for asteroid polygon with certain count and radius
  * @param  {Number} count   Number of vertices
  * @param  {Number} rad     Maximal radius of polygon
