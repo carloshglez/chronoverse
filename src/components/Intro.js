@@ -2,7 +2,7 @@ import React from 'react';
 import Legal from './Legal';
 import MdStars from 'react-icons/lib/md/stars'
 
-export class Intro extends React.Component {
+export default class Intro extends React.Component {
 	render() {
 
 		return (
