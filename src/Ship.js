@@ -25,6 +25,7 @@ export default class Ship {
     this.bounceSkill = false;
     this.multiBulletSkill = false;
     this.fireRingSkill = false;
+    this.useShield = args.useShield;
   }
 
   destroy(){
@@ -191,8 +192,7 @@ export default class Ship {
       this.fireBullet();
     }
     if(state.keys.down){
-      if(state.currentShield > 0) {
-        state.currentShield = state.currentShield - 0.1;
+      if(this.useShield()) {
         colorStroke = 'blue';
         this.invencible = true;
       } else {

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import ControlPanel from './ControlPanel';
+
+import Intro from './components/Intro';
+import ControlPanel from './components/ControlPanel';
+import EndGame from './components/EndGame';
+
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
+
 import { KEY, randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
 import { PW, getRandomPowerUp } from './util/powerUpHelper';
 
@@ -28,7 +33,11 @@ export class Reacteroids extends Component {
       currentScore: 0,
       currentShield: 100,
       topScore: localStorage['topscore'] || 0,
-      inGame: false,
+      game: {
+        intro: true,
+        inGame: false,
+        over: false
+      },
       timeValue: 0
     }
     this.ship = [];
@@ -81,7 +90,7 @@ export class Reacteroids extends Component {
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({ context: context });
-    this.startGame();
+    //this.startGame();
     requestAnimationFrame(() => {this.update()});
   }
 
@@ -106,9 +115,9 @@ export class Reacteroids extends Component {
     context.globalAlpha = 1;
 
     // Next set of asteroids
-    if(this.state.inGame && !this.asteroids.length){
+    if(this.state.game.inGame && !this.asteroids.length){
       let asteroidCount = this.state.asteroidCount + 1;
-      let powerUpCount = Math.floor(asteroidCount / 2);
+      let powerUpCount = Math.floor(asteroidCount / 3);
       this.setState({
         asteroidCount: asteroidCount,
         powerUpCount: powerUpCount
@@ -136,7 +145,7 @@ export class Reacteroids extends Component {
   }
 
   addScore(points){
-    if(this.state.inGame){
+    if(this.state.game.inGame){
       this.setState({
         currentScore: this.state.currentScore + points,
         currentShield: this.state.currentShield,
@@ -144,19 +153,53 @@ export class Reacteroids extends Component {
     }
   }
 
+  useShield() {
+    if(this.state.game.inGame){
+      if(this.state.currentShield > 1) {
+        this.setState({
+          currentShield: this.state.currentShield - 0.1
+        });
+        return true;
+      }
+    }
+    return false;
+  }
+
   increaseTimeCounter(time=5){
-    if(this.state.inGame){
+    if(this.state.game.inGame){
       this.setState({
         timeValue: this.state.timeValue + time
       });
     }
   }
 
+  setIntro(){
+    this.setState({
+      game: {
+        intro: true,
+        inGame: false,
+        over: false
+      }
+    });
+  }
+
   startGame(){
     this.setState({
-      inGame: true,
+      keys : {
+        left  : 0,
+        right : 0,
+        up    : 0,
+        down  : 0,
+        space : 0,
+      },
+      game: {
+        intro: false,
+        inGame: true,
+        over: false
+      },
       currentScore: 0,
-      currentShield: 100
+      currentShield: 100,
+      asteroidCount: 1
     });
 
     // Make ship
@@ -166,7 +209,8 @@ export class Reacteroids extends Component {
         y: this.state.screen.height/2
       },
       create: this.createObject.bind(this),
-      onDie: this.gameOver.bind(this)
+      onDie: this.gameOver.bind(this),
+      useShield: this.useShield.bind(this)
     });
     this.createObject(ship, 'ship');
 
@@ -182,7 +226,12 @@ export class Reacteroids extends Component {
 
   gameOver(){
     this.setState({
-      inGame: false,
+      game: {
+        intro: false,
+        inGame: false,
+        over: true
+      },
+      asteroidCount: 1
     });
 
     // Replace top score
@@ -199,7 +248,7 @@ export class Reacteroids extends Component {
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let asteroid = new Asteroid({
-        size: randomNumBetween(10, 50),
+        size: randomNumBetween(10, 60),
         position: {
           x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
           y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
@@ -297,37 +346,42 @@ export class Reacteroids extends Component {
   }
 
   render() {
-    let endgame;
-    let message;
-
-    if (this.state.currentScore <= 0) {
-      message = '0 points... So sad.';
-    } else if (this.state.currentScore >= this.state.topScore){
-      message = 'Top score with ' + this.state.currentScore + ' points. Woo!';
-    } else {
-      message = this.state.currentScore + ' Points though :)'
-    }
-
-    if(!this.state.inGame){
-      endgame = (
-        <div className='endgame'>
-          <p>Game Over!</p>
-          <p>{message}</p>
-          <button
-            className='infoButton'
-            onClick={ this.startGame.bind(this) }>
-            Try again?
-          </button>
-        </div>
-      )
-    }
-
     let events = {
 			onTouchStart: this.handleTouch.bind(this, 'touchStart'),
       onTouchEnd: this.handleTouch.bind(this, 'touchEnd'),
 			onMouseDown: this.handleTouch.bind(this, 'mouseDown'),
 			onMouseUp: this.handleTouch.bind(this, 'mouseUp')
     };
+
+    let introGame;
+    let controlPanel;
+    let endGame;
+
+    if(this.state.game.intro) {
+      introGame = <Intro 
+        topScore={this.state.topScore}
+        game={this.state.game}
+        startGame={this.startGame.bind(this)}
+      />
+    }
+    if(this.state.game.inGame) {
+      controlPanel = <ControlPanel
+        topScore={this.state.topScore}
+        currentScore={this.state.currentScore}
+        currentShield={this.state.currentShield}
+        timeValue={this.state.timeValue}
+        customEvents={events}
+      />
+    }
+    if(this.state.game.over) {
+      endGame = <EndGame 
+        topScore={this.state.topScore}
+        currentScore={this.state.currentScore}
+        game={this.state.game}
+        startGame={this.startGame.bind(this)}
+        setIntro={this.setIntro.bind(this)}
+      />
+    }
 
     return (
       <div>
@@ -337,13 +391,9 @@ export class Reacteroids extends Component {
         </div>
         */}
 
-        { endgame }
-        <ControlPanel
-          topScore={this.state.topScore}
-          currentScore={this.state.currentScore}
-          currentShield={this.state.currentShield}
-          timeValue={this.state.timeValue}
-          customEvents={events}/>
+        { introGame }
+        { endGame }
+        { controlPanel }
 
         <canvas ref='canvas'
           width={this.state.screen.width * this.state.screen.ratio}
