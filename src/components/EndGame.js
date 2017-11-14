@@ -4,11 +4,13 @@ import MdExitToApp from 'react-icons/lib/md/exit-to-app'
 
 export default class EndGame extends React.Component {
 	render() {
-		let message = 'Good Job! :)'
+		let message
         if (this.props.stats.currentScore <= 0) {
-		  message = '0 points... So sad.';
+		  	message = '0 points... So sad.'
         } else if (this.props.stats.currentScore >= this.props.stats.topScore){
-          message = '¡¡New record!!';
+          	message = 'You got a New Record!'
+		} else {
+			message = 'Good Job! :)'
 		}
 
 		let hitPercentaje = 0
@@ -20,19 +22,20 @@ export default class EndGame extends React.Component {
       		<div className='endgame'>
 				<div className='stats'>
 					<div className='stat-title'>
-						<h3>Results:</h3>
-						<ul>
-							<li>Bullets Fired:</li>
-							<li>Bullets Hit:</li>
-							<li>Hit Percentaje:</li>
+						<h4>Results:</h4>
+						<p>
+							Bullets Fired:<br/>
+							Bullets Hit:<br/>
+							Hit Percentaje:<br/>
 							<br/>
-							<li>Shield:</li>
-							<li>Power-Up used:</li>
+							Shield:<br/>
+							Power-Up used:<br/>
 							<br/>
-							<li>Top Score:</li>
-							<li>Your Score:</li>
-						</ul>
-						{ message }
+							Top Score:<br/>
+							Your Score:<br/>
+						</p>
+						<hr/>
+						<b>&nbsp;{ message }</b>
 					</div>
 					<div className='stat-value'>
 						<h3>&nbsp;</h3>
