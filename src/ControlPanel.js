@@ -17,13 +17,13 @@ export default class ControlPanel extends React.Component {
 			<div>
 				<div>
 					<span className='score top-score'>
-						<MdStars /> Top Score: {this.props.topScore}
+						<MdStars /> Top Score: {this.props.stats.topScore}
 					</span>
 					<span className='score current-score'>
-						<MdStarOutline /> Score: {this.props.currentScore}
+						<MdStarOutline /> Score: {this.props.stats.currentScore}
 					</span>
 					<span className='score shield-score'>
-						<FaShield /> Shield: {Math.floor((this.props.currentShield))}
+						<FaShield /> Shield: {Math.floor((this.props.stats.currentShield))}
 					</span>
 					<span className='score time-score'>
 						<MdAccessAlarm /> Time: {this.props.timeValue} seg

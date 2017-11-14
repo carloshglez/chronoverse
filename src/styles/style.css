@@ -28,16 +28,34 @@ canvas {
     height: 100%;
     z-index: 0;
 }
+.stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: stretch;
+    width: 40%;
+}
+.stat-title {
+    text-align: left;
+}
+.stat-value {
+    text-align: right;
+}
+.retry {
+    text-align: center;
+}
 .endgame {
     position: absolute;
+    z-index: 1;
+    user-select: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 16px;
-    z-index: 1;
-    text-align: center;
-    user-select: none;
-}
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+ }
 .intro {
     position: absolute;
     top: 50%;

@@ -30,9 +30,14 @@ export class Reacteroids extends Component {
       },
       asteroidCount: 1,
       powerUpCount: 0,
-      currentScore: 0,
-      currentShield: 100,
-      topScore: localStorage['topscore'] || 0,
+      stats: {
+        bulletsFired: 0,
+        bulletsHit: 0,
+        powerUpUsed: 0,
+        currentShield: 100,
+        currentScore: 0,
+        topScore: localStorage['topscore'] || 0,
+      },
       game: {
         intro: true,
         inGame: false,
@@ -147,17 +152,23 @@ export class Reacteroids extends Component {
   addScore(points){
     if(this.state.game.inGame){
       this.setState({
-        currentScore: this.state.currentScore + points,
-        currentShield: this.state.currentShield,
+        stats : {
+          ...this.state.stats,
+          currentScore: this.state.stats.currentScore + points,
+          currentShield: this.state.stats.currentShield
+        }
       });
     }
   }
 
   useShield() {
     if(this.state.game.inGame){
-      if(this.state.currentShield > 1) {
+      if(this.state.stats.currentShield > 1) {
         this.setState({
-          currentShield: this.state.currentShield - 0.1
+          stats : {
+            ...this.state.stats,
+            currentShield: this.state.stats.currentShield - 0.1
+          }
         });
         return true;
       }
@@ -192,13 +203,19 @@ export class Reacteroids extends Component {
         down  : 0,
         space : 0,
       },
+      stats: {
+        ...this.state.stats,
+        bulletsFired: 0,
+        bulletsHit: 0,
+        powerUpUsed: 0,
+        currentShield: 100,
+        currentScore: 0
+      },
       game: {
         intro: false,
         inGame: true,
         over: false
       },
-      currentScore: 0,
-      currentShield: 100,
       asteroidCount: 1
     });
 
@@ -230,16 +247,18 @@ export class Reacteroids extends Component {
         intro: false,
         inGame: false,
         over: true
-      },
-      asteroidCount: 1
+      }
     });
 
     // Replace top score
-    if(this.state.currentScore > this.state.topScore){
+    if(this.state.stats.currentScore > this.state.stats.topScore){
       this.setState({
-        topScore: this.state.currentScore,
+        stats : {
+          ...this.state.stats,
+          topScore: this.state.stats.currentScore
+        }
       });
-      localStorage['topscore'] = this.state.currentScore;
+      localStorage['topscore'] = this.state.stats.currentScore;
     }
   }
 
@@ -358,26 +377,21 @@ export class Reacteroids extends Component {
     let endGame;
 
     if(this.state.game.intro) {
-      introGame = <Intro 
-        topScore={this.state.topScore}
-        game={this.state.game}
+      introGame = <Intro
+        stats={this.state.stats}
         startGame={this.startGame.bind(this)}
       />
     }
     if(this.state.game.inGame) {
       controlPanel = <ControlPanel
-        topScore={this.state.topScore}
-        currentScore={this.state.currentScore}
-        currentShield={this.state.currentShield}
+        stats={this.state.stats}
         timeValue={this.state.timeValue}
         customEvents={events}
       />
     }
     if(this.state.game.over) {
-      endGame = <EndGame 
-        topScore={this.state.topScore}
-        currentScore={this.state.currentScore}
-        game={this.state.game}
+      endGame = <EndGame
+        stats={this.state.stats}
         startGame={this.startGame.bind(this)}
         setIntro={this.setIntro.bind(this)}
       />
