@@ -170,6 +170,7 @@ android {
     defaultConfig {
         versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
         applicationId privateHelpers.extractStringFromManifest("package")
+        setProperty("archivesBaseName", "Asteroids")
 
         if (cdvMinSdkVersion != null) {
             minSdkVersion cdvMinSdkVersion
