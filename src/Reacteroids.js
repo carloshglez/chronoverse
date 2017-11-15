@@ -30,9 +30,14 @@ export class Reacteroids extends Component {
       },
       asteroidCount: 1,
       powerUpCount: 0,
-      currentScore: 0,
-      currentShield: 100,
-      topScore: localStorage['topscore'] || 0,
+      stats: {
+        bulletsFired: 0,
+        bulletsHit: 0,
+        powerUpUsed: 0,
+        currentShield: 100,
+        currentScore: 0,
+        topScore: localStorage['topscore'] || 0,
+      },
       game: {
         intro: true,
         inGame: false,
@@ -90,7 +95,6 @@ export class Reacteroids extends Component {
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({ context: context });
-    //this.startGame();
     requestAnimationFrame(() => {this.update()});
   }
 
@@ -147,17 +151,22 @@ export class Reacteroids extends Component {
   addScore(points){
     if(this.state.game.inGame){
       this.setState({
-        currentScore: this.state.currentScore + points,
-        currentShield: this.state.currentShield,
+        stats : {
+          ...this.state.stats,
+          currentScore: this.state.stats.currentScore + points
+        }
       });
     }
   }
 
   useShield() {
     if(this.state.game.inGame){
-      if(this.state.currentShield > 1) {
+      if(this.state.stats.currentShield > 1) {
         this.setState({
-          currentShield: this.state.currentShield - 0.1
+          stats : {
+            ...this.state.stats,
+            currentShield: this.state.stats.currentShield - 0.1
+          }
         });
         return true;
       }
@@ -165,10 +174,74 @@ export class Reacteroids extends Component {
     return false;
   }
 
+  increaseShield(){
+    if(this.state.game.inGame){
+      this.setState({
+        stats : {
+          ...this.state.stats,
+          currentShield: this.state.stats.currentShield + 30
+        }
+      });
+    }
+  }
+
   increaseTimeCounter(time=5){
     if(this.state.game.inGame){
       this.setState({
         timeValue: this.state.timeValue + time
+      });
+    }
+  }
+
+  startTimer(item, time=10) {
+    this.increaseTimeCounter(time);
+    clearInterval(this.timerID);
+    this.timerID = setInterval(
+      () => this.tick(item),
+      1000
+    );
+  }
+
+  tick(item) {
+    if (this.state.timeValue > 0) {
+      this.setState({
+        timeValue: this.state.timeValue - 1
+      });
+    } else {
+      clearInterval(this.timerID);
+      item.disableAllPowerUp();
+    }
+  }
+
+  addBulletsFired() {
+    if(this.state.game.inGame){
+      this.setState({
+        stats : {
+          ...this.state.stats,
+          bulletsFired: this.state.stats.bulletsFired + 1
+        }
+      });
+    }
+  }
+
+  addBulletsHit() {
+    if(this.state.game.inGame){
+      this.setState({
+        stats : {
+          ...this.state.stats,
+          bulletsHit: this.state.stats.bulletsHit + 1
+        }
+      });
+    }
+  }
+
+  addPowerUpUsed() {
+    if(this.state.game.inGame){
+      this.setState({
+        stats : {
+          ...this.state.stats,
+          powerUpUsed: this.state.stats.powerUpUsed + 1
+        }
       });
     }
   }
@@ -185,6 +258,17 @@ export class Reacteroids extends Component {
 
   startGame(){
     this.setState({
+      asteroidCount: 1,
+      powerUpCount: 0,
+      timeValue: 0,
+      stats: {
+        bulletsFired: 0,
+        bulletsHit: 0,
+        powerUpUsed: 0,
+        currentShield: 100,
+        currentScore: 0,
+        topScore: localStorage['topscore'] || 0,
+      },
       keys : {
         left  : 0,
         right : 0,
@@ -196,10 +280,7 @@ export class Reacteroids extends Component {
         intro: false,
         inGame: true,
         over: false
-      },
-      currentScore: 0,
-      currentShield: 100,
-      asteroidCount: 1
+      }
     });
 
     // Make ship
@@ -226,20 +307,32 @@ export class Reacteroids extends Component {
 
   gameOver(){
     this.setState({
+      asteroidCount: 1,
+      powerUpCount: 0,
+      timeValue: 0,
+      keys : {
+        left  : 0,
+        right : 0,
+        up    : 0,
+        down  : 0,
+        space : 0,
+      },
       game: {
         intro: false,
         inGame: false,
         over: true
-      },
-      asteroidCount: 1
+      }
     });
 
     // Replace top score
-    if(this.state.currentScore > this.state.topScore){
+    if(this.state.stats.currentScore > this.state.stats.topScore){
       this.setState({
-        topScore: this.state.currentScore,
+        stats : {
+          ...this.state.stats,
+          topScore: this.state.stats.currentScore
+        }
       });
-      localStorage['topscore'] = this.state.currentScore;
+      localStorage['topscore'] = this.state.stats.currentScore;
     }
   }
 
@@ -278,6 +371,10 @@ export class Reacteroids extends Component {
 
   createObject(item, group){
     this[group].push(item);
+
+    if(group === 'bullets') {
+      this.addBulletsFired();
+    }
   }
 
   updateObjects(items, group){
@@ -304,34 +401,16 @@ export class Reacteroids extends Component {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
           } else if(typeof item1.getPowerUpType == 'function') {
+            this.addPowerUpUsed();
             item1.getPowerUpType().apply(this, item2);
             item1.destroy();
           } else {
+            this.addBulletsHit();
             item1.destroy();
             item2.destroy();
           }
         }
       }
-    }
-  }
-
-  startTimer(item, time=10) {
-    this.increaseTimeCounter(time);
-    clearInterval(this.timerID);
-    this.timerID = setInterval(
-      () => this.tick(item),
-      1000
-    );
-  }
-
-  tick(item) {
-    if (this.state.timeValue > 0) {
-      this.setState({
-        timeValue: this.state.timeValue - 1
-      });
-    } else {
-      clearInterval(this.timerID);
-      item.disableAllPowerUp();
     }
   }
 
@@ -358,26 +437,21 @@ export class Reacteroids extends Component {
     let endGame;
 
     if(this.state.game.intro) {
-      introGame = <Intro 
-        topScore={this.state.topScore}
-        game={this.state.game}
+      introGame = <Intro
+        stats={this.state.stats}
         startGame={this.startGame.bind(this)}
       />
     }
     if(this.state.game.inGame) {
       controlPanel = <ControlPanel
-        topScore={this.state.topScore}
-        currentScore={this.state.currentScore}
-        currentShield={this.state.currentShield}
+        stats={this.state.stats}
         timeValue={this.state.timeValue}
         customEvents={events}
       />
     }
     if(this.state.game.over) {
-      endGame = <EndGame 
-        topScore={this.state.topScore}
-        currentScore={this.state.currentScore}
-        game={this.state.game}
+      endGame = <EndGame
+        stats={this.state.stats}
         startGame={this.startGame.bind(this)}
         setIntro={this.setIntro.bind(this)}
       />

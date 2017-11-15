@@ -8,7 +8,7 @@ export default class Intro extends React.Component {
 		return (
             <div>
                 <span className='score top-score'>
-                    <MdStars /> Top Score: {this.props.topScore}
+                    <MdStars /> Top Score: {this.props.stats.topScore}
                 </span>
                 <div className='intro'>
                     <h2>Asteroids</h2>
