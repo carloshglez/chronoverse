@@ -18,6 +18,7 @@ pipeline {
                 timeout(time: 7, unit: 'MINUTES') {
                     bat 'npm install'
                     bat 'npm run-script build-prod'
+                    bat 'cordova platform add android'
                     bat 'npm run-script build-apk'
                 }
             }
