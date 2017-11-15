@@ -6,12 +6,12 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.join(__dirname, 'dist'),
-        publicPath: 'dist'
+        path: path.join(__dirname, 'www/js'),
+        publicPath: 'js'
     },
     devServer: {
         inline: true,
-        contentBase: './',
+        contentBase: './www',
         port: 3000
     },
     plugins: [
