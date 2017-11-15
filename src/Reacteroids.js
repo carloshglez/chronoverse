@@ -174,6 +174,17 @@ export class Reacteroids extends Component {
     return false;
   }
 
+  increaseShield(){
+    if(this.state.game.inGame){
+      this.setState({
+        stats : {
+          ...this.state.stats,
+          currentShield: this.state.stats.currentShield + 30
+        }
+      });
+    }
+  }
+
   increaseTimeCounter(time=5){
     if(this.state.game.inGame){
       this.setState({
@@ -290,8 +301,8 @@ export class Reacteroids extends Component {
 
     this.powerUps = [];
     let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    this.generatePowerUp(powerUpCount)
-    //this.generatePowerUp(15);
+    //this.generatePowerUp(powerUpCount)
+    this.generatePowerUp(15);
   }
 
   gameOver(){
