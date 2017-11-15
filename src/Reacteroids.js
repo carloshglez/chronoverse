@@ -258,6 +258,13 @@ export class Reacteroids extends Component {
         currentScore: 0,
         topScore: localStorage['topscore'] || 0,
       },
+      keys : {
+        left  : 0,
+        right : 0,
+        up    : 0,
+        down  : 0,
+        space : 0,
+      },
       game: {
         intro: false,
         inGame: true,
@@ -292,6 +299,13 @@ export class Reacteroids extends Component {
       asteroidCount: 1,
       powerUpCount: 0,
       timeValue: 0,
+      keys : {
+        left  : 0,
+        right : 0,
+        up    : 0,
+        down  : 0,
+        space : 0,
+      },
       game: {
         intro: false,
         inGame: false,

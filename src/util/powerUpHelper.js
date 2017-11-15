@@ -93,7 +93,7 @@ function showNotification(color, text) {
 function applyShield(_this) {
     if(_this.state.game.inGame){
         _this.setState({
-          currentShield: _this.state.currentShield + 30,
+          currentShield: _this.state.stats.currentShield + 30,
         });
     }
     showNotification(PW.SHIELD.color, PW.SHIELD.text);
