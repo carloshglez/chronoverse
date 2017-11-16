@@ -33,7 +33,7 @@ pipeline {
                 echo 'Archiving....'
                 archiveArtifacts artifacts: 'www/js/*.js', fingerprint: true
                 archiveArtifacts artifacts: 'www/*.html', fingerprint: true
-                archiveArtifacts artifacts: 'platforms/build/outputs/apk/*.apk', fingerprint: true
+                archiveArtifacts artifacts: 'platforms/android/build/outputs/apk/*.apk', fingerprint: true
             }
         }
     }
