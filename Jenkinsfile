@@ -13,6 +13,11 @@ pipeline {
             }
         }
         stage('Prepare') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 echo 'Preparing...'
                 timeout(time: 6, unit: 'MINUTES') {
@@ -23,6 +28,11 @@ pipeline {
             }
         }
         stage('Build') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 echo 'Building...'
                 timeout(time: 4, unit: 'MINUTES') {
