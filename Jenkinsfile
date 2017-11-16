@@ -8,17 +8,25 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing...'
                 bat 'npm run-script lint'
+            }
+        }
+        stage('Prepare') {
+            steps {
+                echo 'Preparing...'
+                timeout(time: 5, unit: 'MINUTES') {
+                    bat 'npm install'
+                    bat 'cordova platform rm android'
+                    bat 'cordova platform add android'
+                }
             }
         }
         stage('Build') {
             steps {
-                echo 'Building..'
-                timeout(time: 7, unit: 'MINUTES') {
-                    bat 'npm install'
+                echo 'Building...'
+                timeout(time: 4, unit: 'MINUTES') {
                     bat 'npm run-script build-prod'
-                    bat 'cordova platform add android'
                     bat 'npm run-script build-apk'
                 }
             }
