@@ -15,7 +15,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 echo 'Preparing...'
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 6, unit: 'MINUTES') {
                     bat 'npm install'
                     bat 'cordova platform rm android'
                     bat 'cordova platform add android'
@@ -39,7 +39,7 @@ pipeline {
             }
             steps {
                 echo 'Archiving....'
-                archiveArtifacts artifacts: 'www/js/*.js', fingerprint: true
+                archiveArtifacts artifacts: 'www/js/bundle.js', fingerprint: true
                 archiveArtifacts artifacts: 'www/*.html', fingerprint: true
                 archiveArtifacts artifacts: 'platforms/android/build/outputs/apk/*.apk', fingerprint: true
             }
