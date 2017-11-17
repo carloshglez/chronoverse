@@ -18,10 +18,12 @@ export default class Enemy {
     this.lastAcc = 0;
     this.accFrequency = 250;
     this.create = args.create;
+    this.addScore = args.addScore;
   }
 
   destroy(){
     this.delete = true;
+    this.addScore(100);
 
     // Explode
     doExplode(this.radius, this.position, this.create);
@@ -59,6 +61,10 @@ export default class Enemy {
   moveAsExplorer(){
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+  }
+
+  isEnemy(){
+    return true;
   }
 
   render(state){
