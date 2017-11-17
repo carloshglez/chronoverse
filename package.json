@@ -1,14 +1,14 @@
 {
-  "name": "react-game",
+  "name": "com.carloshglez.asteroids",
+  "displayName": "Asteroids",
   "version": "1.0.0",
-  "description": "Project based on \"reacteroids\" game (https://github.com/chriz001/Reacteroids)",
+  "description": "Project based on \"reacteroids\" game (https://github.com/chriz001/Reacteroids) ported to web and mobile",
   "main": "index.html",
   "scripts": {
-    "clean": "rimraf dist",
-    "build:webpack": "SET NODE_ENV=production & webpack --config webpack.config.prod.js",
-    "build": "npm run clean && npm run build:webpack",
-    "build-dev:webpack": "SET NODE_ENV=develop & webpack --config webpack.config.js",
-    "build-dev": "npm run clean && npm run build-dev:webpack",
+    "clean": "rimraf www/js/bundle.js",
+    "build-dev": "npm run clean && SET NODE_ENV=develop & webpack --config webpack.config.js",
+    "build-prod": "npm run clean && SET NODE_ENV=production & webpack --config webpack.config.prod.js",
+    "build-apk": "cordova build android",
     "start": "./node_modules/.bin/webpack-dev-server",
     "lint": "eslint src",
     "lint-report": "./node_modules/.bin/eslint -f html src > lint-report.html"
@@ -23,7 +23,17 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-icons": "^2.2.7",
-    "react-notify-toast": "^0.3.2"
+    "react-notify-toast": "^0.3.2",
+    "cordova-android": "^6.3.0",
+    "cordova-plugin-whitelist": "^1.3.3"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android"
+    ]
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -33,7 +33,8 @@ export class Reacteroids extends Component {
       stats: {
         bulletsFired: 0,
         bulletsHit: 0,
-        powerUpUsed: 0,
+        powerUpUsage: 0,
+        shieldUsage: 0,
         currentShield: 100,
         currentScore: 0,
         topScore: localStorage['topscore'] || 0,
@@ -113,7 +114,7 @@ export class Reacteroids extends Component {
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
     // Motion trail
-    context.fillStyle = '#000';
+    context.fillStyle = 'Black';
     context.globalAlpha = 0.4;
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
@@ -165,7 +166,8 @@ export class Reacteroids extends Component {
         this.setState({
           stats : {
             ...this.state.stats,
-            currentShield: this.state.stats.currentShield - 0.1
+            currentShield: this.state.stats.currentShield - 0.1,
+            shieldUsage: this.state.stats.shieldUsage + 0.1
           }
         });
         return true;
@@ -235,12 +237,12 @@ export class Reacteroids extends Component {
     }
   }
 
-  addPowerUpUsed() {
+  addpowerUpUsage() {
     if(this.state.game.inGame){
       this.setState({
         stats : {
           ...this.state.stats,
-          powerUpUsed: this.state.stats.powerUpUsed + 1
+          powerUpUsage: this.state.stats.powerUpUsage + 1
         }
       });
     }
@@ -264,7 +266,8 @@ export class Reacteroids extends Component {
       stats: {
         bulletsFired: 0,
         bulletsHit: 0,
-        powerUpUsed: 0,
+        powerUpUsage: 0,
+        shieldUsage: 0,
         currentShield: 100,
         currentScore: 0,
         topScore: localStorage['topscore'] || 0,
@@ -401,7 +404,7 @@ export class Reacteroids extends Component {
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             item2.destroy();
           } else if(typeof item1.getPowerUpType == 'function') {
-            this.addPowerUpUsed();
+            this.addpowerUpUsage();
             item1.getPowerUpType().apply(this, item2);
             item1.destroy();
           } else {

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.carloshglez.asteroids" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Asteroids</name>
+    <description>
+        ReeactJS Project based on "reacteroids" game
+    </description>
+    <author email="carlos-horacio.gonzalez-gordillo@hpe.com" href="https://github.houston.entsvcs.net/carlos-horacio-gonzalez-gordillo/react-game.git">
+        carloshglez
+    </author>
+    <preference name="Orientation" value="landscape" />
+    <preference name="Fullscreen" value="true" />
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <icon src="www/webapp/icon.png" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <icon src="www/webapp/icon.png" />
+    </platform>
+    <engine name="android" spec="^6.3.0" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+</widget>

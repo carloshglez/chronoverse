@@ -28,8 +28,8 @@ export default class EndGame extends React.Component {
 							Bullets Hit:<br/>
 							Hit Percentaje:<br/>
 							<br/>
-							Shield:<br/>
-							Power-Up used:<br/>
+							Shield Usage:<br/>
+							Power-Up Usage:<br/>
 							<br/>
 							Top Score:<br/>
 							Your Score:<br/>
@@ -44,8 +44,8 @@ export default class EndGame extends React.Component {
 							{this.props.stats.bulletsHit}	<br/>
 							{hitPercentaje}%				<br/>
 							<br/>
-							{Math.floor(this.props.stats.currentShield)}	<br/>
-							{this.props.stats.powerUpUsed}	<br/>
+							{Math.floor(this.props.stats.shieldUsage + 1)}	<br/>
+							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
 							{this.props.stats.topScore}		<br/>
 							{this.props.stats.currentScore}	<br/>
