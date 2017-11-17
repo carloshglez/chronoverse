@@ -7,6 +7,7 @@ import EndGame from './components/EndGame';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
+import Enemy from './Enemy';
 
 import { KEY, randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
 import { PW, getRandomPowerUp } from './util/powerUpHelper';
@@ -51,6 +52,7 @@ export class Reacteroids extends Component {
     this.bullets = [];
     this.particles = [];
     this.powerUps = [];
+    this.enemies = [];
   }
 
   handleResize(value, e){
@@ -121,10 +123,10 @@ export class Reacteroids extends Component {
 
     // Next set of asteroids
     if(this.state.game.inGame && !this.asteroids.length){
-      let asteroidCount = this.state.asteroidCount + 1;
+      let asteroidCount = this.state.asteroidCount;
       let powerUpCount = Math.floor(asteroidCount / 3);
       this.setState({
-        asteroidCount: asteroidCount,
+        asteroidCount: asteroidCount + 1,
         powerUpCount: powerUpCount
       });
       this.generateAsteroids(asteroidCount)
@@ -142,6 +144,7 @@ export class Reacteroids extends Component {
     this.updateObjects(this.bullets, 'bullets')
     this.updateObjects(this.ship, 'ship')
     this.updateObjects(this.powerUps, 'powerUps')
+    this.updateObjects(this.enemies, 'enemies')
 
     context.restore();
 
@@ -300,12 +303,14 @@ export class Reacteroids extends Component {
 
     // Make asteroids
     this.asteroids = [];
-    this.generateAsteroids(this.state.asteroidCount);
 
+    //Make powerUps
     this.powerUps = [];
-    let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    this.generatePowerUp(powerUpCount)
     //this.generatePowerUp(15);
+
+    //Make enemies
+    this.enemies = [];
+    //this.generateEnemy();
   }
 
   gameOver(){
@@ -370,6 +375,20 @@ export class Reacteroids extends Component {
       });
       this.createObject(powerUp, 'powerUps');
     }
+  }
+
+  generateEnemy(){
+    let ship = this.ship[0];
+    let enemy = new Enemy({
+      position: {
+        x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
+        y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
+      },
+      ship: ship,
+      type: Math.floor(randomNumBetween(1,2)),
+      create: this.createObject.bind(this)
+    });
+    this.createObject(enemy, 'enemies');
   }
 
   createObject(item, group){
@@ -462,11 +481,11 @@ export class Reacteroids extends Component {
 
     return (
       <div>
-        {/*
+        {
         <div className='debugLabel'>
-          {JSON.stringify(this.state)}
+          {JSON.stringify(this.enemies[0])}
         </div>
-        */}
+        }
 
         { introGame }
         { endGame }
