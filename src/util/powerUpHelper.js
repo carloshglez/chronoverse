@@ -41,7 +41,7 @@ export const PW = {
   },
   BOUNCE_BULLET: {
     id: 6,
-    color: '#00CED1',
+    color: 'DarkTurquoise',
     drawShape: getBounceBulletShape,
     text: 'Bounce Bullets!',
     apply: applyBounceBullet
@@ -62,7 +62,7 @@ export const PW = {
   },
   FIRE_RING: {
     id: 9,
-    color: '#8B0000',
+    color: 'Maroon',
     drawShape: getDefaultShape,
     text: 'Fire Ring!',
     apply: applyFireRing
@@ -81,9 +81,9 @@ export function getRandomPowerUp() {
 };
 
 function showNotification(color, text) {
-    let textColor = '#FFFFFF'
+    let textColor = 'White'
     if (color === 'White') {
-        textColor = 'black'
+        textColor = 'Black'
     }
     let notificationColor = { background: color, text: textColor };
     notify.show(text, 'custom', 5000, notificationColor);

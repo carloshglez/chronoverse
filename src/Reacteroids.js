@@ -114,7 +114,7 @@ export class Reacteroids extends Component {
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
 
     // Motion trail
-    context.fillStyle = '#000';
+    context.fillStyle = 'Black';
     context.globalAlpha = 0.4;
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
