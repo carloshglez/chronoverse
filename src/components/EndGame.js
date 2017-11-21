@@ -44,7 +44,7 @@ export default class EndGame extends React.Component {
 							{this.props.stats.bulletsHit}	<br/>
 							{hitPercentaje}%				<br/>
 							<br/>
-							{Math.floor(this.props.stats.shieldUsage + 1)}	<br/>
+							{Math.floor(this.props.stats.shieldUsage + 0.9)}	<br/>
 							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
 							{this.props.stats.topScore}		<br/>

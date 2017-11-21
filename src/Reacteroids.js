@@ -327,7 +327,7 @@ export class Reacteroids extends Component {
 
   gameOver(){
     this.setState({
-      asteroidCount: 3,
+      asteroidCount: 0,
       powerUpCount: 0,
       enemyCount: 0,
       timeValue: 0,

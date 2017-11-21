@@ -52,6 +52,7 @@ export default class Ship {
 
   enableSuperShip() {
     this.superShip = true;
+    this.radius = 30;
   }
 
   enableShipSpeed() {
@@ -76,6 +77,7 @@ export default class Ship {
     this.bulletRadius = 2;
     this.shotFrequency = 300;
     this.superShip = false;
+    this.radius = 20;
     this.speed = 0.15;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
@@ -152,7 +154,8 @@ export default class Ship {
         radius: this.bulletRadius,
         directionValueX : 0,
         bounce : false,
-        color: this.setBulletColor()
+        color: this.setBulletColor(),
+        iAm: 'shipBullet'
       });
       this.create(bullet, 'bullets');
     }

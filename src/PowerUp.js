@@ -12,7 +12,7 @@ export default class PowerUp {
         x: randomNumBetween(-1.5, 1.5),
         y: randomNumBetween(-1.5, 1.5)
       }
-    this.radius = 10;
+    this.radius = 15;
     this.create = args.create;
   }
 
