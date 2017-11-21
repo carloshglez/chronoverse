@@ -136,9 +136,10 @@ export class Reacteroids extends Component {
     // Check for colisions
     this.checkCollisionsWith(this.bullets, this.asteroids);
     this.checkCollisionsWith(this.bullets, this.enemies);
+    this.checkCollisionsWith(this.ship, this.bullets);
     this.checkCollisionsWith(this.ship, this.asteroids);
     this.checkCollisionsWith(this.ship, this.enemies);
-    this.checkCollisionsWith(this.powerUps, this.ship);
+    this.checkCollisionsWith(this.ship, this.powerUps);
 
     // Remove or render
     this.updateObjects(this.particles, 'particles')
@@ -312,7 +313,7 @@ export class Reacteroids extends Component {
 
     //Make enemies
     this.enemies = [];
-    this.generateEnemy();
+    //this.generateEnemy();
   }
 
   gameOver(){
@@ -397,7 +398,7 @@ export class Reacteroids extends Component {
   createObject(item, group){
     this[group].push(item);
 
-    if(group === 'bullets') {
+    if(group === 'bullets' && item.iAm == 'shipBullet') {
       this.addBulletsFired();
     }
   }
@@ -423,6 +424,29 @@ export class Reacteroids extends Component {
         var item1 = items1[a];
         var item2 = items2[b];
         if(this.checkCollision(item1, item2)) {
+          if(item1.iAm === 'ship') {
+            if(item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
+              if(item1.isShieldEnabled()){
+                item2.destroy();
+              }else{
+                item1.destroy();
+                item2.destroy();
+              }
+            }
+            if(item2.iAm === 'powerUp') {
+              this.addpowerUpUsage();
+              item2.getPowerUpType().apply(this, item1);
+              item2.destroy();
+            }
+          }
+          if(item1.iAm === 'shipBullet') {
+            if(item2.iAm === 'asteroid' || item2.iAm === 'enemy') {
+              item1.destroy();
+              item2.destroy();
+            }
+          }
+
+          /*
           if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
             //item1 = ship
             //item2 = asteroid | enemy
@@ -433,18 +457,18 @@ export class Reacteroids extends Component {
             this.addpowerUpUsage();
             item1.getPowerUpType().apply(this, item2);
             item1.destroy();
-          } else if(typeof item2.isEnemy == 'function' && item2.isEnemy()) {
+          } else if(typeof item1.isShieldEnabled == 'function' && typeof item2.isEnemy == 'function' && item2.isEnemy()) {
             //item1 = ship
             //item2 = enemy
             item1.destroy();
             item2.destroy();
           } else {
-            //item1 = ship | bullet
+            //item1 = bullet
             //item2 = asteroid | enemy
             this.addBulletsHit();
             item1.destroy();
             item2.destroy();
-          }
+          }*/
         }
       }
     }
@@ -495,11 +519,11 @@ export class Reacteroids extends Component {
 
     return (
       <div>
-        {
+        {/*
         <div className='debugLabel'>
           {JSON.stringify(this.enemies[0])}
         </div>
-        }
+        */}
 
         { introGame }
         { endGame }

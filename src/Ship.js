@@ -5,6 +5,7 @@ import { PW } from './util/powerUpHelper';
 
 export default class Ship {
   constructor(args) {
+    this.iAm = 'ship'
     this.position = args.position
     this.velocity = {
       x: 0,
@@ -129,7 +130,8 @@ export default class Ship {
           radius: this.bulletRadius,
           directionValueX : directionValueX,
           bounce : this.bounceSkill,
-          color: this.setBulletColor()
+          color: this.setBulletColor(),
+          iAm: 'shipBullet'
         });
         this.create(bullet, 'bullets');
       }

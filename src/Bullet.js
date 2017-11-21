@@ -2,6 +2,7 @@ import { rotatePoint } from './util/helpers';
 
 export default class Bullet {
   constructor(args) {
+    this.iAm = args.iAm
     this.rotation = args.shipRotation;
     let posDelta = rotatePoint({x:args.directionValueX, y:-20}, {x:0,y:0}, this.rotation * Math.PI / 180);
     this.position = {
@@ -53,7 +54,7 @@ export default class Bullet {
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
     context.fillStyle = this.color;
-    context.lineWidth = 0,5;
+    context.lineWidth = 0.5;
     context.beginPath();
     context.arc(0, 0, this.radius, 0, 2 * Math.PI);
     context.closePath();

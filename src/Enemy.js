@@ -1,15 +1,17 @@
 import Particle from './Particle';
+import Bullet from './Bullet';
 import { randomNumBetween, doExplode } from './util/helpers';
 
 export default class Enemy {
   constructor(args) {
+    this.iAm = 'enemy'
     this.ship = args.ship;
     this.type = args.type;
-    this.position = args.position
+    this.position = args.position;
     this.velocity = {
       x: randomNumBetween(-1.5, 1.5),
       y: randomNumBetween(-1.5, 1.5)
-    }
+    };
     this.rotation = 0;
     this.rotationSpeed = 6;
     this.speed = 0.15;
@@ -17,6 +19,8 @@ export default class Enemy {
     this.radius = 20;
     this.lastAcc = 0;
     this.accFrequency = 250;
+    this.lastShot = Date.now();
+    this.shotFrequency = 3000;
     this.create = args.create;
     this.addScore = args.addScore;
   }
@@ -63,21 +67,36 @@ export default class Enemy {
     this.position.y += this.velocity.y;
   }
 
-  isEnemy(){
-    return true;
+  shoot(){
+    if (Date.now() - this.lastShot > this.shotFrequency) {
+      let bulletArrayDirectionsX = [0];
+      for (var index = 0; index < bulletArrayDirectionsX.length; index++) {
+        var directionValueX = bulletArrayDirectionsX[index];
+        const bullet = new Bullet({
+          shipRotation: this.rotation,
+          shipPosition: this.position,
+          radius: 2,
+          directionValueX : directionValueX,
+          bounce : false,
+          color: 'Lime',
+          iAm: 'enemyBullet'
+        });
+        this.create(bullet, 'bullets');
+      }
+      this.lastShot = Date.now();
+    }
   }
 
   render(state){
     // Move
-    if(this.type === 1) {
-      this.moveAsExplorer();
-    }
-    if(this.type === 2) {
-      this.moveAsHunter();
-    }
+    if(this.type === 1) this.moveAsExplorer();
+    if(this.type === 2) this.moveAsHunter();
 
     // Rotation
     this.rotate();
+
+    //Attack
+    this.shoot();
 
     // Screen edges
     if(this.position.x > state.screen.width) this.position.x = 0;

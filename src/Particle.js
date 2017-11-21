@@ -1,5 +1,6 @@
 export default class Particle {
   constructor(args) {
+    this.iAm = 'particle'
     this.position = args.position
     this.velocity = args.velocity
     this.radius = args.size;

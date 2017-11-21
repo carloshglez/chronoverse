@@ -3,6 +3,7 @@ import { randomNumBetween, doExplode } from './util/helpers';
 
 export default class PowerUp {
   constructor(args) {
+    this.iAm = 'powerUp'
     this.powerUp = args.powerUp;
     this.position = args.position;
     this.rotation = 0;
@@ -52,7 +53,7 @@ export default class PowerUp {
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
     context.fillStyle = this.powerUp.color;
-    context.lineWidth = 0,5;
+    context.lineWidth = 0.5;
 
     this.powerUp.drawShape(context);
 

@@ -2,6 +2,7 @@ import { asteroidVertices, randomNumBetween, doExplode } from './util/helpers';
 
 export default class Asteroid {
   constructor(args) {
+    this.iAm = 'asteroid'
     this.position = args.position
     this.velocity = {
       x: randomNumBetween(-1.5, 1.5),
