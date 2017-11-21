@@ -251,7 +251,7 @@ export class Reacteroids extends Component {
     }
   }
 
-  addpowerUpUsage() {
+  addPowerUpUsage() {
     if(this.state.game.inGame){
       this.setState({
         stats : {
@@ -444,13 +444,14 @@ export class Reacteroids extends Component {
               }
             }
             if(item2.iAm === 'powerUp') {
-              this.addpowerUpUsage();
+              this.addPowerUpUsage();
               item2.getPowerUpType().apply(this, item1);
               item2.destroy();
             }
           }
           if(item1.iAm === 'shipBullet') {
             if(item2.iAm === 'asteroid' || item2.iAm === 'enemy') {
+              this.addBulletsHit();
               item1.destroy();
               item2.destroy();
             }
