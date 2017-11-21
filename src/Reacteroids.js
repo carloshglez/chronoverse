@@ -29,8 +29,9 @@ export class Reacteroids extends Component {
         down  : 0,
         space : 0,
       },
-      asteroidCount: 1,
+      asteroidCount: 0,
       powerUpCount: 0,
+      enemyCount: 0,
       stats: {
         bulletsFired: 0,
         bulletsHit: 0,
@@ -121,16 +122,23 @@ export class Reacteroids extends Component {
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
 
-    // Next set of asteroids
+    // Next set of elements
     if(this.state.game.inGame && !this.asteroids.length){
-      let asteroidCount = this.state.asteroidCount;
-      let powerUpCount = Math.floor(asteroidCount / 3);
+      let asteroidCount = this.state.asteroidCount + 1;
+      let powerUpCount = ((asteroidCount % 3 === 0) ? 2 : 0) - this.powerUps.length;
       this.setState({
-        asteroidCount: asteroidCount + 1,
+        asteroidCount: asteroidCount,
         powerUpCount: powerUpCount
       });
       this.generateAsteroids(asteroidCount)
       this.generatePowerUp(powerUpCount)
+    }
+    if(this.state.game.inGame && this.state.stats.currentScore >= this.state.enemyCount + 1000){
+      let enemyCount = this.state.enemyCount + 1000;
+      this.setState({
+        enemyCount: enemyCount
+      });
+      this.generateEnemy(Math.floor(this.state.enemyCount / 1000))
     }
 
     // Check for colisions
@@ -266,8 +274,9 @@ export class Reacteroids extends Component {
 
   startGame(){
     this.setState({
-      asteroidCount: 1,
+      asteroidCount: 0,
       powerUpCount: 0,
+      enemyCount: 0,
       timeValue: 0,
       stats: {
         bulletsFired: 0,
@@ -313,13 +322,14 @@ export class Reacteroids extends Component {
 
     //Make enemies
     this.enemies = [];
-    //this.generateEnemy();
+    //this.generateEnemy(1);
   }
 
   gameOver(){
     this.setState({
-      asteroidCount: 1,
+      asteroidCount: 3,
       powerUpCount: 0,
+      enemyCount: 0,
       timeValue: 0,
       keys : {
         left  : 0,
@@ -348,7 +358,6 @@ export class Reacteroids extends Component {
   }
 
   generateAsteroids(howMany){
-    let asteroids = [];
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let asteroid = new Asteroid({
@@ -365,7 +374,6 @@ export class Reacteroids extends Component {
   }
 
   generatePowerUp(howMany){
-    let PowerUps = [];
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let powerUp = new PowerUp({
@@ -380,19 +388,21 @@ export class Reacteroids extends Component {
     }
   }
 
-  generateEnemy(){
+  generateEnemy(howMany){
     let ship = this.ship[0];
-    let enemy = new Enemy({
-      position: {
-        x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
-        y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
-      },
-      ship: ship,
-      type: Math.floor(randomNumBetween(1,2)),
-      addScore: this.addScore.bind(this),
-      create: this.createObject.bind(this)
-    });
-    this.createObject(enemy, 'enemies');
+    for (let i = 0; i < howMany; i++) {
+      let enemy = new Enemy({
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
+          y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
+        },
+        ship: ship,
+        type: Math.floor(randomNumBetween(1,2)),
+        addScore: this.addScore.bind(this),
+        create: this.createObject.bind(this)
+      });
+      this.createObject(enemy, 'enemies');
+    }
   }
 
   createObject(item, group){
@@ -445,30 +455,6 @@ export class Reacteroids extends Component {
               item2.destroy();
             }
           }
-
-          /*
-          if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
-            //item1 = ship
-            //item2 = asteroid | enemy
-            item2.destroy();
-          } else if(typeof item1.getPowerUpType == 'function') {
-            //item1 = powerUp
-            //item2 = ship
-            this.addpowerUpUsage();
-            item1.getPowerUpType().apply(this, item2);
-            item1.destroy();
-          } else if(typeof item1.isShieldEnabled == 'function' && typeof item2.isEnemy == 'function' && item2.isEnemy()) {
-            //item1 = ship
-            //item2 = enemy
-            item1.destroy();
-            item2.destroy();
-          } else {
-            //item1 = bullet
-            //item2 = asteroid | enemy
-            this.addBulletsHit();
-            item1.destroy();
-            item2.destroy();
-          }*/
         }
       }
     }
@@ -521,7 +507,7 @@ export class Reacteroids extends Component {
       <div>
         {/*
         <div className='debugLabel'>
-          {JSON.stringify(this.enemies[0])}
+          {JSON.stringify(this.state)}
         </div>
         */}
 
