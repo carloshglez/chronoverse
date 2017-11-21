@@ -124,7 +124,7 @@ export class Reacteroids extends Component {
 
     // Next set of elements
     if(this.state.game.inGame && !this.asteroids.length){
-      let asteroidCount = this.state.asteroidCount + 1;
+      let asteroidCount = (this.state.asteroidCount < 10) ? this.state.asteroidCount + 1 : 1;
       let powerUpCount = ((asteroidCount % 3 === 0) ? 2 : 0) - this.powerUps.length;
       this.setState({
         asteroidCount: asteroidCount,
