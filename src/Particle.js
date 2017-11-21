@@ -5,6 +5,7 @@ export default class Particle {
     this.velocity = args.velocity
     this.radius = args.size;
     this.lifeSpan = args.lifeSpan;
+    this.color = args.color || 'White';
     this.inertia = 0.98;
   }
 
@@ -32,7 +33,7 @@ export default class Particle {
     const context = state.context;
     context.save();
     context.translate(this.position.x, this.position.y);
-    context.fillStyle = 'White';
+    context.fillStyle = this.color;
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -this.radius);

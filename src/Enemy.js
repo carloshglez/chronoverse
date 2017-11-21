@@ -23,6 +23,7 @@ export default class Enemy {
     this.shotFrequency = 3000;
     this.create = args.create;
     this.addScore = args.addScore;
+    this.color = 'Lime'
   }
 
   destroy(){
@@ -30,7 +31,7 @@ export default class Enemy {
     this.addScore(100);
 
     // Explode
-    doExplode(this.radius, this.position, this.create);
+    doExplode(this.radius, this.position, this.create, this.color);
   }
 
   rotate(){
@@ -78,7 +79,7 @@ export default class Enemy {
           radius: 2,
           directionValueX : directionValueX,
           bounce : false,
-          color: 'Lime',
+          color: this.color,
           iAm: 'enemyBullet'
         });
         this.create(bullet, 'bullets');
@@ -109,7 +110,7 @@ export default class Enemy {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = 'Lime';
+    context.strokeStyle = this.color;
     context.fillStyle = 'Black';
     context.lineWidth = 2;
 

@@ -68,7 +68,7 @@ export function randomNumBetweenExcluding(min, max, exMin, exMax) {
 /**
  *
  */
-export function doExplode(radius, position, create) {
+export function doExplode(radius, position, create, color='White') {
   for (let i = 0; i < radius; i++) {
     const particle = new Particle({
       lifeSpan: randomNumBetween(60, 100),
@@ -80,7 +80,8 @@ export function doExplode(radius, position, create) {
       velocity: {
         x: randomNumBetween(-1.5, 1.5),
         y: randomNumBetween(-1.5, 1.5)
-      }
+      },
+      color: color
     });
     create(particle, 'particles');
   }

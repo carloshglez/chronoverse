@@ -14,7 +14,8 @@ export default class Asteroid {
     this.score = Math.floor((60/this.radius)*5);
     this.create = args.create;
     this.addScore = args.addScore;
-    this.vertices = asteroidVertices(8, args.size)
+    this.vertices = asteroidVertices(8, args.size);
+    this.color = 'Silver';
   }
 
   destroy(){
@@ -67,7 +68,7 @@ export default class Asteroid {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = 'silver';
+    context.strokeStyle = this.color;
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -this.radius);
