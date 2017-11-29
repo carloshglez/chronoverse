@@ -5,6 +5,7 @@ import { PW } from './util/powerUpHelper';
 
 export default class Ship {
   constructor(args) {
+    this.iAm = 'ship'
     this.position = args.position
     this.velocity = {
       x: 0,
@@ -51,6 +52,7 @@ export default class Ship {
 
   enableSuperShip() {
     this.superShip = true;
+    this.radius = 30;
   }
 
   enableShipSpeed() {
@@ -75,6 +77,7 @@ export default class Ship {
     this.bulletRadius = 2;
     this.shotFrequency = 300;
     this.superShip = false;
+    this.radius = 20;
     this.speed = 0.15;
     this.bounceSkill = false;
     this.multiBulletSkill = false;
@@ -129,7 +132,8 @@ export default class Ship {
           radius: this.bulletRadius,
           directionValueX : directionValueX,
           bounce : this.bounceSkill,
-          color: this.setBulletColor()
+          color: this.setBulletColor(),
+          iAm: 'shipBullet'
         });
         this.create(bullet, 'bullets');
       }
@@ -150,7 +154,8 @@ export default class Ship {
         radius: this.bulletRadius,
         directionValueX : 0,
         bounce : false,
-        color: this.setBulletColor()
+        color: this.setBulletColor(),
+        iAm: 'shipBullet'
       });
       this.create(bullet, 'bullets');
     }

@@ -30,6 +30,14 @@ module.exports = {
                 query: {
                   presets: ['react', 'es2015', 'stage-0']
                 }
+            },
+            {
+                test: /\.woff2$/,
+                loader: 'file-loader',
+                options: {
+                  limit: 10000,
+                  outputPath: '/fonts/'
+                }
             }
         ]
     }

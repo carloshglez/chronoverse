@@ -7,6 +7,7 @@ import EndGame from './components/EndGame';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
+import Enemy from './Enemy';
 
 import { KEY, randomNumBetweenExcluding, randomNumBetween } from './util/helpers';
 import { PW, getRandomPowerUp } from './util/powerUpHelper';
@@ -28,8 +29,9 @@ export class Reacteroids extends Component {
         down  : 0,
         space : 0,
       },
-      asteroidCount: 1,
+      asteroidCount: 0,
       powerUpCount: 0,
+      enemyCount: 0,
       stats: {
         bulletsFired: 0,
         bulletsHit: 0,
@@ -51,6 +53,7 @@ export class Reacteroids extends Component {
     this.bullets = [];
     this.particles = [];
     this.powerUps = [];
+    this.enemies = [];
   }
 
   handleResize(value, e){
@@ -119,10 +122,10 @@ export class Reacteroids extends Component {
     context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
     context.globalAlpha = 1;
 
-    // Next set of asteroids
+    // Next set of elements
     if(this.state.game.inGame && !this.asteroids.length){
-      let asteroidCount = this.state.asteroidCount + 1;
-      let powerUpCount = Math.floor(asteroidCount / 3);
+      let asteroidCount = (this.state.asteroidCount < 10) ? this.state.asteroidCount + 1 : 1;
+      let powerUpCount = ((asteroidCount % 3 === 0) ? 2 : 0) - this.powerUps.length;
       this.setState({
         asteroidCount: asteroidCount,
         powerUpCount: powerUpCount
@@ -130,11 +133,21 @@ export class Reacteroids extends Component {
       this.generateAsteroids(asteroidCount)
       this.generatePowerUp(powerUpCount)
     }
+    if(this.state.game.inGame && this.state.stats.currentScore >= this.state.enemyCount + 1000){
+      let enemyCount = this.state.enemyCount + 1000;
+      this.setState({
+        enemyCount: enemyCount
+      });
+      this.generateEnemy(Math.floor(this.state.enemyCount / 1000))
+    }
 
     // Check for colisions
     this.checkCollisionsWith(this.bullets, this.asteroids);
+    this.checkCollisionsWith(this.bullets, this.enemies);
+    this.checkCollisionsWith(this.ship, this.bullets);
     this.checkCollisionsWith(this.ship, this.asteroids);
-    this.checkCollisionsWith(this.powerUps, this.ship);
+    this.checkCollisionsWith(this.ship, this.enemies);
+    this.checkCollisionsWith(this.ship, this.powerUps);
 
     // Remove or render
     this.updateObjects(this.particles, 'particles')
@@ -142,6 +155,7 @@ export class Reacteroids extends Component {
     this.updateObjects(this.bullets, 'bullets')
     this.updateObjects(this.ship, 'ship')
     this.updateObjects(this.powerUps, 'powerUps')
+    this.updateObjects(this.enemies, 'enemies')
 
     context.restore();
 
@@ -237,7 +251,7 @@ export class Reacteroids extends Component {
     }
   }
 
-  addpowerUpUsage() {
+  addPowerUpUsage() {
     if(this.state.game.inGame){
       this.setState({
         stats : {
@@ -260,8 +274,9 @@ export class Reacteroids extends Component {
 
   startGame(){
     this.setState({
-      asteroidCount: 1,
+      asteroidCount: 0,
       powerUpCount: 0,
+      enemyCount: 0,
       timeValue: 0,
       stats: {
         bulletsFired: 0,
@@ -300,18 +315,21 @@ export class Reacteroids extends Component {
 
     // Make asteroids
     this.asteroids = [];
-    this.generateAsteroids(this.state.asteroidCount);
 
+    //Make powerUps
     this.powerUps = [];
-    let powerUpCount = Math.floor(this.state.asteroidCount / 2);
-    this.generatePowerUp(powerUpCount)
     //this.generatePowerUp(15);
+
+    //Make enemies
+    this.enemies = [];
+    //this.generateEnemy(1);
   }
 
   gameOver(){
     this.setState({
-      asteroidCount: 1,
+      asteroidCount: 0,
       powerUpCount: 0,
+      enemyCount: 0,
       timeValue: 0,
       keys : {
         left  : 0,
@@ -340,7 +358,6 @@ export class Reacteroids extends Component {
   }
 
   generateAsteroids(howMany){
-    let asteroids = [];
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let asteroid = new Asteroid({
@@ -357,7 +374,6 @@ export class Reacteroids extends Component {
   }
 
   generatePowerUp(howMany){
-    let PowerUps = [];
     let ship = this.ship[0];
     for (let i = 0; i < howMany; i++) {
       let powerUp = new PowerUp({
@@ -372,10 +388,27 @@ export class Reacteroids extends Component {
     }
   }
 
+  generateEnemy(howMany){
+    let ship = this.ship[0];
+    for (let i = 0; i < howMany; i++) {
+      let enemy = new Enemy({
+        position: {
+          x: randomNumBetweenExcluding(0, this.state.screen.width, ship.position.x-60, ship.position.x+60),
+          y: randomNumBetweenExcluding(0, this.state.screen.height, ship.position.y-60, ship.position.y+60)
+        },
+        ship: ship,
+        type: Math.floor(randomNumBetween(1,2)),
+        addScore: this.addScore.bind(this),
+        create: this.createObject.bind(this)
+      });
+      this.createObject(enemy, 'enemies');
+    }
+  }
+
   createObject(item, group){
     this[group].push(item);
 
-    if(group === 'bullets') {
+    if(group === 'bullets' && item.iAm == 'shipBullet') {
       this.addBulletsFired();
     }
   }
@@ -401,16 +434,25 @@ export class Reacteroids extends Component {
         var item1 = items1[a];
         var item2 = items2[b];
         if(this.checkCollision(item1, item2)) {
-          if(typeof item1.isShieldEnabled == 'function' && item1.isShieldEnabled()) {
-            item2.destroy();
-          } else if(typeof item1.getPowerUpType == 'function') {
-            this.addpowerUpUsage();
-            item1.getPowerUpType().apply(this, item2);
-            item1.destroy();
-          } else {
-            this.addBulletsHit();
-            item1.destroy();
-            item2.destroy();
+          if(item1.iAm === 'ship') {
+            if(item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
+              if(!item1.isShieldEnabled()){
+                item1.destroy();
+              }
+              item2.destroy();
+            }
+            if(item2.iAm === 'powerUp') {
+              this.addPowerUpUsage();
+              item2.getPowerUpType().apply(this, item1);
+              item2.destroy();
+            }
+          }
+          if(item1.iAm === 'shipBullet') {
+            if(item2.iAm === 'asteroid' || item2.iAm === 'enemy') {
+              this.addBulletsHit();
+              item1.destroy();
+              item2.destroy();
+            }
           }
         }
       }
