@@ -436,12 +436,10 @@ export class Reacteroids extends Component {
         if(this.checkCollision(item1, item2)) {
           if(item1.iAm === 'ship') {
             if(item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
-              if(item1.isShieldEnabled()){
-                item2.destroy();
-              }else{
+              if(!item1.isShieldEnabled()){
                 item1.destroy();
-                item2.destroy();
               }
+              item2.destroy();
             }
             if(item2.iAm === 'powerUp') {
               this.addPowerUpUsage();

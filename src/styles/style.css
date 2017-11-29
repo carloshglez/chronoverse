@@ -147,6 +147,20 @@ canvas {
     left: 50%;
 }
 
+.disabledButton{
+	display: block;
+	position: fixed;
+	z-index: 1;
+	border: 2px solid #777;
+	background-color: transparent;
+	color: #777;
+	font-size: 40px;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	flex: '1 1 0';
+	user-select: none;
+}
 .actionButton{
 	display: block;
 	position: fixed;

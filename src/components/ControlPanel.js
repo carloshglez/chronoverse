@@ -13,6 +13,7 @@ import MdArrowUpward from 'react-icons/lib/md/arrow-upward'
 
 export default class ControlPanel extends React.Component {
 	render() {
+		let shieldValue = Math.floor((this.props.stats.currentShield));
 		return (
 			<div>
 				<div>
@@ -23,7 +24,7 @@ export default class ControlPanel extends React.Component {
 						<MdStarOutline /> Score: {this.props.stats.currentScore}
 					</span>
 					<span className='score shield-score'>
-						<FaShield /> Shield: {Math.floor((this.props.stats.currentShield))}
+						<FaShield /> Shield: {shieldValue}
 					</span>
 					<span className='score time-score'>
 						<MdAccessAlarm /> Time: {this.props.timeValue} seg
@@ -45,7 +46,9 @@ export default class ControlPanel extends React.Component {
 					<button id='up'		className='actionButton btnUp' 		{...this.props.customEvents}>	<MdArrowUpward />	</button>
 					<button id='right' 	className='actionButton btnRight' 	{...this.props.customEvents}>	<MdArrowForward />	</button>
 					<button id='space' 	className='actionButton btnShoot' 	{...this.props.customEvents}>	<MdGpsFixed />		</button>
-					<button id='down' 	className='actionButton btnShield' 	{...this.props.customEvents}>	<FaShield />		</button>
+					<button id='down' 	className={(shieldValue <= 0) ? 'disabledButton btnShield' : 'actionButton btnShield'}
+						{...this.props.customEvents}>	<FaShield />
+					</button>
 				</div>
 			</div>
 		);
