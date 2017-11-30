@@ -1,5 +1,7 @@
 import React from 'react';
-import Legal from './Legal';
+import '../styles/style.css';
+import '../styles/intro.css';
+
 import MdStars from 'react-icons/lib/md/stars'
 
 export default class Intro extends React.Component {
@@ -18,7 +20,9 @@ export default class Intro extends React.Component {
                         S T A R T
                     </button>
                 </div>
-                <Legal/>
+                <div className='help-info legal'>
+                    v1.1 - &copy;2018
+                </div>
             </div>
 		);
 	}

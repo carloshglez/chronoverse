@@ -1,11 +1,12 @@
 import Particle from './Particle';
 import Bullet from './Bullet';
-import { randomNumBetween, doExplode } from './util/helpers';
+import { randomNumBetween, doExplode } from '../util/helpers';
 
 export default class Enemy {
   constructor(args) {
     this.iAm = 'enemy'
-    this.ship = args.ship;
+    this.shipPositionX = args.shipPositionX;
+    this.shipPositionY = args.shipPositionY;
     this.type = args.type;
     this.position = args.position;
     this.velocity = {
@@ -35,8 +36,8 @@ export default class Enemy {
   }
 
   rotate(){
-    let distX = this.ship.position.x - this.position.x;
-    let distY = this.ship.position.y - this.position.y;
+    let distX = this.shipPositionX - this.position.x;
+    let distY = this.shipPositionY - this.position.y;
     let angleRadians = Math.atan2(distY, distX);
     this.rotation = angleRadians * 180 / Math.PI;
 

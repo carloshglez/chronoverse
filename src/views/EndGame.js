@@ -1,4 +1,7 @@
 import React from 'react';
+import '../styles/style.css';
+import '../styles/endGame.css';
+
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import MdExitToApp from 'react-icons/lib/md/exit-to-app'
 
