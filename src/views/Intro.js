@@ -9,14 +9,11 @@ export default class Intro extends React.Component {
 
 		return (
             <div>
-                <span className='score top-score'>
-                    <MdStars /> Top Score: {this.props.stats.topScore}
-                </span>
                 <div className='intro'>
                     <h2>Asteroids</h2>
                     <button
                         className='infoButton'
-                        onClick={ this.props.startGame }>
+                        onClick={ this.props.gameOptions }>
                         S T A R T
                     </button>
                 </div>

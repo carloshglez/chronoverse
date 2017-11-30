@@ -41,6 +41,7 @@ export class Reacteroids extends Component {
 			game: {
 				intro: true,
 				inGame: false,
+				select: false,
 				over: false
 			}
 		}
@@ -96,6 +97,7 @@ export class Reacteroids extends Component {
 			game: {
 				intro: (gameState === 'intro') ? true : false,
 				inGame: (gameState === 'inGame') ? true : false,
+				select: (gameState === 'select') ? true : false,
 				over: (gameState === 'over') ? true : false,
 			}
 		});
@@ -401,6 +403,10 @@ export class Reacteroids extends Component {
 		this.setGameState('intro');
 	}
 
+	setGameOptions() {
+		this.setGameState('select');
+	}
+
 	startGame() {
 		this.setGameState('inGame');
 
@@ -433,6 +439,10 @@ export class Reacteroids extends Component {
 
 		if (this.state.game.intro) {
 			introGame = <Intro
+				gameOptions={this.setGameOptions.bind(this)}/>
+		}
+		if (this.state.game.select) {
+			selectGame = <SelectGame
 				stats={this.state.stats}
 				startGame={this.startGame.bind(this)}/>
 		}
@@ -449,16 +459,10 @@ export class Reacteroids extends Component {
 				setIntro={this.setIntro.bind(this)}/>
 		}
 
-		/*
-		selectGame = <SelectGame
-				stats={this.state.stats}
-				startGame={this.startGame.bind(this)}
-				setIntro={this.setIntro.bind(this)}/>
-		*/
-
 		return (
 			<div>
 				{introGame}
+				{selectGame}
 				{endGame}
 				{controlPanel}
 
