@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Intro from './views/Intro';
+import SelectGame from './views/SelectGame';
 import ControlPanel from './views/ControlPanel';
 import EndGame from './views/EndGame';
 import Factory from './components/Factory';
@@ -51,8 +52,8 @@ export class Reacteroids extends Component {
 		this.enemies = [];
 
 		this.factory = new Factory({
-			screenWidth: this.state.screen.width,
-			screenHeight: this.state.screen.height,
+			screenWidth: window.innerWidth,
+			screenHeight: window.innerHeight,
 			createObject: this.createObject.bind(this),
 			gameOver: this.gameOver.bind(this),
 			useShield: this.useShield.bind(this),
@@ -426,6 +427,7 @@ export class Reacteroids extends Component {
 
 	render() {
 		let introGame;
+		let selectGame;
 		let controlPanel;
 		let endGame;
 
@@ -447,6 +449,13 @@ export class Reacteroids extends Component {
 				setIntro={this.setIntro.bind(this)}/>
 		}
 
+		/*
+		selectGame = <SelectGame
+				stats={this.state.stats}
+				startGame={this.startGame.bind(this)}
+				setIntro={this.setIntro.bind(this)}/>
+		*/
+
 		return (
 			<div>
 				{introGame}
@@ -460,3 +469,12 @@ export class Reacteroids extends Component {
 		);
 	}
 }
+
+/*
+	Ship
+	Enemy
+	Asteroid / PowerUp (velocity)
+	generateShip / Asteroid / Enemy
+	ControlPanel js / style
+
+*/

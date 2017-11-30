@@ -62,7 +62,7 @@ export default class EndGame extends React.Component {
 						onClick={ this.props.startGame }>
 						<FaRepeat/> Try again?
 					</button>
-								<button
+					<button
 						className='infoButton'
 						onClick={ this.props.setIntro }>
 						<MdExitToApp/> Exit

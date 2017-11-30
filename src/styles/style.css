@@ -80,13 +80,13 @@ canvas {
 	background-color: transparent;
 	color: #ffffff;
 	font-size: 20px;
-    padding: 10px 20px;
+  padding: 10px 20px;
 	margin-bottom: 20px;
 	font-family: 'PT Mono', serif;
 	cursor: pointer;
 	flex: '1 1 0';
-    user-select: none;
-    width: 100%;
+  user-select: none;
+  width: 100%;
 }
 .infoButton:hover{
 	background-color: #ffffff;
