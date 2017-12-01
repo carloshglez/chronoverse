@@ -18,11 +18,6 @@ export default class ControlPanel extends React.Component {
 		let shieldValue = Math.floor((this.props.stats.currentShield));
 		return (
 			<div>
-				{/*
-					<div className='debugLabel'>
-					{JSON.stringify(this.state)}
-					</div>
-				*/}
 				<div>
 					<span className='score top-score'>
 						<MdStars /> Top Score: {this.props.stats.topScore}

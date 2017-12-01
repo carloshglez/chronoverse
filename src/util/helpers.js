@@ -68,6 +68,14 @@ export const KEY = {
 
 /**
  *
+ */
+export const ENEMY_TYPE = {
+	EXPLORER: 1,
+	HUNTER: 2
+};
+
+/**
+ *
  *
  * @export
  * @param {any} radius
@@ -94,6 +102,15 @@ export function doExplode(radius, position, create, color = 'White') {
 	}
 }
 
+/**
+ *
+ */
+export function getRandomItem(array) {
+    var obj_keys = Object.keys(array);
+    var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)];
+    return array[ran_key];
+};
+
 export function getNextAsteroidsCount(currentAsteroidCount) {
 	return (currentAsteroidCount < 10) ? currentAsteroidCount + 1 : 1;
 }
@@ -102,6 +119,6 @@ export function getNextPowerUpCount(powerUpArray, asteroidCount) {
 	return ((asteroidCount % 3 === 0) ? 2 : 0) - powerUpArray.length;
 }
 
-export function getNextEnemyCount(currentEnemyCount) {
-	return (Math.floor((currentEnemyCount) / 1000));
+export function getNextEnemyCount(enemyGoal) {
+	return (Math.floor((enemyGoal) / 1000));
 }

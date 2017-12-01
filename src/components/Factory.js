@@ -2,8 +2,8 @@ import Ship from './Ship';
 import Asteroid from './Asteroid';
 import PowerUp from './PowerUp';
 import Enemy from './Enemy';
-import { getRandomPowerUp } from '../util/powerUpHelper';
-import { randomNumBetweenExcluding, randomNumBetween } from '../util/helpers';
+import { PW } from '../util/powerUpHelper';
+import { ENEMY_TYPE, randomNumBetweenExcluding, randomNumBetween, getRandomItem } from '../util/helpers';
 
 export default class Factory {
     constructor(args) {
@@ -57,15 +57,14 @@ export default class Factory {
                     x: randomNumBetweenExcluding(0, this.screenWidth, this.ship.position.x - 60, this.ship.position.x + 60),
                     y: randomNumBetweenExcluding(0, this.screenHeight, this.ship.position.y - 60, this.ship.position.y + 60)
                 },
-                shipPositionX: this.ship.position.x,
-                shipPositionY: this.ship.position.y,
-                type: Math.floor(randomNumBetween(1, 2)),
+                ship: this.ship,
+                type: getRandomItem(ENEMY_TYPE),
                 addScore: this.addScore,
                 create: this.createObject
             });
             this.createObject(enemy, 'enemies');
         }
-        this.setEnemyCount(howMany + 1000);
+        this.setEnemyCount(howMany * 1000);
     }
 
     generatePowerUp(howMany) {
@@ -76,7 +75,7 @@ export default class Factory {
                     y: randomNumBetweenExcluding(0, this.screenHeight, this.ship.position.y - 60, this.ship.position.y + 60)
                 },
                 create: this.createObject,
-                powerUp: getRandomPowerUp()
+                powerUp: getRandomItem(PW)
             });
             this.createObject(powerUp, 'powerUps');
         }

@@ -125,7 +125,7 @@ export class Reacteroids extends Component {
 				powerUpUsage: 0,
 				shieldUsage: 0,
 				currentShield: 100,
-				currentScore: 0,
+				currentScore: 999,
 				topScore: localStorage['topscore'] || 0
 			}
 		});
@@ -203,10 +203,12 @@ export class Reacteroids extends Component {
 
 			let powerUpCount = getNextPowerUpCount(this.powerUps, asteroidCount);
 			this.factory.generatePowerUp(powerUpCount)
-		}
-		if (this.state.game.inGame && this.state.stats.currentScore >= this.state.enemyCount + 1000) {
-			let enemyCount = getNextEnemyCount(this.state.enemyCount + 1000);
-			this.factory.generateEnemy(enemyCount)
+
+			let enemyGoal = this.state.enemyCount + 1000;
+			if (this.state.stats.currentScore >= enemyGoal) {
+				let enemyCount = getNextEnemyCount(enemyGoal);
+				this.factory.generateEnemy(enemyCount)
+			}
 		}
 
 		// Check for colisions
@@ -461,6 +463,11 @@ export class Reacteroids extends Component {
 
 		return (
 			<div>
+				{
+					<div className='debugLabel'>
+					{JSON.stringify(this.state.enemyCount)}
+					</div>
+				}
 				{introGame}
 				{selectGame}
 				{endGame}
