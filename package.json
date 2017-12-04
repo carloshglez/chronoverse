@@ -1,7 +1,7 @@
 {
   "name": "com.carloshglez.asteroids",
-  "displayName": "Asteroids",
-  "version": "1.1.0",
+  "displayName": "Chronoverse",
+  "version": "1.0.2",
   "description": "Project based on \"reacteroids\" game (https://github.com/chriz001/Reacteroids) ported to web and mobile",
   "main": "index.html",
   "scripts": {

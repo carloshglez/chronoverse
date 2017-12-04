@@ -10,7 +10,7 @@ export default class Intro extends React.Component {
 		return (
             <div>
                 <div className='intro'>
-                    <h2>Asteroids</h2>
+                    <h2>Chronoverse</h2>
                     <button
                         className='infoButton'
                         onClick={ this.props.gameOptions }>
