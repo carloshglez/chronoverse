@@ -56,14 +56,14 @@ import Particle from '../components/Particle';
  */
 export const KEY = {
 	LEFT: 37,
-	RIGHT: 39,
-	UP: 38,
 	A: 65,
+	RIGHT: 39,
 	D: 68,
+	UP: 38,
 	W: 87,
+	SHIELD: 40,
 	S: 83,
-	SPACE: 32,
-	DOWN: 40
+	SHOOT: 32
 };
 
 /**

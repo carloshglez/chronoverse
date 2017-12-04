@@ -18,7 +18,7 @@ export default class Intro extends React.Component {
                     </button>
                 </div>
                 <div className='help-info legal'>
-                    v1.1 - &copy;2018
+                    v1.0.2 - &copy;2018
                 </div>
             </div>
 		);

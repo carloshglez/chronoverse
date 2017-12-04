@@ -193,10 +193,10 @@ export default class Ship {
     if(state.keys.right){
       this.rotate('RIGHT');
     }
-    if(state.keys.space && Date.now() - this.lastShot > this.shotFrequency){
+    if(state.keys.shoot && Date.now() - this.lastShot > this.shotFrequency){
       this.fireBullet();
     }
-    if(state.keys.down){
+    if(state.keys.shield){
       if(this.useShield()) {
         colorStroke = 'blue';
         this.invencible = true;

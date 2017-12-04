@@ -8,7 +8,7 @@ import Factory from './components/Factory';
 
 import { KEY, getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from './util/helpers';
 
-export class Reacteroids extends Component {
+export class Chronoverse extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -22,8 +22,8 @@ export class Reacteroids extends Component {
 				left: 0,
 				right: 0,
 				up: 0,
-				down: 0,
-				space: 0
+				shield: 0,
+				shoot: 0
 			},
 			asteroidCount: 0,
 			powerUpCount: 0,
@@ -107,8 +107,8 @@ export class Reacteroids extends Component {
 			left: 0,
 			right: 0,
 			up: 0,
-			down: 0,
-			space: 0
+			shield: 0,
+			shoot: 0
 		} });
 	}
 	resetGameCounters() {
@@ -242,8 +242,8 @@ export class Reacteroids extends Component {
 		if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
 		if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
 		if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
-		if (e.keyCode === KEY.DOWN || e.keyCode === KEY.S) keys.down = value;
-		if (e.keyCode === KEY.SPACE) keys.space = value;
+		if (e.keyCode === KEY.SHIELD || e.keyCode === KEY.S) keys.shield = value;
+		if (e.keyCode === KEY.SHOOT) keys.shoot = value;
 		this.setEventKeys(keys);
 	}
 
@@ -463,11 +463,11 @@ export class Reacteroids extends Component {
 
 		return (
 			<div>
-				{
+				{/*
 					<div className='debugLabel'>
 					{JSON.stringify(this.state.enemyCount)}
 					</div>
-				}
+				*/}
 				{introGame}
 				{selectGame}
 				{endGame}
