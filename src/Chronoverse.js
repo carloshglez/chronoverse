@@ -12,7 +12,7 @@ import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 import FactoryClassic from './classic/Factory';
 import FactorySpaceRace from './spaceRace/Factory';
 
-import { KEY } from './util/helpers';
+import { KEY, GAME_STATE, STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
 
 export class Chronoverse extends Component {
 	constructor() {
@@ -43,8 +43,8 @@ export class Chronoverse extends Component {
 				currentShield: 100,
 				currentScore: 0,
 				topScoreInUse: 0,
-				topScoreClassic: localStorage['topscore'] || 0,
-				topScoreSpaceRace: localStorage['topscore_sp'] || 0
+				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
 			},
 			game: {
 				intro: true,
@@ -107,11 +107,11 @@ export class Chronoverse extends Component {
 	setGameState(gameState) {
 		this.setState({
 			game: {
-				intro: (gameState === 'intro') ? true : false,
-				select: (gameState === 'select') ? true : false,
-				inClassicGame: (gameState === 'inClassicGame') ? true : false,
-				inSpaceRaceGame: (gameState === 'inSpaceRaceGame') ? true : false,
-				over: (gameState === 'over') ? true : false,
+				intro: (gameState === GAME_STATE.INTRO) ? true : false,
+				select: (gameState === GAME_STATE.SELECT) ? true : false,
+				inClassicGame: (gameState === GAME_STATE.CLASSIC) ? true : false,
+				inSpaceRaceGame: (gameState === GAME_STATE.SPACE_RACE) ? true : false,
+				over: (gameState === GAME_STATE.OVER) ? true : false,
 			}
 		});
 	}
@@ -140,8 +140,8 @@ export class Chronoverse extends Component {
 				currentShield: 100,
 				currentScore: 0,
 				topScoreInUse: 0,
-				topScoreClassic: localStorage['topscore'] || 0,
-				topScoreSpaceRace: localStorage['topscore_sp'] || 0
+				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
 			}
 		});
 	}
@@ -426,18 +426,18 @@ export class Chronoverse extends Component {
 	updateTopScore() {
 		if (this.state.stats.currentScore > this.state.stats.topScoreInUse) {
 			if (this.state.game.inClassicGame) {
-				localStorage['topscore'] = this.state.stats.currentScore;
+				localStorage[STORAGE_CLASSIC_TOP_SCORE] = this.state.stats.currentScore;
 				this.setClassicTopScore(this.state.stats.currentScore);
 			}
 			if (this.state.game.inSpaceRaceGame) {
-				localStorage['topscore_sp'] = this.state.stats.currentScore;
+				localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = this.state.stats.currentScore;
 				this.setSpaceRaceTopScore(this.state.stats.currentScore);
 			}
 		}
 	}
 
 	setIntro() {
-		this.setGameState('intro');
+		this.setGameState(GAME_STATE.INTRO);
 
 		this.resetEventKeys();
 		this.resetGameCounters();
@@ -445,7 +445,7 @@ export class Chronoverse extends Component {
 	}
 
 	setGameOptions() {
-		this.setGameState('select');
+		this.setGameState(GAME_STATE.SELECT);
 
 		this.resetEventKeys();
 		this.resetGameCounters();
@@ -453,7 +453,7 @@ export class Chronoverse extends Component {
 	}
 
 	startClassicGame() {
-		this.setGameState('inClassicGame');
+		this.setGameState(GAME_STATE.CLASSIC);
 
 		this.asteroids = [];
 		this.powerUps = [];
@@ -463,7 +463,7 @@ export class Chronoverse extends Component {
 	}
 
 	startSpaceRaceGame() {
-		this.setGameState('inSpaceRaceGame');
+		this.setGameState(GAME_STATE.SPACE_RACE);
 
 		this.asteroids = [];
 		this.powerUps = [];
@@ -476,7 +476,7 @@ export class Chronoverse extends Component {
 		// Replace top score
 		this.updateTopScore();
 
-		this.setGameState('over');
+		this.setGameState(GAME_STATE.OVER);
 	}
 
 	render() {

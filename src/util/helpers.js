@@ -53,29 +53,6 @@ import Particle from '../classic/components/Particle';
 
 /**
  *
- */
-export const KEY = {
-	LEFT: 37,
-	A: 65,
-	RIGHT: 39,
-	D: 68,
-	UP: 38,
-	W: 87,
-	SHIELD: 40,
-	S: 83,
-	SHOOT: 32
-};
-
-/**
- *
- */
-export const ENEMY_TYPE = {
-	EXPLORER: 1,
-	HUNTER: 2
-};
-
-/**
- *
  *
  * @export
  * @param {any} radius

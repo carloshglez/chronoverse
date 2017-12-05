@@ -3,7 +3,8 @@ import Asteroid from './components/Asteroid';
 import PowerUp from './components/PowerUp';
 import Enemy from './components/Enemy';
 import { PW } from '../util/powerUpHelper';
-import { ENEMY_TYPE, randomNumBetweenExcluding, randomNumBetween, getRandomItem,
+import { ENEMY_TYPE } from '../util/constants';
+import { randomNumBetweenExcluding, randomNumBetween, getRandomItem,
     getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from '../util/helpers';
 
 export default class Factory {
