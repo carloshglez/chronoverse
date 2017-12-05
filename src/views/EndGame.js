@@ -10,7 +10,7 @@ export default class EndGame extends React.Component {
 		let message
         if (this.props.stats.currentScore <= 0) {
 		  	message = '0 points... So sad.'
-        } else if (this.props.stats.currentScore >= this.props.stats.topScore){
+        } else if (this.props.stats.currentScore >= this.props.stats.topScoreInUse){
           	message = 'You got a New Record!'
 		} else {
 			message = 'Good Job! :)'
@@ -50,7 +50,7 @@ export default class EndGame extends React.Component {
 							{Math.floor(this.props.stats.shieldUsage + 0.9)}	<br/>
 							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
-							{this.props.stats.topScore}		<br/>
+							{this.props.stats.topScoreInUse}		<br/>
 							{this.props.stats.currentScore}	<br/>
 						</p>
 					</div>
@@ -59,7 +59,7 @@ export default class EndGame extends React.Component {
 					<h3>Game Over!</h3>
 					<button
 						className='infoButton'
-						onClick={ this.props.startGame }>
+						onClick={ this.props.retryOption }>
 						<FaRepeat/> Try again?
 					</button>
 					<button

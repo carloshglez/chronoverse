@@ -15,22 +15,23 @@ export default class SelectGame extends React.Component {
 					<div className='gameOption'>
 						<button
 							className='infoButton'
-							onClick={ this.props.startGame }>
+							onClick={ this.props.startClassicGame }>
 							Classic
 						</button>
 						<div>
 							<MdStars /> Top Score:
-							<div>{this.props.stats.topScore}</div>
+							<div>{this.props.stats.topScoreClassic}</div>
 						</div>
 					</div>
 					<div className='gameOption'>
 						<button
-							className='infoButton'>
+							className='infoButton'
+							onClick={ this.props.startSpaceRaceGame }>
 							Space Race
 						</button>
 						<div>
 							<MdStars /> Top Score:
-							<div>0</div>
+							<div>{this.props.stats.topScoreSpaceRace}</div>
 						</div>
 					</div>
 				</div>

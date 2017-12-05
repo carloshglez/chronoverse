@@ -49,7 +49,7 @@ export function randomNumBetweenExcluding(min, max, exMin, exMax) {
 };
 
 
-import Particle from '../components/Particle';
+import Particle from '../classic/components/Particle';
 
 /**
  *

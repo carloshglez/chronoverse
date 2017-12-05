@@ -1,6 +1,6 @@
 import Particle from './Particle';
 import Bullet from './Bullet';
-import { ENEMY_TYPE, randomNumBetween, doExplode } from '../util/helpers';
+import { ENEMY_TYPE, randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class Enemy {
   constructor(args) {

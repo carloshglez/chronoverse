@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
 import ControlPanel from './views/ControlPanel';
+import ControlPanel_sp from './views/ControlPanel_sp';
 import EndGame from './views/EndGame';
-import Factory from './components/Factory';
+import FactoryClassic from './classic/Factory';
+import FactorySpaceRace from './spaceRace/Factory';
 
-import { KEY, getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from './util/helpers';
+import { KEY } from './util/helpers';
 
 export class Chronoverse extends Component {
 	constructor() {
@@ -36,12 +38,15 @@ export class Chronoverse extends Component {
 				shieldUsage: 0,
 				currentShield: 100,
 				currentScore: 0,
-				topScore: localStorage['topscore'] || 0
+				topScoreInUse: 0,
+				topScoreClassic: localStorage['topscore'] || 0,
+				topScoreSpaceRace: localStorage['topscore_sp'] || 0
 			},
 			game: {
 				intro: true,
-				inGame: false,
 				select: false,
+				inClassicGame: false,
+				inSpaceRaceGame: false,
 				over: false
 			}
 		}
@@ -52,7 +57,7 @@ export class Chronoverse extends Component {
 		this.powerUps = [];
 		this.enemies = [];
 
-		this.factory = new Factory({
+		let factoryInit = {
 			screenWidth: window.innerWidth,
 			screenHeight: window.innerHeight,
 			createObject: this.createObject.bind(this),
@@ -62,7 +67,10 @@ export class Chronoverse extends Component {
 			setAsteroidCount: this.setAsteroidCount.bind(this),
 			setEnemyCount: this.setEnemyCount.bind(this),
 			setPowerUpCount: this.setPowerUpCount.bind(this)
-		});
+		};
+
+		this.factoryClassic = new FactoryClassic(factoryInit);
+		this.factorySpaceRace = new FactorySpaceRace(factoryInit);
 	}
 
 	setScreen() {
@@ -96,8 +104,9 @@ export class Chronoverse extends Component {
 		this.setState({
 			game: {
 				intro: (gameState === 'intro') ? true : false,
-				inGame: (gameState === 'inGame') ? true : false,
 				select: (gameState === 'select') ? true : false,
+				inClassicGame: (gameState === 'inClassicGame') ? true : false,
+				inSpaceRaceGame: (gameState === 'inSpaceRaceGame') ? true : false,
 				over: (gameState === 'over') ? true : false,
 			}
 		});
@@ -125,8 +134,10 @@ export class Chronoverse extends Component {
 				powerUpUsage: 0,
 				shieldUsage: 0,
 				currentShield: 100,
-				currentScore: 999,
-				topScore: localStorage['topscore'] || 0
+				currentScore: 0,
+				topScoreInUse: 0,
+				topScoreClassic: localStorage['topscore'] || 0,
+				topScoreSpaceRace: localStorage['topscore_sp'] || 0
 			}
 		});
 	}
@@ -160,9 +171,19 @@ export class Chronoverse extends Component {
 			stats: { ...this.state.stats, currentScore: value }
 		});
 	}
-	setTopScore(value) {
+	setTopScoreInUse(value) {
 		this.setState({
-			stats: { ...this.state.stats, topScore: value }
+			stats: { ...this.state.stats, topScoreInUse: value }
+		});
+	}
+	setClassicTopScore(value) {
+		this.setState({
+			stats: { ...this.state.stats, topScoreClassic: value }
+		});
+	}
+	setSpaceRaceTopScore(value) {
+		this.setState({
+			stats: { ...this.state.stats, topScoreSpaceRace: value }
 		});
 	}
 
@@ -197,18 +218,11 @@ export class Chronoverse extends Component {
 		context.globalAlpha = 1;
 
 		// Next set of elements
-		if (this.state.game.inGame && !this.asteroids.length) {
-			let asteroidCount = getNextAsteroidsCount(this.state.asteroidCount);
-			this.factory.generateAsteroids(asteroidCount)
-
-			let powerUpCount = getNextPowerUpCount(this.powerUps, asteroidCount);
-			this.factory.generatePowerUp(powerUpCount)
-
-			let enemyGoal = this.state.enemyCount + 1000;
-			if (this.state.stats.currentScore >= enemyGoal) {
-				let enemyCount = getNextEnemyCount(enemyGoal);
-				this.factory.generateEnemy(enemyCount)
-			}
+		if (this.state.game.inClassicGame && !this.asteroids.length) {
+			this.factoryClassic.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
+		}
+		if (this.state.game.inSpaceRaceGame && !this.asteroids.length) {
+			this.factorySpaceRace.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
 		}
 
 		// Check for colisions
@@ -336,14 +350,18 @@ export class Chronoverse extends Component {
 		}
 	}
 
+	isInGame() {
+		return (this.state.game.inClassicGame || this.state.game.inSpaceRaceGame);
+	}
+
 	addScore(points) {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setCurrentScore(this.state.stats.currentScore + points);
 		}
 	}
 
 	useShield() {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			if (this.state.stats.currentShield > 1) {
 				this.setCurrentShield(this.state.stats.currentShield - 0.1);
 				this.setShieldUsage(this.state.stats.currentShield + 0.1);
@@ -354,13 +372,13 @@ export class Chronoverse extends Component {
 	}
 
 	increaseShield() {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setCurrentShield(this.state.stats.currentShield + 30);
 		}
 	}
 
 	increaseTimeCounter(time = 5) {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setTimeValue(this.state.timeValue + time);
 		}
 	}
@@ -384,53 +402,82 @@ export class Chronoverse extends Component {
 	}
 
 	addBulletsFired() {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setBulletsFired(this.state.stats.bulletsFired + 1);
 		}
 	}
 
 	addBulletsHit() {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setBulletsHit(this.state.stats.bulletsHit + 1);
 		}
 	}
 
 	addPowerUpUsage() {
-		if (this.state.game.inGame) {
+		if (this.isInGame()) {
 			this.setPowerUpUsage(this.state.stats.powerUpUsage + 1);
+		}
+	}
+
+	updateTopScore(game) {
+		if (this.state.stats.currentScore > this.state.stats.topScoreInUse) {
+			if (game === 1) {
+				localStorage['topscore'] = this.state.stats.currentScore;
+				//this.setTopScoreInUse(this.state.stats.currentScore);
+				this.setClassicTopScore(this.state.stats.currentScore);
+			}
+			if (game === 2) {
+				localStorage['topscore_sp'] = this.state.stats.currentScore;
+				//this.setTopScoreInUse(this.state.stats.currentScore);
+				this.setSpaceRaceTopScore(this.state.stats.currentScore);
+			}
 		}
 	}
 
 	setIntro() {
 		this.setGameState('intro');
-	}
-
-	setGameOptions() {
-		this.setGameState('select');
-	}
-
-	startGame() {
-		this.setGameState('inGame');
 
 		this.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
-		this.factory.generateShip();
-		this.asteroids = [];
-		this.powerUps = [];
-		this.enemies = [];
 	}
 
-	gameOver() {
-		this.setGameState('over');
+	setGameOptions() {
+		this.setGameState('select');
 
 		this.resetEventKeys();
 		this.resetGameCounters();
+		this.resetStats();
+	}
+
+	startClassicGame() {
+		this.setGameState('inClassicGame');
+
+		this.asteroids = [];
+		this.powerUps = [];
+		this.enemies = [];
+		this.setTopScoreInUse(this.state.stats.topScoreClassic);
+		this.factoryClassic.generateShip();
+	}
+
+	startSpaceRaceGame() {
+		this.setGameState('inSpaceRaceGame');
+
+		this.asteroids = [];
+		this.powerUps = [];
+		this.enemies = [];
+		this.setTopScoreInUse(this.state.stats.topScoreSpaceRace);
+		this.factorySpaceRace.generateShip();
+	}
+
+	gameOver() {
 		// Replace top score
-		if (this.state.stats.currentScore > this.state.stats.topScore) {
-			this.setTopScore(this.state.stats.currentScore);
-			localStorage['topscore'] = this.state.stats.currentScore;
-		}
+		if(this.state.game.inClassicGame)
+			this.updateTopScore(1);
+		if(this.state.game.inSpaceRaceGame)
+			this.updateTopScore(2);
+
+		this.setGameState('over');
 	}
 
 	render() {
@@ -446,10 +493,17 @@ export class Chronoverse extends Component {
 		if (this.state.game.select) {
 			selectGame = <SelectGame
 				stats={this.state.stats}
-				startGame={this.startGame.bind(this)}/>
+				startClassicGame={this.startClassicGame.bind(this)}
+				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}/>
 		}
-		if (this.state.game.inGame) {
+		if (this.state.game.inClassicGame) {
 			controlPanel = <ControlPanel
+				stats={this.state.stats}
+				timeValue={this.state.timeValue}
+				customEvents={this.getTouchEvents()}/>
+		}
+		if (this.state.game.inSpaceRaceGame) {
+			controlPanel = <ControlPanel_sp
 				stats={this.state.stats}
 				timeValue={this.state.timeValue}
 				customEvents={this.getTouchEvents()}/>
@@ -457,7 +511,7 @@ export class Chronoverse extends Component {
 		if (this.state.game.over) {
 			endGame = <EndGame
 				stats={this.state.stats}
-				startGame={this.startGame.bind(this)}
+				retryOption={this.setGameOptions.bind(this)}
 				setIntro={this.setIntro.bind(this)}/>
 		}
 
@@ -465,7 +519,7 @@ export class Chronoverse extends Component {
 			<div>
 				{/*
 					<div className='debugLabel'>
-					{JSON.stringify(this.state.enemyCount)}
+					{JSON.stringify(this.factoryClassic)}
 					</div>
 				*/}
 				{introGame}
@@ -480,12 +534,3 @@ export class Chronoverse extends Component {
 		);
 	}
 }
-
-/*
-	Ship
-	Enemy
-	Asteroid / PowerUp (velocity)
-	generateShip / Asteroid / Enemy
-	ControlPanel js / style
-
-*/

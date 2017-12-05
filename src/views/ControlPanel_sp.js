@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/style.css';
-import '../styles/controlPanel.css';
+import '../styles/controlPanel_sp.css';
 
 import Notifications from 'react-notify-toast'
 import FaShield from 'react-icons/lib/fa/shield'
@@ -20,13 +20,13 @@ export default class ControlPanel extends React.Component {
 			<div>
 				<div>
 					<span className='score top-score'>
-						<MdStars /> Top Score: {this.props.stats.topScoreClassic}
+						<MdStars /> Top Score: {this.props.stats.topScoreSpaceRace}
 					</span>
 					<span className='score current-score'>
 						<MdStarOutline /> Score: {this.props.stats.currentScore}
 					</span>
 					<span className='score shield-score'>
-						<FaShield /> Shield: {shieldValue}
+						<FaShield /> Shield: {Math.floor((this.props.stats.currentShield))}
 					</span>
 					<span className='score time-score'>
 						<MdAccessAlarm /> Time: {this.props.timeValue} seg
@@ -35,20 +35,19 @@ export default class ControlPanel extends React.Component {
 
 				{/*
 				<div className='help-info instructions'>
-					Use [A][W][D] or [<MdArrowBack />][<MdArrowUpward />][<MdArrowForward />] to MOVE<br/>
+					Use [W][S] or [<MdArrowUpward />][<MdArrowDownward />] to MOVE<br/>
 					Use [SPACE] to SHOOT<br/>
-					Use [S] or [<MdArrowDownward />] to SHIELD<br/>
+					Use [A] or [<MdArrowBack />] to SHIELD<br/>
 				</div>
 				*/}
 
 				<Notifications />
 
 				<div>
-					<button id='left' 	className='actionButton btnLeft' 	{...this.props.customEvents}> 	<MdArrowBack />		</button>
-					<button id='up'		className='actionButton btnUp' 		{...this.props.customEvents}>	<MdArrowUpward />	</button>
-					<button id='right' 	className='actionButton btnRight' 	{...this.props.customEvents}>	<MdArrowForward />	</button>
-					<button id='shoot' 	className='actionButton btnShoot' 	{...this.props.customEvents}>	<MdGpsFixed />		</button>
-					<button id='shield' className={(shieldValue <= 0) ? 'disabledButton btnShield' : 'actionButton btnShield'}
+					<button id='left' 	className='actionButton btnLeft_sp' 	{...this.props.customEvents}> 	<MdArrowUpward />		</button>
+					<button id='right' 	className='actionButton btnRight_sp' 	{...this.props.customEvents}>	<MdArrowDownward />	</button>
+					<button id='shoot' 	className='actionButton btnShoot_sp' 	{...this.props.customEvents}>	<MdGpsFixed />		</button>
+					<button id='shield' 	className={(shieldValue <= 0) ? 'disabledButton btnShield_sp' : 'actionButton btnShield'}
 						{...this.props.customEvents}>	<FaShield />
 					</button>
 				</div>

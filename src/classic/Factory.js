@@ -1,9 +1,10 @@
-import Ship from './Ship';
-import Asteroid from './Asteroid';
-import PowerUp from './PowerUp';
-import Enemy from './Enemy';
+import Ship from './components/Ship';
+import Asteroid from './components/Asteroid';
+import PowerUp from './components/PowerUp';
+import Enemy from './components/Enemy';
 import { PW } from '../util/powerUpHelper';
-import { ENEMY_TYPE, randomNumBetweenExcluding, randomNumBetween, getRandomItem } from '../util/helpers';
+import { ENEMY_TYPE, randomNumBetweenExcluding, randomNumBetween, getRandomItem,
+    getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from '../util/helpers';
 
 export default class Factory {
     constructor(args) {
@@ -80,5 +81,19 @@ export default class Factory {
             this.createObject(powerUp, 'powerUps');
         }
         this.setPowerUpCount(howMany);
+    }
+
+    nextSetOfComponents(currentScore, enemyCount, currentAsteroidCount, powerUpsArray) {
+        let nextAsteroidCount = getNextAsteroidsCount(currentAsteroidCount);
+        this.generateAsteroids(nextAsteroidCount)
+
+        let powerUpCount = getNextPowerUpCount(powerUpsArray, nextAsteroidCount);
+        this.generatePowerUp(powerUpCount)
+
+        let enemyGoal = enemyCount + 1000;
+        if (currentScore >= enemyGoal) {
+            let enemyCount = getNextEnemyCount(enemyGoal);
+            this.generateEnemy(enemyCount)
+        }
     }
 }
