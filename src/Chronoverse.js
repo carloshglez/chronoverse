@@ -419,16 +419,14 @@ export class Chronoverse extends Component {
 		}
 	}
 
-	updateTopScore(game) {
+	updateTopScore() {
 		if (this.state.stats.currentScore > this.state.stats.topScoreInUse) {
-			if (game === 1) {
+			if (this.state.game.inClassicGame) {
 				localStorage['topscore'] = this.state.stats.currentScore;
-				//this.setTopScoreInUse(this.state.stats.currentScore);
 				this.setClassicTopScore(this.state.stats.currentScore);
 			}
-			if (game === 2) {
+			if (this.state.game.inSpaceRaceGame) {
 				localStorage['topscore_sp'] = this.state.stats.currentScore;
-				//this.setTopScoreInUse(this.state.stats.currentScore);
 				this.setSpaceRaceTopScore(this.state.stats.currentScore);
 			}
 		}
@@ -472,10 +470,7 @@ export class Chronoverse extends Component {
 
 	gameOver() {
 		// Replace top score
-		if(this.state.game.inClassicGame)
-			this.updateTopScore(1);
-		if(this.state.game.inSpaceRaceGame)
-			this.updateTopScore(2);
+		this.updateTopScore();
 
 		this.setGameState('over');
 	}
