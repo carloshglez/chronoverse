@@ -172,11 +172,11 @@ export default class Ship {
     }*/
     this.accelerate(1);
 
-    if((state.keys.right) || state.currentMotionControl > (state.lastMotionControl + 0.1)) {
+    if((state.keys.right)) {
       //DOWN
       this.velocity.y += this.speed;
     }
-    if((state.keys.left) || state.currentMotionControl < (state.lastMotionControl - 0.1)) {
+    if((state.keys.left)) {
       //UP
       this.velocity.y -= this.speed;
     }

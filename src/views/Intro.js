@@ -2,8 +2,6 @@ import React from 'react';
 import '../styles/style.css';
 import '../styles/intro.css';
 
-import MdStars from 'react-icons/lib/md/stars'
-
 export default class Intro extends React.Component {
 	render() {
 
