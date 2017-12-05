@@ -79,3 +79,21 @@
 	bottom: 5%;
 	right: 15%;
 }
+.btnLeft_sp {
+	bottom: 5%;
+	left: 5%;
+}
+
+.btnRight_sp {
+	bottom: 5%;
+	left: 15%;
+}
+.btnShoot_sp {
+	bottom: 5%;
+	left: 55%;
+}
+.btnShield_sp {
+	bottom: 5%;
+	right: 55%;
+}
+

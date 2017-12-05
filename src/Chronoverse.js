@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 
 import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
-import ControlPanel from './views/ControlPanel';
-import ControlPanel_sp from './views/ControlPanel_sp';
 import EndGame from './views/EndGame';
+
+import ControlPanel from './views/panels/ControlPanel';
+import ScorePanel from './views/panels/ScorePanel';
+import ButtonsPanelClassic from './views/panels/ButtonsPanelClassic';
+import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
+
 import FactoryClassic from './classic/Factory';
 import FactorySpaceRace from './spaceRace/Factory';
 
@@ -364,7 +368,7 @@ export class Chronoverse extends Component {
 		if (this.isInGame()) {
 			if (this.state.stats.currentShield > 1) {
 				this.setCurrentShield(this.state.stats.currentShield - 0.1);
-				this.setShieldUsage(this.state.stats.currentShield + 0.1);
+				this.setShieldUsage(this.state.stats.shieldUsage + 0.1);
 				return true;
 			}
 		}
@@ -491,17 +495,27 @@ export class Chronoverse extends Component {
 				startClassicGame={this.startClassicGame.bind(this)}
 				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}/>
 		}
-		if (this.state.game.inClassicGame) {
+		if (this.isInGame()) {
+			let buttonsPanel;
+			let scorePanel = <ScorePanel
+				topScore={this.state.stats.topScoreClassic}
+				currentScore={this.state.stats.currentScore}
+				currentShield={this.state.stats.currentShield}
+				timeValue={this.state.timeValue}/>
+
+			if (this.state.game.inClassicGame) {
+				buttonsPanel = <ButtonsPanelClassic
+					customEvents={this.getTouchEvents()}
+					currentShield={this.state.stats.currentShield}/>
+			}
+			if (this.state.game.inSpaceRaceGame) {
+				buttonsPanel = <ButtonsPanelSpaceRace
+					customEvents={this.getTouchEvents()}
+					currentShield={this.state.stats.currentShield}/>
+			}
 			controlPanel = <ControlPanel
-				stats={this.state.stats}
-				timeValue={this.state.timeValue}
-				customEvents={this.getTouchEvents()}/>
-		}
-		if (this.state.game.inSpaceRaceGame) {
-			controlPanel = <ControlPanel_sp
-				stats={this.state.stats}
-				timeValue={this.state.timeValue}
-				customEvents={this.getTouchEvents()}/>
+				scorePanel={scorePanel}
+				buttonsPanel={buttonsPanel}/>
 		}
 		if (this.state.game.over) {
 			endGame = <EndGame
@@ -519,8 +533,8 @@ export class Chronoverse extends Component {
 				*/}
 				{introGame}
 				{selectGame}
-				{endGame}
 				{controlPanel}
+				{endGame}
 
 				<canvas ref='canvas'
 					width={this.state.screen.width * this.state.screen.ratio}
