@@ -83,9 +83,9 @@ export function doExplode(radius, position, create, color = 'White') {
  *
  */
 export function getRandomItem(array) {
-    var obj_keys = Object.keys(array);
-    var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)];
-    return array[ran_key];
+	var obj_keys = Object.keys(array);
+	var ran_key = obj_keys[Math.floor(Math.random() * obj_keys.length)];
+	return array[ran_key];
 };
 
 export function getNextAsteroidsCount(currentAsteroidCount) {
@@ -94,4 +94,16 @@ export function getNextAsteroidsCount(currentAsteroidCount) {
 
 export function getNextPowerUpCount(powerUpArray, asteroidCount) {
 	return ((asteroidCount % 3 === 0) ? 2 : 0) - powerUpArray.length;
+}
+
+export function isPassive() {
+	var supportsPassiveOption = false;
+	try {
+		addEventListener("test", null, Object.defineProperty({}, 'passive', {
+			get: function () {
+				supportsPassiveOption = true;
+			}
+		}));
+	} catch (e) { }
+	return supportsPassiveOption;
 }

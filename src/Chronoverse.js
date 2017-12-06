@@ -494,6 +494,7 @@ export class Chronoverse extends Component {
 		if (this.state.game.select) {
 			selectGame = <SelectGame
 				stats={this.state.stats}
+				setIntro={this.setIntro.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
 				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}/>
 		}
