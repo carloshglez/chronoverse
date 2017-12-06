@@ -95,7 +95,3 @@ export function getNextAsteroidsCount(currentAsteroidCount) {
 export function getNextPowerUpCount(powerUpArray, asteroidCount) {
 	return ((asteroidCount % 3 === 0) ? 2 : 0) - powerUpArray.length;
 }
-
-export function getNextEnemyCount(enemyGoal) {
-	return (Math.floor((enemyGoal) / 1000));
-}

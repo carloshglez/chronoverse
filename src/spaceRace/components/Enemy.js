@@ -1,5 +1,6 @@
 import Particle from './Particle';
 import Bullet from './Bullet';
+import { ENEMY_TYPE } from '../../util/constants';
 import { randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class Enemy {
@@ -94,8 +95,8 @@ export default class Enemy {
 
   render(state){
     // Move
-    if(this.type === 1) this.moveAsExplorer();
-    if(this.type === 2) this.moveAsHunter(state);
+    if(this.type === ENEMY_TYPE.EXPLORER) this.moveAsExplorer();
+    if(this.type === ENEMY_TYPE.HUNTER) this.moveAsHunter(state);
 
     // Rotation
     this.rotate();

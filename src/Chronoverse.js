@@ -456,6 +456,7 @@ export class Chronoverse extends Component {
 		this.setGameState(GAME_STATE.CLASSIC);
 
 		this.asteroids = [];
+		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
 		this.setTopScoreInUse(this.state.stats.topScoreClassic);
@@ -466,6 +467,7 @@ export class Chronoverse extends Component {
 		this.setGameState(GAME_STATE.SPACE_RACE);
 
 		this.asteroids = [];
+		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
 		this.setTopScoreInUse(this.state.stats.topScoreSpaceRace);

@@ -5,7 +5,7 @@ import Enemy from './components/Enemy';
 import { PW } from '../util/powerUpHelper';
 import { ENEMY_TYPE } from '../util/constants';
 import { randomNumBetweenExcluding, randomNumBetween, getRandomItem,
-    getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from '../util/helpers';
+    getNextAsteroidsCount, getNextPowerUpCount } from '../util/helpers';
 
 export default class Factory {
     constructor(args) {
@@ -93,7 +93,7 @@ export default class Factory {
 
         let enemyGoal = enemyCount + 1000;
         if (currentScore >= enemyGoal) {
-            let enemyCount = getNextEnemyCount(enemyGoal);
+            let enemyCount = (Math.floor((enemyGoal) / 1000));
             this.generateEnemy(enemyCount)
         }
     }
