@@ -96,7 +96,7 @@ export class Chronoverse extends Component {
 		this.setState({ asteroidCount: count });
 	}
 	setPowerUpCount(count) {
-		this.setState({ powerUp: count });
+		this.setState({ powerUpCount: count });
 	}
 	setEnemyCount(count) {
 		this.setState({ enemyCount: count });
@@ -445,7 +445,10 @@ export class Chronoverse extends Component {
 	}
 
 	setGameOptions() {
-		this.setGameState(GAME_STATE.SELECT);
+		/*v1.2.0: Enable select game*/
+		//this.setGameState(GAME_STATE.SELECT);
+		this.startClassicGame();
+		/* - - - */
 
 		this.resetEventKeys();
 		this.resetGameCounters();
