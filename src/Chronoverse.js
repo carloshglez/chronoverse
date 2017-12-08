@@ -39,6 +39,8 @@ export class Chronoverse extends Component {
 			enemyCount: 0,
 			timeValue: 0,
 			stats: {
+				asteroidsDestroyed: 0,
+				enemiesDestroyed: 0,
 				bulletsFired: 0,
 				bulletsHit: 0,
 				powerUpUsage: 0,
@@ -140,6 +142,8 @@ export class Chronoverse extends Component {
 	resetStats() {
 		this.setState({
 			stats: {
+				asteroidsDestroyed: 0,
+				enemiesDestroyed: 0,
 				bulletsFired: 0,
 				bulletsHit: 0,
 				powerUpUsage: 0,
@@ -150,6 +154,16 @@ export class Chronoverse extends Component {
 				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
 				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
 			}
+		});
+	}
+	setAsteroidsDestroyed(value) {
+		this.setState({
+			stats: { ...this.state.stats, asteroidsDestroyed: value }
+		});
+	}
+	setEnemiesDestroyed(value) {
+		this.setState({
+			stats: { ...this.state.stats, enemiesDestroyed: value }
 		});
 	}
 	setBulletsFired(value) {
@@ -305,6 +319,8 @@ export class Chronoverse extends Component {
 		let index = 0;
 		for (let item of items) {
 			if (item.delete) {
+				if (group === 'asteroids') this.addAsteroidsDestroyed();
+				if (group === 'enemies') this.addEnemiesDestroyed();
 				this[group].splice(index, 1);
 			} else {
 				items[index].render(this.state);
@@ -409,6 +425,18 @@ export class Chronoverse extends Component {
 		} else {
 			clearInterval(this.timerID);
 			item.disableAllPowerUp();
+		}
+	}
+
+	addAsteroidsDestroyed() {
+		if (this.isInGame()) {
+			this.setAsteroidsDestroyed(this.state.stats.asteroidsDestroyed + 1);
+		}
+	}
+
+	addEnemiesDestroyed() {
+		if (this.isInGame()) {
+			this.setEnemiesDestroyed(this.state.stats.enemiesDestroyed + 1);
 		}
 	}
 

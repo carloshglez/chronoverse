@@ -4,6 +4,7 @@ import '../styles/endGame.css';
 
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import MdExitToApp from 'react-icons/lib/md/exit-to-app'
+import { evaluateResults } from '../util/awardsHelper';
 
 export default class EndGame extends React.Component {
 	render() {
@@ -20,6 +21,9 @@ export default class EndGame extends React.Component {
 		if (this.props.stats.bulletsFired > 0) {
 			hitPercentaje = (Math.floor((this.props.stats.bulletsHit*100) / this.props.stats.bulletsFired))
 		}
+
+		//Verify if an award has been won
+		evaluateResults(this.props.stats);
 
 		return (
       		<div className='endgame'>

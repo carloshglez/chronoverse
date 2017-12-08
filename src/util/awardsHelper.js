@@ -119,3 +119,36 @@ function storeAwards(id) {
         localStorage[STORAGE_AWARDS] = wonAwards;
     }
 }
+
+export function evaluateResults(stats) {
+    if (!isAwardIdInArray(0, wonAwards)) winAward(0);
+
+    if (stats.currentScore >= 500) winAward(1);
+    if (stats.currentScore >= 1000) winAward(2);
+    if (stats.currentScore >= 2000) winAward(3);
+    if (stats.currentScore >= 3000) winAward(4);
+
+    if (stats.asteroidsDestroyed >= 10) winAward(5);
+    if (stats.asteroidsDestroyed >= 50) winAward(6);
+    if (stats.asteroidsDestroyed >= 100) winAward(7);
+
+    if (stats.enemiesDestroyed >= 3) winAward(8);
+    if (stats.enemiesDestroyed >= 5) winAward(9);
+
+    if (stats.bulletsFired >= 10) {
+        let hitPercentaje = (Math.floor((stats.bulletsHit*100) / stats.bulletsFired))
+        if (hitPercentaje >= 50) winAward(10);
+        if (hitPercentaje >= 80) winAward(11);
+        if (hitPercentaje >= 100) winAward(12);
+    }
+
+    if (stats.bulletsFired >= 100) winAward(13);
+    if (stats.bulletsFired >= 300) winAward(14);
+    if (stats.bulletsFired >= 500) winAward(15);
+
+    if (stats.shieldUsage >= 99) winAward(16);
+    if (stats.shieldUsage >= 50) winAward(17);
+
+    if (stats.powerUpUsage >= 3) winAward(18);
+    if (stats.powerUpUsage >= 5) winAward(19);
+}
