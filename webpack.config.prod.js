@@ -42,8 +42,7 @@ module.exports = {
 					limit: 10000,
 					outputPath: '/fonts/'
 				}
-			},
-			{ test: /\.(jpe?g|png|gif)$/i, loader: 'file-loader?name=[name].[ext]' }
+			}
 		]
 	}
 };

@@ -11,7 +11,7 @@ export default class About extends React.Component {
             <div>
                 <div className='intro'>
                     <h2>Chronoverse</h2>
-                    <img className='aboutImg' src={require('../res/icon.png')}/>
+                    <img className='aboutImg' src={'../www/webapp/icon.png'}/>
                     <br/>Version {this.props.appversion}<br/>
                     <p>carloshglez &copy;2018</p>
                     <br/>
