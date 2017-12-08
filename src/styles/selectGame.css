@@ -9,7 +9,7 @@
     text-align: center;
     user-select: none;
 }
-#wrapper {
+.wrapper-sg {
     position: absolute;
     top: 90%;
     left: 52%;
@@ -23,7 +23,7 @@
     user-select: none;
     overflow: hidden;
 }
-#scroller {
+.scroller-sg {
 	position: absolute;
     z-index: 1;
 	width: 101%;
@@ -44,14 +44,14 @@
 	-o-text-size-adjust: none;
     text-size-adjust: none;
 }
-#scroller ul {
+.scroller-sg ul {
     height: 100%;
     list-style: none;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-#scroller li {
+.scroller-sg li {
 	width: 30%;
     height: 100%;
     padding-right: 10%;

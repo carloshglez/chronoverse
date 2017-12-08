@@ -53,8 +53,8 @@ export default class SelectGame extends React.Component {
 				<div className='selectgame'>
 					<h3>Select a Game:</h3>
 				</div>
-				<div id='wrapper' ref='wrapper'>
-					<div id='scroller'>
+				<div id='wrapper' className='wrapper-sg' ref='wrapper'>
+					<div id='scroller' className='scroller-sg'>
 						<ul>
 							<li>
 								<button
