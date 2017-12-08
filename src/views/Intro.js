@@ -23,7 +23,7 @@ export default class Intro extends React.Component {
                 </div>
                 <ul className='gameAwards'>
                     <li>
-                        <FaTrophy onClick={this.props.displayAbout}/>
+                        <FaTrophy onClick={this.props.displayAwards}/>
                     </li>
                     <li>
                         <MdInfo onClick={this.props.displayAbout}/>

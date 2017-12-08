@@ -55,7 +55,8 @@ export class Chronoverse extends Component {
 				inClassicGame: false,
 				inSpaceRaceGame: false,
 				over: false,
-				about: false
+				about: false,
+				awards: false
 			}
 		}
 		this.ship = [];
@@ -116,7 +117,8 @@ export class Chronoverse extends Component {
 				inClassicGame: (gameState === GAME_STATE.CLASSIC) ? true : false,
 				inSpaceRaceGame: (gameState === GAME_STATE.SPACE_RACE) ? true : false,
 				over: (gameState === GAME_STATE.OVER) ? true : false,
-				about: (gameState === GAME_STATE.ABOUT) ? true : false
+				about: (gameState === GAME_STATE.ABOUT) ? true : false,
+				awards: (gameState === GAME_STATE.AWARDS) ? true : false
 			}
 		});
 	}
@@ -493,17 +495,23 @@ export class Chronoverse extends Component {
 		this.setGameState(GAME_STATE.ABOUT);
 	}
 
+	displayAwards() {
+		this.setGameState(GAME_STATE.AWARDS);
+	}
+
 	render() {
 		let introGame;
 		let selectGame;
 		let controlPanel;
 		let endGame;
 		let about;
+		let awards;
 
 		if (this.state.game.intro) {
 			introGame = <Intro
 				appversion={this.appVersion}
 				displayAbout={this.displayAbout.bind(this)}
+				displayAwards={this.displayAwards.bind(this)}
 				gameOptions={this.setGameOptions.bind(this)}
 				topScore={this.state.stats.topScoreClassic}/>
 		}
@@ -547,6 +555,10 @@ export class Chronoverse extends Component {
 				setIntro={this.setIntro.bind(this)}
 				appversion={this.appVersion}/>
 		}
+		if(this.state.game.awards) {
+			awards = <Awards
+				setIntro={this.setIntro.bind(this)}/>
+		}
 
 		return (
 			<div>
@@ -554,14 +566,14 @@ export class Chronoverse extends Component {
 					<div className='debugLabel'>
 					{JSON.stringify(this.factoryClassic)}
 					</div>
-					<Awards
-					setIntro={this.setIntro.bind(this)}/>
+
 				*/}
 				{introGame}
 				{selectGame}
 				{controlPanel}
 				{endGame}
 				{about}
+				{awards}
 
 				<canvas ref='canvas'
 					width={this.state.screen.width * this.state.screen.ratio}

@@ -7,7 +7,7 @@ import MdHighlightRemove from 'react-icons/lib/md/highlight-remove'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
 import { isPassive, isMobileDevice } from '../util/helpers';
-import { AWARDS } from '../util/awardsHelper';
+import { getAwardsArray, wonAwards } from '../util/awardsHelper';
 
 export default class Awards extends React.Component {
     constructor() {
@@ -37,25 +37,28 @@ export default class Awards extends React.Component {
     }
 
     render() {
-        let awardItems = AWARDS.map(function (item) {
+        let awardItems = getAwardsArray().map(function (item) {
             return (
                 <li key={item.id}>
                     <div className='icon-award'>{item.icon}</div>
-                    <div className='text-award'>{item.text}</div>
                     <div className='status-award'>{(item.won) ? <FaCheckSquareO /> : null} </div>
+                    <div className='text-award'>{item.text}</div>
                 </li>
             )
         });
 
         return (
             <div>
+                <span className='score top-score'>
+                    <FaTrophy/> {wonAwards.length} / {getAwardsArray().length}
+                </span>
                 <ul className='gameAwards'>
                     <li>
                         <MdHighlightRemove onClick={this.props.setIntro} />
                     </li>
                 </ul>
                 <div className='selectgame'>
-                    <h3> <FaTrophy /> Your Awards:</h3>
+                    <h3>Your Awards:</h3>
                 </div>
                 <div>
                     <div id='wrapper' className='wrapper-award' ref='wrapper'>
