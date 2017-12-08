@@ -4,6 +4,7 @@ import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
 import EndGame from './views/EndGame';
 import About from './views/About';
+import Awards from './views/Awards';
 
 import ControlPanel from './views/panels/ControlPanel';
 import ScorePanel from './views/panels/ScorePanel';
@@ -553,6 +554,8 @@ export class Chronoverse extends Component {
 					<div className='debugLabel'>
 					{JSON.stringify(this.factoryClassic)}
 					</div>
+					<Awards
+					setIntro={this.setIntro.bind(this)}/>
 				*/}
 				{introGame}
 				{selectGame}
