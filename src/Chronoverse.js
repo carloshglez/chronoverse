@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
 import EndGame from './views/EndGame';
+import About from './views/About';
 
 import ControlPanel from './views/panels/ControlPanel';
 import ScorePanel from './views/panels/ScorePanel';
@@ -17,6 +18,7 @@ import { KEY, GAME_STATE, STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCOR
 export class Chronoverse extends Component {
 	constructor() {
 		super();
+		this.appVersion = '1.1.0';
 		this.state = {
 			screen: {
 				width: window.innerWidth,
@@ -51,7 +53,8 @@ export class Chronoverse extends Component {
 				select: false,
 				inClassicGame: false,
 				inSpaceRaceGame: false,
-				over: false
+				over: false,
+				about: false
 			}
 		}
 		this.ship = [];
@@ -112,6 +115,7 @@ export class Chronoverse extends Component {
 				inClassicGame: (gameState === GAME_STATE.CLASSIC) ? true : false,
 				inSpaceRaceGame: (gameState === GAME_STATE.SPACE_RACE) ? true : false,
 				over: (gameState === GAME_STATE.OVER) ? true : false,
+				about: (gameState === GAME_STATE.ABOUT) ? true : false
 			}
 		});
 	}
@@ -484,14 +488,21 @@ export class Chronoverse extends Component {
 		this.setGameState(GAME_STATE.OVER);
 	}
 
+	displayAbout() {
+		this.setGameState(GAME_STATE.ABOUT);
+	}
+
 	render() {
 		let introGame;
 		let selectGame;
 		let controlPanel;
 		let endGame;
+		let about;
 
 		if (this.state.game.intro) {
 			introGame = <Intro
+				appversion={this.appVersion}
+				displayAbout={this.displayAbout.bind(this)}
 				gameOptions={this.setGameOptions.bind(this)}
 				topScore={this.state.stats.topScoreClassic}/>
 		}
@@ -530,6 +541,11 @@ export class Chronoverse extends Component {
 				retryOption={this.setGameOptions.bind(this)}
 				setIntro={this.setIntro.bind(this)}/>
 		}
+		if(this.state.game.about) {
+			about = <About
+				setIntro={this.setIntro.bind(this)}
+				appversion={this.appVersion}/>
+		}
 
 		return (
 			<div>
@@ -542,6 +558,7 @@ export class Chronoverse extends Component {
 				{selectGame}
 				{controlPanel}
 				{endGame}
+				{about}
 
 				<canvas ref='canvas'
 					width={this.state.screen.width * this.state.screen.ratio}

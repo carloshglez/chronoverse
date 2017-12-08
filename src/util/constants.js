@@ -33,5 +33,6 @@ export const GAME_STATE = {
     SELECT: 'select',
     CLASSIC: 'inClassicGame',
     SPACE_RACE: 'inSpaceRaceGame',
-    OVER: 'over'
+	OVER: 'over',
+	ABOUT: 'about'
 };
