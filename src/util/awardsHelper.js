@@ -90,7 +90,9 @@ const AWARDS = [
 
 ];
 
-export const wonAwards = (localStorage[STORAGE_AWARDS]) ? localStorage[STORAGE_AWARDS].split(",") : [];
+export const wonAwards = (localStorage[STORAGE_AWARDS])
+    ? localStorage[STORAGE_AWARDS].split(",").map(Number)
+    : [];
 
 export function getAwardsArray() {
     AWARDS.forEach((item) => {
@@ -109,8 +111,9 @@ export function winAward(id) {
 }
 
 function isAwardIdInArray(id, array) {
-    var awardId = array.find(function (awardId) { return Number(awardId) === id; });
-    return awardId;
+    var includes = array.includes(id);
+    console.log(includes);
+    return includes;
 }
 
 function storeAwards(id) {
@@ -121,6 +124,8 @@ function storeAwards(id) {
 }
 
 export function evaluateResults(stats) {
+    let wonAwardsCount = wonAwards.length;
+
     if (!isAwardIdInArray(0, wonAwards)) winAward(0);
 
     if (stats.currentScore >= 500) winAward(1);
@@ -136,7 +141,7 @@ export function evaluateResults(stats) {
     if (stats.enemiesDestroyed >= 5) winAward(9);
 
     if (stats.bulletsFired >= 10) {
-        let hitPercentaje = (Math.floor((stats.bulletsHit*100) / stats.bulletsFired))
+        let hitPercentaje = (Math.floor((stats.bulletsHit * 100) / stats.bulletsFired))
         if (hitPercentaje >= 50) winAward(10);
         if (hitPercentaje >= 80) winAward(11);
         if (hitPercentaje >= 100) winAward(12);
@@ -151,4 +156,8 @@ export function evaluateResults(stats) {
 
     if (stats.powerUpUsage >= 3) winAward(18);
     if (stats.powerUpUsage >= 5) winAward(19);
+
+    let newWonAwardsCount = wonAwards.length;
+
+    return (newWonAwardsCount > wonAwardsCount);
 }

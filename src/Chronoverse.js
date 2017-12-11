@@ -277,13 +277,15 @@ export class Chronoverse extends Component {
 	}
 
 	handleKeys(value, e) {
-		let keys = this.state.keys;
-		if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
-		if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
-		if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
-		if (e.keyCode === KEY.SHIELD || e.keyCode === KEY.S) keys.shield = value;
-		if (e.keyCode === KEY.SHOOT) keys.shoot = value;
-		this.setEventKeys(keys);
+		if (this.isInGame()) {
+			let keys = this.state.keys;
+			if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
+			if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
+			if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
+			if (e.keyCode === KEY.SHIELD || e.keyCode === KEY.S) keys.shield = value;
+			if (e.keyCode === KEY.SHOOT) keys.shoot = value;
+			this.setEventKeys(keys);
+		}
 	}
 
 	getTouchEvents() {
@@ -297,15 +299,17 @@ export class Chronoverse extends Component {
 	}
 
 	handleTouch(value, e) {
-		let keys = this.state.keys;
-		let action = e.currentTarget.id;
+		if (this.isInGame()) {
+			let keys = this.state.keys;
+			let action = e.currentTarget.id;
 
-		if (value === 'mouseDown' || value === 'touchStart') {
-			keys[action] = true;
-		} else if (value === 'mouseUp' || value === 'touchEnd') {
-			keys[action] = false;
+			if (value === 'mouseDown' || value === 'touchStart') {
+				keys[action] = true;
+			} else if (value === 'mouseUp' || value === 'touchEnd') {
+				keys[action] = false;
+			}
+			this.setEventKeys(keys);
 		}
-		this.setEventKeys(keys);
 	}
 
 	createObject(item, group) {

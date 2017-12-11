@@ -4,6 +4,7 @@ import '../styles/endGame.css';
 
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import MdExitToApp from 'react-icons/lib/md/exit-to-app'
+import FaTrophy from 'react-icons/lib/fa/trophy'
 import { evaluateResults } from '../util/awardsHelper';
 
 export default class EndGame extends React.Component {
@@ -23,7 +24,8 @@ export default class EndGame extends React.Component {
 		}
 
 		//Verify if an award has been won
-		evaluateResults(this.props.stats);
+		let newAward = evaluateResults(this.props.stats);
+		let gotAward = (newAward) ? (<div><div className='got-award'><FaTrophy/></div>¡You won an award!</div>) : null;
 
 		return (
       		<div className='endgame'>
@@ -71,6 +73,7 @@ export default class EndGame extends React.Component {
 						onClick={ this.props.setIntro }>
 						<MdExitToApp/> Exit
 					</button>
+					{gotAward}
 				</div>
             </div>
 		);
