@@ -112,7 +112,6 @@ export function winAward(id) {
 
 function isAwardIdInArray(id, array) {
     var includes = array.includes(id);
-    console.log(includes);
     return includes;
 }
 
