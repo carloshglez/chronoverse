@@ -150,11 +150,24 @@ export class Chronoverse extends Component {
 				shieldUsage: 0,
 				currentShield: 100,
 				currentScore: 0,
-				topScoreInUse: 0,
+				topScoreInUse: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,		// v1.2.0 <-- topScoreInUse: 0,
 				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
 				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
 			}
 		});
+		/*
+		this.setAsteroidsDestroyed(0);
+		this.setEnemiesDestroyed(0);
+		this.setBulletsFired(0);
+		this.setBulletsHit(0);
+		this.setPowerUpCount(0);
+		this.setShieldUsage(0);
+		this.setCurrentShield(100);
+		this.setCurrentScore(0);
+		this.setTopScoreInUse(0);
+		this.setClassicTopScore(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
+		this.setSpaceRaceTopScore(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
+		*/
 	}
 	setAsteroidsDestroyed(value) {
 		this.setState({
@@ -484,14 +497,21 @@ export class Chronoverse extends Component {
 	}
 
 	setGameOptions() {
-		/*v1.2.0: Enable select game*/
-		//this.setGameState(GAME_STATE.SELECT);
+		/* DELETE FOR NEXT VERSION */
+		this.resetEventKeys();
+		this.resetGameCounters();
+		this.resetStats();
+
 		this.startClassicGame();
 		/* - - - */
+
+		/*v1.2.0: Enable select game
+		this.setGameState(GAME_STATE.SELECT);
 
 		this.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
+		/* - - - */
 	}
 
 	startClassicGame() {
@@ -501,7 +521,8 @@ export class Chronoverse extends Component {
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		this.setTopScoreInUse(this.state.stats.topScoreClassic);
+		//v1.2.0: Enebale this...
+		//this.setTopScoreInUse(this.state.stats.topScoreClassic);
 		this.factoryClassic.generateShip();
 	}
 
@@ -557,7 +578,7 @@ export class Chronoverse extends Component {
 		if (this.isInGame()) {
 			let buttonsPanel;
 			let scorePanel = <ScorePanel
-				topScore={this.state.stats.topScoreClassic}
+				topScore={this.state.stats.topScoreInUse}
 				currentScore={this.state.stats.currentScore}
 				currentShield={this.state.stats.currentShield}
 				timeValue={this.state.timeValue}/>
@@ -596,9 +617,8 @@ export class Chronoverse extends Component {
 			<div>
 				{/*
 					<div className='debugLabel'>
-					{JSON.stringify(this.factoryClassic)}
+					{JSON.stringify(this.state.stats)}
 					</div>
-
 				*/}
 				{introGame}
 				{selectGame}
