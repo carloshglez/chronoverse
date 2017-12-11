@@ -1,6 +1,7 @@
 import Particle from './Particle';
 import Bullet from './Bullet';
-import { randomNumBetween, doExplode } from './util/helpers';
+import { ENEMY_TYPE } from '../../util/constants';
+import { randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class Enemy {
   constructor(args) {
@@ -9,7 +10,7 @@ export default class Enemy {
     this.type = args.type;
     this.position = args.position;
     this.velocity = {
-      x: randomNumBetween(-1.5, 1.5),
+      x: randomNumBetween(0.1, 1.5),
       y: randomNumBetween(-1.5, 1.5)
     };
     this.rotation = 0;
@@ -50,21 +51,25 @@ export default class Enemy {
     this.rotation += this.rotationSpeed + 80;
   }
 
-  moveAsHunter(){
+  moveAsHunter(state){
     if (Date.now() - this.lastAcc > this.accFrequency) {
       this.velocity.x -= Math.sin(-this.rotation * Math.PI / 180) * this.speed;
       this.velocity.y -= Math.cos(-this.rotation * Math.PI / 180) * this.speed;
       this.lastAcc = Date.now();
       this.accFrequency = randomNumBetween(100, 250);
     }
-    this.position.x += this.velocity.x;
+
+    let distX = this.position.x - this.ship.position.x;
+    if (distX > state.screen.width / 2) {
+      this.position.x += this.velocity.x;
+      this.velocity.x *= this.inertia;
+    }
     this.position.y += this.velocity.y;
-    this.velocity.x *= this.inertia;
     this.velocity.y *= this.inertia;
   }
 
   moveAsExplorer(){
-    this.position.x += this.velocity.x;
+    this.position.x -= this.velocity.x;
     this.position.y += this.velocity.y;
   }
 
@@ -90,8 +95,8 @@ export default class Enemy {
 
   render(state){
     // Move
-    if(this.type === 1) this.moveAsExplorer();
-    if(this.type === 2) this.moveAsHunter();
+    if(this.type === ENEMY_TYPE.EXPLORER) this.moveAsExplorer();
+    if(this.type === ENEMY_TYPE.HUNTER) this.moveAsHunter(state);
 
     // Rotation
     this.rotate();
@@ -100,8 +105,9 @@ export default class Enemy {
     this.shoot();
 
     // Screen edges
-    if(this.position.x > state.screen.width) this.position.x = 0;
-    else if(this.position.x < 0) this.position.x = state.screen.width;
+    /*if(this.position.x > state.screen.width) this.position.x = 0;
+    else */
+    if(this.position.x < 0) this.position.x = state.screen.width;
     if(this.position.y > state.screen.height) this.position.y = 0;
     else if(this.position.y < 0) this.position.y = state.screen.height;
 

@@ -1,0 +1,636 @@
+import React, { Component } from 'react';
+
+import Intro from './views/Intro';
+import SelectGame from './views/SelectGame';
+import EndGame from './views/EndGame';
+import About from './views/About';
+import Awards from './views/Awards';
+
+import ControlPanel from './views/panels/ControlPanel';
+import ScorePanel from './views/panels/ScorePanel';
+import ButtonsPanelClassic from './views/panels/ButtonsPanelClassic';
+import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
+
+import FactoryClassic from './classic/Factory';
+import FactorySpaceRace from './spaceRace/Factory';
+
+import { KEY, GAME_STATE, STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
+
+export class Chronoverse extends Component {
+	constructor() {
+		super();
+		this.appVersion = '1.1.0';
+		this.state = {
+			screen: {
+				width: window.innerWidth,
+				height: window.innerHeight,
+				ratio: window.devicePixelRatio || 1
+			},
+			context: null,
+			keys: {
+				left: 0,
+				right: 0,
+				up: 0,
+				shield: 0,
+				shoot: 0
+			},
+			asteroidCount: 0,
+			powerUpCount: 0,
+			enemyCount: 0,
+			timeValue: 0,
+			stats: {
+				asteroidsDestroyed: 0,
+				enemiesDestroyed: 0,
+				bulletsFired: 0,
+				bulletsHit: 0,
+				powerUpUsage: 0,
+				shieldUsage: 0,
+				currentShield: 100,
+				currentScore: 0,
+				topScoreInUse: 0,
+				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
+			},
+			game: {
+				intro: true,
+				select: false,
+				inClassicGame: false,
+				inSpaceRaceGame: false,
+				over: false,
+				about: false,
+				awards: false
+			}
+		}
+		this.ship = [];
+		this.asteroids = [];
+		this.bullets = [];
+		this.particles = [];
+		this.powerUps = [];
+		this.enemies = [];
+
+		let factoryInit = {
+			screenWidth: window.innerWidth,
+			screenHeight: window.innerHeight,
+			createObject: this.createObject.bind(this),
+			gameOver: this.gameOver.bind(this),
+			useShield: this.useShield.bind(this),
+			addScore: this.addScore.bind(this),
+			setAsteroidCount: this.setAsteroidCount.bind(this),
+			setEnemyCount: this.setEnemyCount.bind(this),
+			setPowerUpCount: this.setPowerUpCount.bind(this)
+		};
+
+		this.factoryClassic = new FactoryClassic(factoryInit);
+		this.factorySpaceRace = new FactorySpaceRace(factoryInit);
+	}
+
+	setScreen() {
+		this.setState({
+			screen: {
+				width: window.innerWidth,
+				height: window.innerHeight,
+				ratio: window.devicePixelRatio || 1,
+			}
+		});
+	}
+	setEventKeys(keys) {
+		this.setState({ keys: keys });
+	}
+	setContext(context) {
+		this.setState({ context: context });
+	}
+	setAsteroidCount(count) {
+		this.setState({ asteroidCount: count });
+	}
+	setPowerUpCount(count) {
+		this.setState({ powerUpCount: count });
+	}
+	setEnemyCount(count) {
+		this.setState({ enemyCount: count });
+	}
+	setTimeValue(value) {
+		this.setState({ timeValue: value });
+	}
+	setGameState(gameState) {
+		this.setState({
+			game: {
+				intro: (gameState === GAME_STATE.INTRO) ? true : false,
+				select: (gameState === GAME_STATE.SELECT) ? true : false,
+				inClassicGame: (gameState === GAME_STATE.CLASSIC) ? true : false,
+				inSpaceRaceGame: (gameState === GAME_STATE.SPACE_RACE) ? true : false,
+				over: (gameState === GAME_STATE.OVER) ? true : false,
+				about: (gameState === GAME_STATE.ABOUT) ? true : false,
+				awards: (gameState === GAME_STATE.AWARDS) ? true : false
+			}
+		});
+	}
+	resetEventKeys() {
+		this.setState({ keys: {
+			left: 0,
+			right: 0,
+			up: 0,
+			shield: 0,
+			shoot: 0
+		} });
+	}
+	resetGameCounters() {
+		this.setAsteroidCount(0);
+		this.setPowerUpCount(0);
+		this.setEnemyCount(0);
+		this.setTimeValue(0);
+	}
+	resetStats() {
+		this.setState({
+			stats: {
+				asteroidsDestroyed: 0,
+				enemiesDestroyed: 0,
+				bulletsFired: 0,
+				bulletsHit: 0,
+				powerUpUsage: 0,
+				shieldUsage: 0,
+				currentShield: 100,
+				currentScore: 0,
+				topScoreInUse: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,		// v1.2.0 <-- topScoreInUse: 0,
+				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
+			}
+		});
+		/*
+		this.setAsteroidsDestroyed(0);
+		this.setEnemiesDestroyed(0);
+		this.setBulletsFired(0);
+		this.setBulletsHit(0);
+		this.setPowerUpCount(0);
+		this.setShieldUsage(0);
+		this.setCurrentShield(100);
+		this.setCurrentScore(0);
+		this.setTopScoreInUse(0);
+		this.setClassicTopScore(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
+		this.setSpaceRaceTopScore(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
+		*/
+	}
+	setAsteroidsDestroyed(value) {
+		this.setState({
+			stats: { ...this.state.stats, asteroidsDestroyed: value }
+		});
+	}
+	setEnemiesDestroyed(value) {
+		this.setState({
+			stats: { ...this.state.stats, enemiesDestroyed: value }
+		});
+	}
+	setBulletsFired(value) {
+		this.setState({
+			stats: { ...this.state.stats, bulletsFired: value }
+		});
+	}
+	setBulletsHit(value) {
+		this.setState({
+			stats: { ...this.state.stats, bulletsHit: value }
+		});
+	}
+	setPowerUpUsage(value) {
+		this.setState({
+			stats: { ...this.state.stats, powerUpUsage: value }
+		});
+	}
+	setShieldUsage(value) {
+		this.setState({
+			stats: { ...this.state.stats, shieldUsage: value }
+		});
+	}
+	setCurrentShield(value) {
+		this.setState({
+			stats: { ...this.state.stats, currentShield: value }
+		});
+	}
+	setCurrentScore(value) {
+		this.setState({
+			stats: { ...this.state.stats, currentScore: value }
+		});
+	}
+	setTopScoreInUse(value) {
+		this.setState({
+			stats: { ...this.state.stats, topScoreInUse: value }
+		});
+	}
+	setClassicTopScore(value) {
+		this.setState({
+			stats: { ...this.state.stats, topScoreClassic: value }
+		});
+	}
+	setSpaceRaceTopScore(value) {
+		this.setState({
+			stats: { ...this.state.stats, topScoreSpaceRace: value }
+		});
+	}
+
+	componentDidMount() {
+		window.addEventListener('keyup', this.handleKeys.bind(this, false));
+		window.addEventListener('keydown', this.handleKeys.bind(this, true));
+		window.addEventListener('resize', this.handleResize.bind(this, false));
+
+		const context = this.refs.canvas.getContext('2d');
+		this.setContext(context);
+		requestAnimationFrame(() => { this.update() });
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('keyup', this.handleKeys);
+		window.removeEventListener('keydown', this.handleKeys);
+		window.removeEventListener('resize', this.handleResize);
+	}
+
+	update() {
+		const context = this.state.context;
+		const keys = this.state.keys;
+		const ship = this.ship[0];
+
+		context.save();
+		context.scale(this.state.screen.ratio, this.state.screen.ratio);
+
+		// Motion trail
+		context.fillStyle = 'Black';
+		context.globalAlpha = 0.4;
+		context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+		context.globalAlpha = 1;
+
+		// Next set of elements
+		if (this.state.game.inClassicGame && !this.asteroids.length) {
+			this.factoryClassic.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
+		}
+		if (this.state.game.inSpaceRaceGame && !this.asteroids.length) {
+			this.factorySpaceRace.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
+		}
+
+		// Check for colisions
+		this.checkCollisionsWith(this.bullets, this.asteroids);
+		this.checkCollisionsWith(this.bullets, this.enemies);
+		this.checkCollisionsWith(this.ship, this.bullets);
+		this.checkCollisionsWith(this.ship, this.asteroids);
+		this.checkCollisionsWith(this.ship, this.enemies);
+		this.checkCollisionsWith(this.ship, this.powerUps);
+
+		// Remove or render
+		this.updateObjects(this.particles, 'particles')
+		this.updateObjects(this.asteroids, 'asteroids')
+		this.updateObjects(this.bullets, 'bullets')
+		this.updateObjects(this.ship, 'ship')
+		this.updateObjects(this.powerUps, 'powerUps')
+		this.updateObjects(this.enemies, 'enemies')
+
+		context.restore();
+
+		// Next frame
+		requestAnimationFrame(() => { this.update() });
+	}
+
+	handleResize(value, e) {
+		this.setScreen()
+	}
+
+	handleKeys(value, e) {
+		if (this.isInGame()) {
+			let keys = this.state.keys;
+			if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
+			if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
+			if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
+			if (e.keyCode === KEY.SHIELD || e.keyCode === KEY.S) keys.shield = value;
+			if (e.keyCode === KEY.SHOOT) keys.shoot = value;
+			this.setEventKeys(keys);
+		}
+	}
+
+	getTouchEvents() {
+		let touchEvents = {
+			onTouchStart: this.handleTouch.bind(this, 'touchStart'),
+			onTouchEnd: this.handleTouch.bind(this, 'touchEnd'),
+			onMouseDown: this.handleTouch.bind(this, 'mouseDown'),
+			onMouseUp: this.handleTouch.bind(this, 'mouseUp')
+		};
+		return touchEvents;
+	}
+
+	handleTouch(value, e) {
+		if (this.isInGame()) {
+			let keys = this.state.keys;
+			let action = e.currentTarget.id;
+
+			if (value === 'mouseDown' || value === 'touchStart') {
+				keys[action] = true;
+			} else if (value === 'mouseUp' || value === 'touchEnd') {
+				keys[action] = false;
+			}
+			this.setEventKeys(keys);
+		}
+	}
+
+	createObject(item, group) {
+		this[group].push(item);
+		if (group === 'bullets' && item.iAm == 'shipBullet') {
+			this.addBulletsFired();
+		}
+	}
+
+	updateObjects(items, group) {
+		let index = 0;
+		for (let item of items) {
+			if (item.delete) {
+				if (group === 'asteroids') this.addAsteroidsDestroyed();
+				if (group === 'enemies') this.addEnemiesDestroyed();
+				this[group].splice(index, 1);
+			} else {
+				items[index].render(this.state);
+			}
+			index++;
+		}
+	}
+
+	checkCollisionsWith(items1, items2) {
+		var a = items1.length - 1;
+		var b;
+		for (a; a > -1; --a) {
+			b = items2.length - 1;
+			for (b; b > -1; --b) {
+				var item1 = items1[a];
+				var item2 = items2[b];
+				if (this.checkCollision(item1, item2)) {
+					this.resolveCollision(item1, item2);
+				}
+			}
+		}
+	}
+
+	checkCollision(obj1, obj2) {
+		var vx = obj1.position.x - obj2.position.x;
+		var vy = obj1.position.y - obj2.position.y;
+		var length = Math.sqrt(vx * vx + vy * vy);
+		if (length < obj1.radius + obj2.radius) {
+			return true;
+		}
+		return false;
+	}
+
+	resolveCollision(item1, item2) {
+		if (item1.iAm === 'ship') {
+			if (item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
+				if (!item1.isShieldEnabled()) {
+					item1.destroy();
+				}
+				item2.destroy();
+			}
+			if (item2.iAm === 'powerUp') {
+				this.addPowerUpUsage();
+				item2.getPowerUpType().apply(this, item1);
+				item2.destroy();
+			}
+		}
+		if (item1.iAm === 'shipBullet') {
+			if (item2.iAm === 'asteroid' || item2.iAm === 'enemy') {
+				this.addBulletsHit();
+				item1.destroy();
+				item2.destroy();
+			}
+		}
+	}
+
+	isInGame() {
+		return (this.state.game.inClassicGame || this.state.game.inSpaceRaceGame);
+	}
+
+	addScore(points) {
+		if (this.isInGame()) {
+			this.setCurrentScore(this.state.stats.currentScore + points);
+		}
+	}
+
+	useShield() {
+		if (this.isInGame()) {
+			if (this.state.stats.currentShield > 1) {
+				this.setCurrentShield(this.state.stats.currentShield - 0.1);
+				this.setShieldUsage(this.state.stats.shieldUsage + 0.1);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	increaseShield() {
+		if (this.isInGame()) {
+			this.setCurrentShield(this.state.stats.currentShield + 30);
+		}
+	}
+
+	increaseTimeCounter(time = 5) {
+		if (this.isInGame()) {
+			this.setTimeValue(this.state.timeValue + time);
+		}
+	}
+
+	startTimer(item, time = 10) {
+		this.increaseTimeCounter(time);
+		clearInterval(this.timerID);
+		this.timerID = setInterval(
+			() => this.tick(item),
+			1000
+		);
+	}
+
+	tick(item) {
+		if (this.state.timeValue > 0) {
+			this.setTimeValue(this.state.timeValue - 1);
+		} else {
+			clearInterval(this.timerID);
+			item.disableAllPowerUp();
+		}
+	}
+
+	addAsteroidsDestroyed() {
+		if (this.isInGame()) {
+			this.setAsteroidsDestroyed(this.state.stats.asteroidsDestroyed + 1);
+		}
+	}
+
+	addEnemiesDestroyed() {
+		if (this.isInGame()) {
+			this.setEnemiesDestroyed(this.state.stats.enemiesDestroyed + 1);
+		}
+	}
+
+	addBulletsFired() {
+		if (this.isInGame()) {
+			this.setBulletsFired(this.state.stats.bulletsFired + 1);
+		}
+	}
+
+	addBulletsHit() {
+		if (this.isInGame()) {
+			this.setBulletsHit(this.state.stats.bulletsHit + 1);
+		}
+	}
+
+	addPowerUpUsage() {
+		if (this.isInGame()) {
+			this.setPowerUpUsage(this.state.stats.powerUpUsage + 1);
+		}
+	}
+
+	updateTopScore() {
+		if (this.state.stats.currentScore > this.state.stats.topScoreInUse) {
+			if (this.state.game.inClassicGame) {
+				localStorage[STORAGE_CLASSIC_TOP_SCORE] = this.state.stats.currentScore;
+				this.setClassicTopScore(this.state.stats.currentScore);
+			}
+			if (this.state.game.inSpaceRaceGame) {
+				localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = this.state.stats.currentScore;
+				this.setSpaceRaceTopScore(this.state.stats.currentScore);
+			}
+		}
+	}
+
+	setIntro() {
+		this.setGameState(GAME_STATE.INTRO);
+
+		this.resetEventKeys();
+		this.resetGameCounters();
+		this.resetStats();
+	}
+
+	setGameOptions() {
+		/* DELETE FOR NEXT VERSION */
+		this.resetEventKeys();
+		this.resetGameCounters();
+		this.resetStats();
+
+		this.startClassicGame();
+		/* - - - */
+
+		/*v1.2.0: Enable select game
+		this.setGameState(GAME_STATE.SELECT);
+
+		this.resetEventKeys();
+		this.resetGameCounters();
+		this.resetStats();
+		/* - - - */
+	}
+
+	startClassicGame() {
+		this.setGameState(GAME_STATE.CLASSIC);
+
+		this.asteroids = [];
+		this.bullets = [];
+		this.powerUps = [];
+		this.enemies = [];
+		//v1.2.0: Enebale this...
+		//this.setTopScoreInUse(this.state.stats.topScoreClassic);
+		this.factoryClassic.generateShip();
+	}
+
+	startSpaceRaceGame() {
+		this.setGameState(GAME_STATE.SPACE_RACE);
+
+		this.asteroids = [];
+		this.bullets = [];
+		this.powerUps = [];
+		this.enemies = [];
+		this.setTopScoreInUse(this.state.stats.topScoreSpaceRace);
+		this.factorySpaceRace.generateShip();
+	}
+
+	gameOver() {
+		// Replace top score
+		this.updateTopScore();
+
+		this.setGameState(GAME_STATE.OVER);
+	}
+
+	displayAbout() {
+		this.setGameState(GAME_STATE.ABOUT);
+	}
+
+	displayAwards() {
+		this.setGameState(GAME_STATE.AWARDS);
+	}
+
+	render() {
+		let introGame;
+		let selectGame;
+		let controlPanel;
+		let endGame;
+		let about;
+		let awards;
+
+		if (this.state.game.intro) {
+			introGame = <Intro
+				appversion={this.appVersion}
+				displayAbout={this.displayAbout.bind(this)}
+				displayAwards={this.displayAwards.bind(this)}
+				gameOptions={this.setGameOptions.bind(this)}
+				topScore={this.state.stats.topScoreClassic}/>
+		}
+		if (this.state.game.select) {
+			selectGame = <SelectGame
+				stats={this.state.stats}
+				setIntro={this.setIntro.bind(this)}
+				startClassicGame={this.startClassicGame.bind(this)}
+				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}/>
+		}
+		if (this.isInGame()) {
+			let buttonsPanel;
+			let scorePanel = <ScorePanel
+				topScore={this.state.stats.topScoreInUse}
+				currentScore={this.state.stats.currentScore}
+				currentShield={this.state.stats.currentShield}
+				timeValue={this.state.timeValue}/>
+
+			if (this.state.game.inClassicGame) {
+				buttonsPanel = <ButtonsPanelClassic
+					customEvents={this.getTouchEvents()}
+					currentShield={this.state.stats.currentShield}/>
+			}
+			if (this.state.game.inSpaceRaceGame) {
+				buttonsPanel = <ButtonsPanelSpaceRace
+					customEvents={this.getTouchEvents()}
+					currentShield={this.state.stats.currentShield}/>
+			}
+			controlPanel = <ControlPanel
+				scorePanel={scorePanel}
+				buttonsPanel={buttonsPanel}/>
+		}
+		if (this.state.game.over) {
+			endGame = <EndGame
+				stats={this.state.stats}
+				retryOption={this.setGameOptions.bind(this)}
+				setIntro={this.setIntro.bind(this)}/>
+		}
+		if(this.state.game.about) {
+			about = <About
+				setIntro={this.setIntro.bind(this)}
+				appversion={this.appVersion}/>
+		}
+		if(this.state.game.awards) {
+			awards = <Awards
+				setIntro={this.setIntro.bind(this)}/>
+		}
+
+		return (
+			<div>
+				{/*
+					<div className='debugLabel'>
+					{JSON.stringify(this.state.stats)}
+					</div>
+				*/}
+				{introGame}
+				{selectGame}
+				{controlPanel}
+				{endGame}
+				{about}
+				{awards}
+
+				<canvas ref='canvas'
+					width={this.state.screen.width * this.state.screen.ratio}
+					height={this.state.screen.height * this.state.screen.ratio}/>
+			</div>
+		);
+	}
+}

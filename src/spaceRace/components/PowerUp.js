@@ -1,5 +1,5 @@
 import Particle from './Particle';
-import { randomNumBetween, doExplode } from './util/helpers';
+import { randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class PowerUp {
   constructor(args) {
@@ -9,7 +9,7 @@ export default class PowerUp {
     this.rotation = 0;
     this.rotationSpeed = randomNumBetween(-1, 1)
     this.velocity = {
-        x: randomNumBetween(-1.5, 1.5),
+        x: randomNumBetween(0.1, 1.5),
         y: randomNumBetween(-1.5, 1.5)
       }
     this.radius = 15;
@@ -29,7 +29,7 @@ export default class PowerUp {
 
   render(state){
     // Move
-    this.position.x += this.velocity.x;
+    this.position.x -= this.velocity.x;
     this.position.y += this.velocity.y;
 
     // Rotation

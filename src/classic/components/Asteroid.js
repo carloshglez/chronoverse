@@ -1,4 +1,4 @@
-import { asteroidVertices, randomNumBetween, doExplode } from './util/helpers';
+import { asteroidVertices, randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class Asteroid {
   constructor(args) {
