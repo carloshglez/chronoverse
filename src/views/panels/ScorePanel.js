@@ -9,7 +9,6 @@ import MdStarOutline from 'react-icons/lib/md/star-outline'
 
 export default class ScorePanel extends React.Component {
     render() {
-        let shieldValue = Math.floor((this.props.currentShield));
         return (
             <div>
                 <span className='score top-score'>
@@ -19,7 +18,7 @@ export default class ScorePanel extends React.Component {
                     <MdStarOutline /> Score: {this.props.currentScore}
                 </span>
                 <span className='score shield-score'>
-                    <FaShield /> Shield: {shieldValue}
+                    <FaShield /> Shield: {this.props.currentShield}
                 </span>
                 <span className='score time-score'>
                     <MdAccessAlarm /> Time: {this.props.timeValue} seg

@@ -13,60 +13,21 @@ import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 
 import FactoryClassic from './classic/Factory';
 import FactorySpaceRace from './spaceRace/Factory';
-
 import { KEY, GAME_STATE, STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
 
-export class Chronoverse extends Component {
-	constructor() {
-		super();
-		this.appVersion = '1.1.0';
-		this.state = {
-			screen: {
-				width: window.innerWidth,
-				height: window.innerHeight,
-				ratio: window.devicePixelRatio || 1
-			},
-			context: null,
-			keys: {
-				left: 0,
-				right: 0,
-				up: 0,
-				shield: 0,
-				shoot: 0
-			},
-			asteroidCount: 0,
-			powerUpCount: 0,
-			enemyCount: 0,
-			timeValue: 0,
-			stats: {
-				asteroidsDestroyed: 0,
-				enemiesDestroyed: 0,
-				bulletsFired: 0,
-				bulletsHit: 0,
-				powerUpUsage: 0,
-				shieldUsage: 0,
-				currentShield: 100,
-				currentScore: 0,
-				topScoreInUse: 0,
-				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
-				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
-			},
-			game: {
-				intro: true,
-				select: false,
-				inClassicGame: false,
-				inSpaceRaceGame: false,
-				over: false,
-				about: false,
-				awards: false
-			}
-		}
+export default class Chronoverse extends Component {
+	constructor(props) {
+		super(props);
+		this.actions = props.actions;
+
+		this.appVersion = '1.2.0';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
 		this.particles = [];
 		this.powerUps = [];
 		this.enemies = [];
+		this.lastShield = 0;
 
 		let factoryInit = {
 			screenWidth: window.innerWidth,
@@ -75,154 +36,16 @@ export class Chronoverse extends Component {
 			gameOver: this.gameOver.bind(this),
 			useShield: this.useShield.bind(this),
 			addScore: this.addScore.bind(this),
-			setAsteroidCount: this.setAsteroidCount.bind(this),
-			setEnemyCount: this.setEnemyCount.bind(this),
-			setPowerUpCount: this.setPowerUpCount.bind(this)
+			setAsteroidCount: this.actions.setAsteroidCount.bind(this),
+			setEnemyCount: this.actions.setEnemyCount.bind(this),
+			setPowerUpCount: this.actions.setPowerUpCount.bind(this)
 		};
-
 		this.factoryClassic = new FactoryClassic(factoryInit);
 		this.factorySpaceRace = new FactorySpaceRace(factoryInit);
 	}
 
-	setScreen() {
-		this.setState({
-			screen: {
-				width: window.innerWidth,
-				height: window.innerHeight,
-				ratio: window.devicePixelRatio || 1,
-			}
-		});
-	}
-	setEventKeys(keys) {
-		this.setState({ keys: keys });
-	}
-	setContext(context) {
-		this.setState({ context: context });
-	}
-	setAsteroidCount(count) {
-		this.setState({ asteroidCount: count });
-	}
-	setPowerUpCount(count) {
-		this.setState({ powerUpCount: count });
-	}
-	setEnemyCount(count) {
-		this.setState({ enemyCount: count });
-	}
-	setTimeValue(value) {
-		this.setState({ timeValue: value });
-	}
-	setGameState(gameState) {
-		this.setState({
-			game: {
-				intro: (gameState === GAME_STATE.INTRO) ? true : false,
-				select: (gameState === GAME_STATE.SELECT) ? true : false,
-				inClassicGame: (gameState === GAME_STATE.CLASSIC) ? true : false,
-				inSpaceRaceGame: (gameState === GAME_STATE.SPACE_RACE) ? true : false,
-				over: (gameState === GAME_STATE.OVER) ? true : false,
-				about: (gameState === GAME_STATE.ABOUT) ? true : false,
-				awards: (gameState === GAME_STATE.AWARDS) ? true : false
-			}
-		});
-	}
-	resetEventKeys() {
-		this.setState({ keys: {
-			left: 0,
-			right: 0,
-			up: 0,
-			shield: 0,
-			shoot: 0
-		} });
-	}
-	resetGameCounters() {
-		this.setAsteroidCount(0);
-		this.setPowerUpCount(0);
-		this.setEnemyCount(0);
-		this.setTimeValue(0);
-	}
-	resetStats() {
-		this.setState({
-			stats: {
-				asteroidsDestroyed: 0,
-				enemiesDestroyed: 0,
-				bulletsFired: 0,
-				bulletsHit: 0,
-				powerUpUsage: 0,
-				shieldUsage: 0,
-				currentShield: 100,
-				currentScore: 0,
-				topScoreInUse: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,		// v1.2.0 <-- topScoreInUse: 0,
-				topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
-				topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
-			}
-		});
-		/*
-		this.setAsteroidsDestroyed(0);
-		this.setEnemiesDestroyed(0);
-		this.setBulletsFired(0);
-		this.setBulletsHit(0);
-		this.setPowerUpCount(0);
-		this.setShieldUsage(0);
-		this.setCurrentShield(100);
-		this.setCurrentScore(0);
-		this.setTopScoreInUse(0);
-		this.setClassicTopScore(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
-		this.setSpaceRaceTopScore(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
-		*/
-	}
-	setAsteroidsDestroyed(value) {
-		this.setState({
-			stats: { ...this.state.stats, asteroidsDestroyed: value }
-		});
-	}
-	setEnemiesDestroyed(value) {
-		this.setState({
-			stats: { ...this.state.stats, enemiesDestroyed: value }
-		});
-	}
-	setBulletsFired(value) {
-		this.setState({
-			stats: { ...this.state.stats, bulletsFired: value }
-		});
-	}
-	setBulletsHit(value) {
-		this.setState({
-			stats: { ...this.state.stats, bulletsHit: value }
-		});
-	}
-	setPowerUpUsage(value) {
-		this.setState({
-			stats: { ...this.state.stats, powerUpUsage: value }
-		});
-	}
-	setShieldUsage(value) {
-		this.setState({
-			stats: { ...this.state.stats, shieldUsage: value }
-		});
-	}
-	setCurrentShield(value) {
-		this.setState({
-			stats: { ...this.state.stats, currentShield: value }
-		});
-	}
-	setCurrentScore(value) {
-		this.setState({
-			stats: { ...this.state.stats, currentScore: value }
-		});
-	}
-	setTopScoreInUse(value) {
-		this.setState({
-			stats: { ...this.state.stats, topScoreInUse: value }
-		});
-	}
-	setClassicTopScore(value) {
-		this.setState({
-			stats: { ...this.state.stats, topScoreClassic: value }
-		});
-	}
-	setSpaceRaceTopScore(value) {
-		this.setState({
-			stats: { ...this.state.stats, topScoreSpaceRace: value }
-		});
+	getState() {
+		return this.props.state;
 	}
 
 	componentDidMount() {
@@ -231,7 +54,7 @@ export class Chronoverse extends Component {
 		window.addEventListener('resize', this.handleResize.bind(this, false));
 
 		const context = this.refs.canvas.getContext('2d');
-		this.setContext(context);
+		this.actions.setContext(context);
 		requestAnimationFrame(() => { this.update() });
 	}
 
@@ -242,25 +65,25 @@ export class Chronoverse extends Component {
 	}
 
 	update() {
-		const context = this.state.context;
-		const keys = this.state.keys;
+		const context = this.getState().context;
+		const keys = this.getState().keys;
 		const ship = this.ship[0];
 
 		context.save();
-		context.scale(this.state.screen.ratio, this.state.screen.ratio);
+		context.scale(this.getState().screen.ratio, this.getState().screen.ratio);
 
 		// Motion trail
 		context.fillStyle = 'Black';
 		context.globalAlpha = 0.4;
-		context.fillRect(0, 0, this.state.screen.width, this.state.screen.height);
+		context.fillRect(0, 0, this.getState().screen.width, this.getState().screen.height);
 		context.globalAlpha = 1;
 
 		// Next set of elements
-		if (this.state.game.inClassicGame && !this.asteroids.length) {
-			this.factoryClassic.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
+		if (this.getState().game.inClassicGame && !this.asteroids.length) {
+			this.factoryClassic.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
 		}
-		if (this.state.game.inSpaceRaceGame && !this.asteroids.length) {
-			this.factorySpaceRace.nextSetOfComponents(this.state.stats.currentScore, this.state.enemyCount, this.state.asteroidCount, this.powerUps);
+		if (this.getState().game.inSpaceRaceGame && !this.asteroids.length) {
+			this.factorySpaceRace.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
 		}
 
 		// Check for colisions
@@ -286,18 +109,24 @@ export class Chronoverse extends Component {
 	}
 
 	handleResize(value, e) {
-		this.setScreen()
+		this.actions.setScreen(
+			{
+				width: window.innerWidth,
+				height: window.innerHeight,
+				ratio: window.devicePixelRatio || 1,
+			}
+		);
 	}
 
 	handleKeys(value, e) {
 		if (this.isInGame()) {
-			let keys = this.state.keys;
+			let keys = this.getState().keys;
 			if (e.keyCode === KEY.LEFT || e.keyCode === KEY.A) keys.left = value;
 			if (e.keyCode === KEY.RIGHT || e.keyCode === KEY.D) keys.right = value;
 			if (e.keyCode === KEY.UP || e.keyCode === KEY.W) keys.up = value;
 			if (e.keyCode === KEY.SHIELD || e.keyCode === KEY.S) keys.shield = value;
 			if (e.keyCode === KEY.SHOOT) keys.shoot = value;
-			this.setEventKeys(keys);
+			this.actions.setEventKeys(keys);
 		}
 	}
 
@@ -313,7 +142,7 @@ export class Chronoverse extends Component {
 
 	handleTouch(value, e) {
 		if (this.isInGame()) {
-			let keys = this.state.keys;
+			let keys = this.getState().keys;
 			let action = e.currentTarget.id;
 
 			if (value === 'mouseDown' || value === 'touchStart') {
@@ -321,7 +150,7 @@ export class Chronoverse extends Component {
 			} else if (value === 'mouseUp' || value === 'touchEnd') {
 				keys[action] = false;
 			}
-			this.setEventKeys(keys);
+			this.actions.setEventKeys(keys);
 		}
 	}
 
@@ -340,7 +169,7 @@ export class Chronoverse extends Component {
 				if (group === 'enemies') this.addEnemiesDestroyed();
 				this[group].splice(index, 1);
 			} else {
-				items[index].render(this.state);
+				items[index].render(this.getState());
 			}
 			index++;
 		}
@@ -395,20 +224,24 @@ export class Chronoverse extends Component {
 	}
 
 	isInGame() {
-		return (this.state.game.inClassicGame || this.state.game.inSpaceRaceGame);
+		return (this.getState().game.inClassicGame || this.getState().game.inSpaceRaceGame);
 	}
 
 	addScore(points) {
 		if (this.isInGame()) {
-			this.setCurrentScore(this.state.stats.currentScore + points);
+			this.actions.setCurrentScore(this.getState().stats.currentScore + points);
 		}
 	}
 
 	useShield() {
 		if (this.isInGame()) {
-			if (this.state.stats.currentShield > 1) {
-				this.setCurrentShield(this.state.stats.currentShield - 0.1);
-				this.setShieldUsage(this.state.stats.shieldUsage + 0.1);
+			if (this.getState().stats.currentShield > 0) {
+				let shieldFrecuency = 150;
+				if(Date.now() - this.lastShield > shieldFrecuency){
+					this.actions.setCurrentShield(this.getState().stats.currentShield - 1);
+					this.actions.setShieldUsage(this.getState().stats.shieldUsage + 1);
+					this.lastShield = Date.now();
+				}
 				return true;
 			}
 		}
@@ -417,13 +250,13 @@ export class Chronoverse extends Component {
 
 	increaseShield() {
 		if (this.isInGame()) {
-			this.setCurrentShield(this.state.stats.currentShield + 30);
+			this.actions.setCurrentShield(this.getState().stats.currentShield + 30);
 		}
 	}
 
 	increaseTimeCounter(time = 5) {
 		if (this.isInGame()) {
-			this.setTimeValue(this.state.timeValue + time);
+			this.actions.setTimeValue(this.getState().timeValue + time);
 		}
 	}
 
@@ -437,8 +270,8 @@ export class Chronoverse extends Component {
 	}
 
 	tick(item) {
-		if (this.state.timeValue > 0) {
-			this.setTimeValue(this.state.timeValue - 1);
+		if (this.getState().timeValue > 0) {
+			this.actions.setTimeValue(this.getState().timeValue - 1);
 		} else {
 			clearInterval(this.timerID);
 			item.disableAllPowerUp();
@@ -447,58 +280,78 @@ export class Chronoverse extends Component {
 
 	addAsteroidsDestroyed() {
 		if (this.isInGame()) {
-			this.setAsteroidsDestroyed(this.state.stats.asteroidsDestroyed + 1);
+			this.actions.setAsteroidsDestroyed(this.getState().stats.asteroidsDestroyed + 1);
 		}
 	}
 
 	addEnemiesDestroyed() {
 		if (this.isInGame()) {
-			this.setEnemiesDestroyed(this.state.stats.enemiesDestroyed + 1);
+			this.actions.setEnemiesDestroyed(this.getState().stats.enemiesDestroyed + 1);
 		}
 	}
 
 	addBulletsFired() {
 		if (this.isInGame()) {
-			this.setBulletsFired(this.state.stats.bulletsFired + 1);
+			this.actions.setBulletsFired(this.getState().stats.bulletsFired + 1);
 		}
 	}
 
 	addBulletsHit() {
 		if (this.isInGame()) {
-			this.setBulletsHit(this.state.stats.bulletsHit + 1);
+			this.actions.setBulletsHit(this.getState().stats.bulletsHit + 1);
 		}
 	}
 
 	addPowerUpUsage() {
 		if (this.isInGame()) {
-			this.setPowerUpUsage(this.state.stats.powerUpUsage + 1);
+			this.actions.setPowerUpUsage(this.getState().stats.powerUpUsage + 1);
 		}
 	}
 
 	updateTopScore() {
-		if (this.state.stats.currentScore > this.state.stats.topScoreInUse) {
-			if (this.state.game.inClassicGame) {
-				localStorage[STORAGE_CLASSIC_TOP_SCORE] = this.state.stats.currentScore;
-				this.setClassicTopScore(this.state.stats.currentScore);
+		if (this.getState().stats.currentScore > this.getState().stats.topScoreInUse) {
+			if (this.getState().game.inClassicGame) {
+				localStorage[STORAGE_CLASSIC_TOP_SCORE] = this.getState().stats.currentScore;
+				this.actions.setTopScoreClassic(this.getState().stats.currentScore);
 			}
-			if (this.state.game.inSpaceRaceGame) {
-				localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = this.state.stats.currentScore;
-				this.setSpaceRaceTopScore(this.state.stats.currentScore);
+			if (this.getState().game.inSpaceRaceGame) {
+				localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = this.getState().stats.currentScore;
+				this.actions.setTopScoreSpaceRace(this.getState().stats.currentScore);
 			}
 		}
 	}
 
-	setIntro() {
-		this.setGameState(GAME_STATE.INTRO);
+	resetGameCounters() {
+		this.actions.setAsteroidCount(0);
+		this.actions.setPowerUpCount(0);
+		this.actions.setEnemyCount(0);
+		this.actions.setTimeValue(0);
+	}
+	resetStats() {
+		this.actions.setAsteroidsDestroyed(0);
+		this.actions.setEnemiesDestroyed(0);
+		this.actions.setBulletsFired(0);
+		this.actions.setBulletsHit(0);
+		this.actions.setPowerUpUsage(0);
+		this.actions.setShieldUsage(0);
+		this.actions.setCurrentShield(100);
+		this.actions.setCurrentScore(0);
+		this.actions.setTopScoreInUse(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);   		// v1.2.0 <-- topScoreInUse: 0,
+		this.actions.setTopScoreClassic(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
+		this.actions.setTopScoreSpaceRace(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
+	}
 
-		this.resetEventKeys();
+	setIntro() {
+		this.actions.setGameState(GAME_STATE.INTRO);
+
+		this.actions.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
 	}
 
 	setGameOptions() {
 		/* DELETE FOR NEXT VERSION */
-		this.resetEventKeys();
+		this.actions.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
 
@@ -506,34 +359,34 @@ export class Chronoverse extends Component {
 		/* - - - */
 
 		/*v1.2.0: Enable select game
-		this.setGameState(GAME_STATE.SELECT);
+		this.actions.setGameState(GAME_STATE.SELECT);
 
-		this.resetEventKeys();
+		this.actions.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
 		/* - - - */
 	}
 
 	startClassicGame() {
-		this.setGameState(GAME_STATE.CLASSIC);
+		this.actions.setGameState(GAME_STATE.CLASSIC);
 
 		this.asteroids = [];
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		//v1.2.0: Enebale this...
-		//this.setTopScoreInUse(this.state.stats.topScoreClassic);
+		//v1.2.0: Enable this...
+		//this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic;
 		this.factoryClassic.generateShip();
 	}
 
 	startSpaceRaceGame() {
-		this.setGameState(GAME_STATE.SPACE_RACE);
+		this.actions.setGameState(GAME_STATE.SPACE_RACE);
 
 		this.asteroids = [];
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		this.setTopScoreInUse(this.state.stats.topScoreSpaceRace);
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace());
 		this.factorySpaceRace.generateShip();
 	}
 
@@ -541,15 +394,15 @@ export class Chronoverse extends Component {
 		// Replace top score
 		this.updateTopScore();
 
-		this.setGameState(GAME_STATE.OVER);
+		this.actions.setGameState(GAME_STATE.OVER);
 	}
 
 	displayAbout() {
-		this.setGameState(GAME_STATE.ABOUT);
+		this.actions.setGameState(GAME_STATE.ABOUT);
 	}
 
 	displayAwards() {
-		this.setGameState(GAME_STATE.AWARDS);
+		this.actions.setGameState(GAME_STATE.AWARDS);
 	}
 
 	render() {
@@ -560,64 +413,64 @@ export class Chronoverse extends Component {
 		let about;
 		let awards;
 
-		if (this.state.game.intro) {
+		if (this.getState().game.intro) {
 			introGame = <Intro
 				appversion={this.appVersion}
 				displayAbout={this.displayAbout.bind(this)}
 				displayAwards={this.displayAwards.bind(this)}
 				gameOptions={this.setGameOptions.bind(this)}
-				topScore={this.state.stats.topScoreClassic}/>
+				topScore={this.getState().stats.topScoreClassic} />
 		}
-		if (this.state.game.select) {
+		if (this.getState().game.select) {
 			selectGame = <SelectGame
-				stats={this.state.stats}
+				stats={this.getState().stats}
 				setIntro={this.setIntro.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
-				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}/>
+				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)} />
 		}
 		if (this.isInGame()) {
 			let buttonsPanel;
 			let scorePanel = <ScorePanel
-				topScore={this.state.stats.topScoreInUse}
-				currentScore={this.state.stats.currentScore}
-				currentShield={this.state.stats.currentShield}
-				timeValue={this.state.timeValue}/>
+				topScore={this.getState().stats.topScoreClassic}
+				currentScore={this.getState().stats.currentScore}
+				currentShield={this.getState().stats.currentShield}
+				timeValue={this.getState().timeValue} />
 
-			if (this.state.game.inClassicGame) {
+			if (this.getState().game.inClassicGame) {
 				buttonsPanel = <ButtonsPanelClassic
 					customEvents={this.getTouchEvents()}
-					currentShield={this.state.stats.currentShield}/>
+					currentShield={this.getState().stats.currentShield} />
 			}
-			if (this.state.game.inSpaceRaceGame) {
+			if (this.getState().game.inSpaceRaceGame) {
 				buttonsPanel = <ButtonsPanelSpaceRace
 					customEvents={this.getTouchEvents()}
-					currentShield={this.state.stats.currentShield}/>
+					currentShield={this.getState().stats.currentShield} />
 			}
 			controlPanel = <ControlPanel
 				scorePanel={scorePanel}
-				buttonsPanel={buttonsPanel}/>
+				buttonsPanel={buttonsPanel} />
 		}
-		if (this.state.game.over) {
+		if (this.getState().game.over) {
 			endGame = <EndGame
-				stats={this.state.stats}
+				stats={this.getState().stats}
 				retryOption={this.setGameOptions.bind(this)}
-				setIntro={this.setIntro.bind(this)}/>
+				setIntro={this.setIntro.bind(this)} />
 		}
-		if(this.state.game.about) {
+		if (this.getState().game.about) {
 			about = <About
 				setIntro={this.setIntro.bind(this)}
-				appversion={this.appVersion}/>
+				appversion={this.appVersion} />
 		}
-		if(this.state.game.awards) {
+		if (this.getState().game.awards) {
 			awards = <Awards
-				setIntro={this.setIntro.bind(this)}/>
+				setIntro={this.setIntro.bind(this)} />
 		}
 
 		return (
 			<div>
 				{/*
 					<div className='debugLabel'>
-					{JSON.stringify(this.state.stats)}
+					{JSON.stringify(this.getState())}
 					</div>
 				*/}
 				{introGame}
@@ -628,9 +481,12 @@ export class Chronoverse extends Component {
 				{awards}
 
 				<canvas ref='canvas'
-					width={this.state.screen.width * this.state.screen.ratio}
-					height={this.state.screen.height * this.state.screen.ratio}/>
+					width={this.getState().screen.width * this.getState().screen.ratio}
+					height={this.getState().screen.height * this.getState().screen.ratio} />
 			</div>
 		);
 	}
+}
+Chronoverse.contextTypes = {
+	store: React.PropTypes.object
 }

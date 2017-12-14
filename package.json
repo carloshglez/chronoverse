@@ -1,7 +1,7 @@
 {
   "name": "com.carloshglez.asteroids",
   "displayName": "Chronoverse",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Project based on \"reacteroids\" game (https://github.com/chriz001/Reacteroids) ported to web and mobile",
   "main": "index.html",
   "scripts": {
@@ -26,7 +26,10 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-icons": "^2.2.7",
-    "react-notify-toast": "^0.3.2"
+    "react-notify-toast": "^0.3.2",
+    "react-redux": "^5.0.6",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   },
   "cordova": {
     "plugins": {
