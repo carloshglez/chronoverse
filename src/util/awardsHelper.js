@@ -91,7 +91,7 @@ const AWARDS = [
 ];
 
 export const wonAwards = (localStorage[STORAGE_AWARDS])
-    ? localStorage[STORAGE_AWARDS].split(",").map(Number)
+    ? localStorage[STORAGE_AWARDS].split(',').map(Number)
     : [];
 
 export function getAwardsArray() {
