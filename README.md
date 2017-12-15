@@ -7,7 +7,7 @@ This project deployment tools implemented allows you to release the game for any
 * Hybrid App, powered by [Cordova](https://cordova.apache.org).
 
 ## Demo
-Thanks for playing! - [Chronoverse v1.0.2](http://carloshglez.com/game)
+Thanks for playing! - [Chronoverse](http://carloshglez.com/chronoverse)
 
 ## Inspired by...
 This game is inspired by the following projects:
