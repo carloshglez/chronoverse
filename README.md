@@ -3,7 +3,7 @@ This game is an implementation of the classic asteroids game using React (ES6), 
 
 This project deployment tools implemented allows you to release the game for any of the following environments:
 * Web Application (original approach).
-* [Progressive Mobile App](https://developers.google.com/web/progressive-web-apps/) (Web enhancement).
+* [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) (Web enhancement).
 * Hybrid App, powered by [Cordova](https://cordova.apache.org).
 
 ## Demo
