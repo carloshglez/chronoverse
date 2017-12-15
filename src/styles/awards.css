@@ -1,6 +1,10 @@
 .got-award {
     font-size: 50px;
 }
+.score-award {
+    font-size: 16px;
+}
+
 .icon-award {
     width: 10%;
     text-align: center;

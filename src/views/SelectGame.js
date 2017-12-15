@@ -1,21 +1,29 @@
 import React from 'react';
 import IScroll from 'iscroll'
 //import IScroll from '../../node_modules/iscroll/build/iscroll-probe.js'
+
 import '../styles/style.css';
 import '../styles/selectGame.css';
+
 import MdStars from 'react-icons/lib/md/stars'
 import MdArrowBack from 'react-icons/lib/md/arrow-back'
-
+import MdLock from 'react-icons/lib/md/lock'
+import MdInfo from 'react-icons/lib/md/info'
+import FaTrophy from 'react-icons/lib/fa/trophy'
 import { isPassive, isMobileDevice } from '../util/helpers';
+import { GAME_RULES } from '../util/constants';
 
 export default class SelectGame extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.myScroll = null;
+
+		GAME_RULES.CLASSIC.onClickEvent = props.startClassicGame;
+		GAME_RULES.SPACE_RACE.onClickEvent = props.startSpaceRaceGame;
 	}
 
 	componentDidMount() {
-		if(isMobileDevice()) {
+		if (isMobileDevice()) {
 			this.myScroll = new IScroll(this.refs.wrapper, { scrollX: true, scrollY: false, probeType: 3 });
 			window.addEventListener('touchmove', function (e) { e.preventDefault(); },
 				isPassive() ? {
@@ -29,7 +37,7 @@ export default class SelectGame extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if(isMobileDevice()) {
+		if (isMobileDevice()) {
 			this.destroy();
 		}
 	}
@@ -47,37 +55,52 @@ export default class SelectGame extends React.Component {
 		}
 	}*/
 
+	getGameSelection(game, enabled) {
+		let gameButton;
+		let gameInfo;
+		let topScoreLabel = <div><MdStars /> Top Score:</div>;
+
+		gameButton = <button
+				className='infoButton'
+				onClick={(enabled) ? game.onClickEvent : null}>
+				{game.title}
+			</button>
+
+		gameInfo = <div>
+				{(enabled) ? topScoreLabel : <MdLock />}
+				<div>{(enabled) ? game.topScore : game.unlockMessage}</div>
+			</div>
+
+		return (
+			<li>
+				{gameButton}
+				{gameInfo}
+			</li>
+		);
+	}
+
 	render() {
 		return (
 			<div>
+				<div className='iconPanel upper-corner-left-first'>
+					<FaTrophy onClick={this.props.displayAwards}/>
+				</div>
+				<div className='iconPanel upper-corner-right-first'>
+					<MdInfo onClick={this.props.displayAbout}/>
+				</div>
+
 				<div className='selectgame'>
 					<h3>Select a Game:</h3>
 				</div>
 				<div id='wrapper' className='wrapper-sg' ref='wrapper'>
 					<div id='scroller' className='scroller-sg'>
 						<ul>
-							<li>
-								<button
-									className='infoButton'
-									onClick={this.props.startClassicGame}>
-									Classic
-								</button>
-								<div>
-									<MdStars /> Top Score:
-									<div>{this.props.stats.topScoreClassic}</div>
-								</div>
-							</li>
-							<li>
-								<button
-									className='infoButton'
-									onClick={this.props.startSpaceRaceGame}>
-									Space Race
-								</button>
-								<div>
-									<MdStars /> Top Score:
-									<div>{this.props.stats.topScoreSpaceRace}</div>
-								</div>
-							</li>
+							{this.getGameSelection(GAME_RULES.CLASSIC,
+								(GAME_RULES.CLASSIC.topScore >= GAME_RULES.CLASSIC.unlockAt))
+							}
+							{this.getGameSelection(GAME_RULES.SPACE_RACE,
+								(GAME_RULES.CLASSIC.topScore >= GAME_RULES.SPACE_RACE.unlockAt))
+							}
 						</ul>
 					</div>
 				</div>

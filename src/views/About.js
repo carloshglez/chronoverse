@@ -17,7 +17,7 @@ export default class About extends React.Component {
                     <br/>
                     <button
                         className='infoButton'
-                        onClick={this.props.setIntro}>
+                        onClick={this.props.gameOptions}>
                         Thanks for playing!
                     </button>
                 </div>

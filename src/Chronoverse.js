@@ -336,7 +336,7 @@ export default class Chronoverse extends Component {
 		this.actions.setShieldUsage(0);
 		this.actions.setCurrentShield(100);
 		this.actions.setCurrentScore(0);
-		this.actions.setTopScoreInUse(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);   		// v1.2.0 <-- topScoreInUse: 0,
+		this.actions.setTopScoreInUse(0);
 		this.actions.setTopScoreClassic(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
 		this.actions.setTopScoreSpaceRace(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
 	}
@@ -350,21 +350,11 @@ export default class Chronoverse extends Component {
 	}
 
 	setGameOptions() {
-		/* DELETE FOR NEXT VERSION */
-		this.actions.resetEventKeys();
-		this.resetGameCounters();
-		this.resetStats();
-
-		this.startClassicGame();
-		/* - - - */
-
-		/*v1.2.0: Enable select game
 		this.actions.setGameState(GAME_STATE.SELECT);
 
 		this.actions.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
-		/* - - - */
 	}
 
 	startClassicGame() {
@@ -374,8 +364,7 @@ export default class Chronoverse extends Component {
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		//v1.2.0: Enable this...
-		//this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic;
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic);
 		this.factoryClassic.generateShip();
 	}
 
@@ -386,7 +375,7 @@ export default class Chronoverse extends Component {
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace());
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace);
 		this.factorySpaceRace.generateShip();
 	}
 
@@ -416,15 +405,12 @@ export default class Chronoverse extends Component {
 		if (this.getState().game.intro) {
 			introGame = <Intro
 				appversion={this.appVersion}
-				displayAbout={this.displayAbout.bind(this)}
-				displayAwards={this.displayAwards.bind(this)}
-				gameOptions={this.setGameOptions.bind(this)}
-				topScore={this.getState().stats.topScoreClassic} />
+				gameOptions={this.setGameOptions.bind(this)} />
 		}
 		if (this.getState().game.select) {
 			selectGame = <SelectGame
-				stats={this.getState().stats}
-				setIntro={this.setIntro.bind(this)}
+				displayAbout={this.displayAbout.bind(this)}
+				displayAwards={this.displayAwards.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
 				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)} />
 		}
@@ -458,12 +444,12 @@ export default class Chronoverse extends Component {
 		}
 		if (this.getState().game.about) {
 			about = <About
-				setIntro={this.setIntro.bind(this)}
+				gameOptions={this.setGameOptions.bind(this)}
 				appversion={this.appVersion} />
 		}
 		if (this.getState().game.awards) {
 			awards = <Awards
-				setIntro={this.setIntro.bind(this)} />
+				gameOptions={this.setGameOptions.bind(this)} />
 		}
 
 		return (

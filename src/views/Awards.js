@@ -49,14 +49,13 @@ export default class Awards extends React.Component {
 
         return (
             <div>
-                <span className='score top-score'>
-                    <FaTrophy/> {wonAwards.length} / {getAwardsArray().length}
-                </span>
-                <ul className='gameAwards'>
-                    <li>
-                        <MdHighlightRemove onClick={this.props.setIntro} />
-                    </li>
-                </ul>
+                <div className='iconPanel upper-corner-left-first'>
+                    <FaTrophy/> <span className='score-award'>{wonAwards.length} / {getAwardsArray().length}</span>
+				</div>
+				<div className='iconPanel upper-corner-right-first'>
+                    <MdHighlightRemove onClick={this.props.gameOptions} />
+				</div>
+
                 <div className='selectgame'>
                     <h3>Your Awards:</h3>
                 </div>
