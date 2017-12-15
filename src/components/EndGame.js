@@ -1,29 +1,13 @@
 import React from 'react';
-import '../styles/style.css';
-import '../styles/endGame.css';
-
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import MdExitToApp from 'react-icons/lib/md/exit-to-app'
-import FaTrophy from 'react-icons/lib/fa/trophy'
-import { evaluateResults } from '../util/awardsHelper';
 
 export default class EndGame extends React.Component {
-	constructor() {
-		super();
-		this.gotAward;
-	}
-
-	componentWillMount() {
-		//Verify if an award has been won
-		let newAward = evaluateResults(this.props.stats);
-		this.gotAward = (newAward) ? (<div><div className='got-award'><FaTrophy/></div>¡You won an award!</div>) : null;
-	}
-
 	render() {
 		let message
         if (this.props.stats.currentScore <= 0) {
 		  	message = '0 points... So sad.'
-        } else if (this.props.stats.currentScore >= this.props.stats.topScoreInUse){
+        } else if (this.props.stats.currentScore >= this.props.stats.topScore){
           	message = 'You got a New Record!'
 		} else {
 			message = 'Good Job! :)'
@@ -63,7 +47,7 @@ export default class EndGame extends React.Component {
 							{Math.floor(this.props.stats.shieldUsage + 0.9)}	<br/>
 							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
-							{this.props.stats.topScoreInUse}		<br/>
+							{this.props.stats.topScore}		<br/>
 							{this.props.stats.currentScore}	<br/>
 						</p>
 					</div>
@@ -72,15 +56,14 @@ export default class EndGame extends React.Component {
 					<h3>Game Over!</h3>
 					<button
 						className='infoButton'
-						onClick={ this.props.retryOption }>
+						onClick={ this.props.startGame }>
 						<FaRepeat/> Try again?
 					</button>
-					<button
+								<button
 						className='infoButton'
 						onClick={ this.props.setIntro }>
 						<MdExitToApp/> Exit
 					</button>
-					{this.gotAward}
 				</div>
             </div>
 		);

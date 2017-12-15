@@ -28,15 +28,15 @@ module.exports = {
                 test: /\.js$/,
                 loaders: 'babel-loader',
                 query: {
-                    presets: ['react', 'es2015', 'stage-0']
+                  presets: ['react', 'es2015', 'stage-0']
                 }
             },
             {
                 test: /\.woff2$/,
                 loader: 'file-loader',
                 options: {
-                    limit: 10000,
-                    outputPath: '/fonts/'
+                  limit: 10000,
+                  outputPath: '/fonts/'
                 }
             }
         ]

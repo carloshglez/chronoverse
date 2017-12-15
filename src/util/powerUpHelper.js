@@ -69,6 +69,17 @@ export const PW = {
   }
 };
 
+/**
+ *
+ */
+export function getRandomPowerUp() {
+    var obj_keys = Object.keys(PW);
+    var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)];
+    var powerUp = PW[ran_key];
+
+    return powerUp;
+};
+
 function showNotification(color, text) {
     let textColor = 'White'
     if (color === 'White') {

@@ -1,7 +1,7 @@
 import Bullet from './Bullet';
 import Particle from './Particle';
-import { rotatePoint, randomNumBetween, doExplode } from '../../util/helpers';
-import { PW } from '../../util/powerUpHelper';
+import { rotatePoint, randomNumBetween, doExplode } from './util/helpers';
+import { PW } from './util/powerUpHelper';
 
 export default class Ship {
   constructor(args) {
@@ -193,10 +193,10 @@ export default class Ship {
     if(state.keys.right){
       this.rotate('RIGHT');
     }
-    if(state.keys.shoot && Date.now() - this.lastShot > this.shotFrequency){
+    if(state.keys.space && Date.now() - this.lastShot > this.shotFrequency){
       this.fireBullet();
     }
-    if(state.keys.shield){
+    if(state.keys.down){
       if(this.useShield()) {
         colorStroke = 'blue';
         this.invencible = true;

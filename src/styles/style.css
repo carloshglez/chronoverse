@@ -48,7 +48,6 @@ body {
     font-family: 'PT Mono', serif;
     color: #ffffff;
     background-color: #000000;
-    overflow: hidden;
 }
 canvas {
     display: block;
@@ -62,32 +61,157 @@ canvas {
     height: 100%;
     z-index: 0;
 }
+.stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: stretch;
+    width: 50%;
+}
+.stat-title {
+    text-align: left;
+}
+.stat-value {
+    text-align: right;
+}
+.retry {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+}
+.endgame {
+    position: absolute;
+    z-index: 1;
+    user-select: none;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 90%;
+ }
+.intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px;
+    z-index: 1;
+    text-align: center;
+    user-select: none;
+    width: 50%;
+}
+.score {
+    display: block;
+    position: absolute;
+    font-size: 15px;
+    z-index: 1;
+    user-select: none;
+}
+.top-score {
+    top: 10px;
+    left: 20px;
+}
+.current-score {
+    top: 30px;
+    left: 20px;
+}
+.shield-score {
+    top: 10px;
+    right: 20px;
+}
+.time-score {
+    top: 30px;
+    right: 20px;
+}
 .help-info {
-  display: block;
-  position: absolute;
-  font-size: 10px;
-  z-index: 1;
-  transform: translate(-50%, 0);
-  text-align: center;
-  line-height: 1.6;
-  user-select: none;
+    display: block;
+    position: absolute;
+    font-size: 10px;
+    z-index: 1;
+    transform: translate(-50%, 0);
+    text-align: center;
+    line-height: 1.6;
+    user-select: none;
+}
+.instructions {
+    top: 10px;
+    left: 50%;
 }
 .legal {
-  bottom: 5%;
-  left: 50%;
+    bottom: 5%;
+    left: 50%;
 }
+
+.disabledButton{
+	display: block;
+	position: fixed;
+	z-index: 1;
+	border: 2px solid #777;
+	background-color: transparent;
+	color: #777;
+	font-size: 40px;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	flex: '1 1 0';
+	user-select: none;
+}
+.actionButton{
+	display: block;
+	position: fixed;
+	z-index: 1;
+	border: 2px solid #ffffff;
+	background-color: transparent;
+	color: #ffffff;
+	font-size: 40px;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	flex: '1 1 0';
+	user-select: none;
+}
+.actionButton:hover{
+	background-color: #ffffff;
+	color: #000000;
+}
+.btnLeft {
+	bottom: 5%;
+	left: 5%;
+}
+.btnUp {
+	bottom: 15%;
+	left: 15%;
+}
+.btnRight {
+	bottom: 5%;
+	left: 25%;
+}
+.btnShoot {
+	bottom: 15%;
+	right: 5%;
+}
+.btnShield {
+	bottom: 5%;
+	right: 15%;
+}
+
 .infoButton{
 	border: 4px solid #ffffff;
 	background-color: transparent;
 	color: #ffffff;
 	font-size: 20px;
-  padding: 10px 20px;
+    padding: 10px 20px;
 	margin-bottom: 20px;
 	font-family: 'PT Mono', serif;
 	cursor: pointer;
 	flex: '1 1 0';
-  user-select: none;
-  width: 100%;
+    user-select: none;
+    width: 100%;
 }
 .infoButton:hover{
 	background-color: #ffffff;

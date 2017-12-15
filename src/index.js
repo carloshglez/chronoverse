@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Chronoverse } from './Chronoverse';
+import { Reacteroids } from './Reacteroids';
+import style from './styles/style.css';
 
-render(<Chronoverse />, document.getElementById('root'));
+render(<Reacteroids />, document.getElementById('root'));
