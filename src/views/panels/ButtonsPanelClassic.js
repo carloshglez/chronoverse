@@ -24,14 +24,13 @@ export default class ClassicButtonsPanel extends React.Component {
                 </div>
             );
         } else {
-            let shieldValue = Math.floor((this.props.currentShield));
             buttonsLayer = (
                 <div>
                     <button id='left' className='actionButton btnLeft' 	{...this.props.customEvents}> 	<MdArrowBack />		</button>
                     <button id='up' className='actionButton btnUp' 		{...this.props.customEvents}>	<MdArrowUpward />	</button>
                     <button id='right' className='actionButton btnRight' 	{...this.props.customEvents}>	<MdArrowForward />	</button>
                     <button id='shoot' className='actionButton btnShoot' 	{...this.props.customEvents}>	<MdGpsFixed />		</button>
-                    <button id='shield' className={(shieldValue <= 0) ? 'disabledButton btnShield' : 'actionButton btnShield'}
+                    <button id='shield' className={(this.props.currentShield <= 0) ? 'disabledButton btnShield' : 'actionButton btnShield'}
                         {...this.props.customEvents}>	<FaShield />
                     </button>
                 </div>

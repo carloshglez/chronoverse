@@ -1,5 +1,56 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Chronoverse } from './Chronoverse';
+import { Provider } from 'react-redux'
 
-render(<Chronoverse />, document.getElementById('root'));
+import Connector from './Connector';
+import storefactory from './appStateStore'
+import { STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
+
+const initialState = {
+    context: null,
+    screen: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        ratio: window.devicePixelRatio || 1
+    },
+    keys: {
+        left: 0,
+        right: 0,
+        up: 0,
+        shield: 0,
+        shoot: 0
+    },
+    asteroidCount: 0,
+    powerUpCount: 0,
+    enemyCount: 0,
+    timeValue: 100,
+    stats: {
+        asteroidsDestroyed: 0,
+        enemiesDestroyed: 0,
+        bulletsFired: 0,
+        bulletsHit: 0,
+        powerUpUsage: 0,
+        shieldUsage: 0,
+        currentShield: 100,
+        currentScore: 0,
+        topScoreInUse: 0,
+        topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+        topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
+    },
+    game: {
+        intro: true,
+        select: false,
+        inClassicGame: false,
+        inSpaceRaceGame: false,
+        over: false,
+        about: false,
+        awards: false
+    }
+}
+
+render(
+    <Provider store={storefactory(initialState)}>
+        <Connector />
+    </Provider>,
+    document.getElementById('root')
+);
