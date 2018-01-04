@@ -12,6 +12,8 @@ import MdInfo from 'react-icons/lib/md/info'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import { isPassive, isMobileDevice } from '../util/helpers';
 import { GAME_RULES } from '../util/constants';
+import { PLAYLIST } from '../util/soundHelper';
+import { getStorageClassicTopScore, getStorageSpaceRaceTopScore} from '../util/localStorageHelper';
 
 export default class SelectGame extends React.Component {
 	constructor(props) {
@@ -19,7 +21,9 @@ export default class SelectGame extends React.Component {
 		this.myScroll = null;
 
 		GAME_RULES.CLASSIC.onClickEvent = props.startClassicGame;
+		GAME_RULES.CLASSIC.topScore = getStorageClassicTopScore();
 		GAME_RULES.SPACE_RACE.onClickEvent = props.startSpaceRaceGame;
+		GAME_RULES.SPACE_RACE.topScore = getStorageSpaceRaceTopScore();
 	}
 
 	componentDidMount() {
@@ -55,6 +59,10 @@ export default class SelectGame extends React.Component {
 		}
 	}*/
 
+	playDisableSound() {
+		PLAYLIST.OPTION_DISABLED.play();
+	}
+
 	getGameSelection(game, enabled) {
 		let gameButton;
 		let gameInfo;
@@ -62,7 +70,7 @@ export default class SelectGame extends React.Component {
 
 		gameButton = <button
 				className='infoButton'
-				onClick={(enabled) ? game.onClickEvent : null}>
+				onClick={(enabled) ? game.onClickEvent : this.playDisableSound.bind(this)}>
 				{game.title}
 			</button>
 

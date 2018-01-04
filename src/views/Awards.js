@@ -8,6 +8,7 @@ import FaTrophy from 'react-icons/lib/fa/trophy'
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
 import { isPassive, isMobileDevice } from '../util/helpers';
 import { getAwardsArray, wonAwards } from '../util/awardsHelper';
+import { PLAYLIST } from '../util/soundHelper';
 
 export default class Awards extends React.Component {
     constructor() {
@@ -23,10 +24,11 @@ export default class Awards extends React.Component {
                 passive: false
             } : false
         );
-
+        PLAYLIST.OPTION_SELECT.play();
     }
 
     componentWillUnmount() {
+        PLAYLIST.OPTION_SELECT.play();
         this.destroy();
     }
 

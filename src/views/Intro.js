@@ -2,7 +2,13 @@ import React from 'react';
 import '../styles/style.css';
 import '../styles/intro.css';
 
+import { PLAYLIST } from '../util/soundHelper';
+
 export default class Intro extends React.Component {
+    componentWillUnmount() {
+        PLAYLIST.INTRO_SELECT.play();
+    }
+
     render() {
         return (
             <div>

@@ -46,7 +46,7 @@ export const GAME_RULES = {
     CLASSIC: {
 		id: 1,
 		title: 'Classic',
-		topScore: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
+		topScore: 0,
 		onClickEvent: null,
 		unlockAt: 0,
 		unlockMessage: ''
@@ -54,7 +54,7 @@ export const GAME_RULES = {
     SPACE_RACE: {
 		id: 2,
 		title: 'Space Race',
-		topScore: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0,
+		topScore: 0,
 		onClickEvent: null,
 		unlockAt: 2000,
 		unlockMessage: 'Get 2000 points'
