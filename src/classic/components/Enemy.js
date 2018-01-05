@@ -102,8 +102,13 @@ export default class Enemy {
     // Rotation
     this.rotate();
 
-    //Attack
-    this.shoot();
+    if(!this.ship.delete) {
+      //Attack if player ship is alive
+      this.shoot();
+    } else {
+      //Otherwise, become explorer enemy.
+      this.type = ENEMY_TYPE.EXPLORER;
+    }
 
     // Screen edges
     if(this.position.x > state.screen.width) this.position.x = 0;
