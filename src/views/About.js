@@ -3,21 +3,29 @@ import '../styles/style.css';
 import '../styles/intro.css';
 
 import MdInfo from 'react-icons/lib/md/info'
+import { PLAYLIST } from '../util/soundHelper';
 
 export default class About extends React.Component {
-    render() {
+    componentDidMount() {
+        PLAYLIST.OPTION_SELECT.play();
+    }
 
+    componentWillUnmount() {
+        PLAYLIST.OPTION_SELECT.play();
+    }
+
+    render() {
         return (
             <div>
                 <div className='intro'>
                     <h2>Chronoverse</h2>
-                    <img className='aboutImg' src={'../www/webapp/icon.png'}/>
+                    <img className='aboutImg' src={'./webapp/icon.png'}/>
                     <br/>Version {this.props.appversion}<br/>
                     <p>carloshglez &copy;2018</p>
                     <br/>
                     <button
                         className='infoButton'
-                        onClick={this.props.setIntro}>
+                        onClick={this.props.gameOptions}>
                         Thanks for playing!
                     </button>
                 </div>

@@ -2,6 +2,7 @@ import Bullet from './Bullet';
 import Particle from './Particle';
 import { rotatePoint, randomNumBetween, doExplode } from '../../util/helpers';
 import { PW } from '../../util/powerUpHelper';
+import { PLAYLIST } from '../../util/soundHelper';
 
 export default class Ship {
   constructor(args) {
@@ -140,7 +141,7 @@ export default class Ship {
       });
       this.create(bullet, 'bullets');
     }
-
+    this.setBulletSound();
     this.lastShot = Date.now();
   }
 
@@ -158,8 +159,24 @@ export default class Ship {
     } else if(this.fireRingSkill) {
       color = PW.FIRE_RING.color
     }
-
     return color
+  }
+
+  setBulletSound() {
+    let bulletSound = PLAYLIST.BULLET;
+
+    if(this.bounceSkill) {
+      bulletSound = PLAYLIST.BOUNCE_BULLET;
+    } else if (this.multiBulletSkill) {
+      bulletSound = PLAYLIST.MULTI_BULLET;
+    } else if(this.shotFrequency == 700) {
+      bulletSound = PLAYLIST.SUPER_BULLET;
+    } else if(this.shotFrequency == 100) {
+      bulletSound = PLAYLIST.FAST_BULLET;
+    } else if(this.fireRingSkill) {
+      bulletSound = PLAYLIST.FIRE_RING;
+    }
+    bulletSound.play();
   }
 
   render(state){
@@ -171,6 +188,8 @@ export default class Ship {
       this.accelerate(1);
     }*/
     this.accelerate(1);
+    if(!PLAYLIST.SHIP.playing())
+			PLAYLIST.SHIP.play();
 
     if((state.keys.right)) {
       //DOWN

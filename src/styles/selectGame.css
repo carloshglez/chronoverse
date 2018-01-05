@@ -9,6 +9,10 @@
     text-align: center;
     user-select: none;
 }
+.aboutImg {
+    width: 80px;
+}
+
 .wrapper-sg {
     position: absolute;
     top: 90%;

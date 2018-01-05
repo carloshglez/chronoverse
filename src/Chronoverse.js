@@ -13,7 +13,9 @@ import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 
 import FactoryClassic from './classic/Factory';
 import FactorySpaceRace from './spaceRace/Factory';
-import { KEY, GAME_STATE, STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
+import { KEY, GAME_STATE } from './util/constants';
+import { getStorageClassicTopScore, getStorageSpaceRaceTopScore, setStorageClassicTopScore, setStorageSpaceRaceTopScore } from './util/localStorageHelper';
+import { PLAYLIST } from './util/soundHelper';
 
 export default class Chronoverse extends Component {
 	constructor(props) {
@@ -28,6 +30,7 @@ export default class Chronoverse extends Component {
 		this.powerUps = [];
 		this.enemies = [];
 		this.lastShield = 0;
+		this.lastSensorValue =  this.getState().screen.height / 2;
 
 		let factoryInit = {
 			screenWidth: window.innerWidth,
@@ -52,6 +55,7 @@ export default class Chronoverse extends Component {
 		window.addEventListener('keyup', this.handleKeys.bind(this, false));
 		window.addEventListener('keydown', this.handleKeys.bind(this, true));
 		window.addEventListener('resize', this.handleResize.bind(this, false));
+		window.addEventListener('deviceorientation', this.handleDeviceOrientation.bind(this, true));
 
 		const context = this.refs.canvas.getContext('2d');
 		this.actions.setContext(context);
@@ -62,6 +66,7 @@ export default class Chronoverse extends Component {
 		window.removeEventListener('keyup', this.handleKeys);
 		window.removeEventListener('keydown', this.handleKeys);
 		window.removeEventListener('resize', this.handleResize);
+		window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
 	}
 
 	update() {
@@ -154,6 +159,30 @@ export default class Chronoverse extends Component {
 		}
 	}
 
+	handleDeviceOrientation(value, e) {
+		if (this.getState().game.inSpaceRaceGame) {
+			var maxY = this.getState().screen.height - 20;
+			var y = e.gamma + 90;
+			let sensorValue = Math.floor((maxY*y/180));
+
+			let keys = this.getState().keys;
+			if(sensorValue > this.lastSensorValue) {
+				//UP
+				keys.left = true;
+				keys.right = false;
+			} else if(sensorValue < this.lastSensorValue) {
+				//DOWN
+				keys.left = false;
+				keys.right = true;
+			} else {
+				keys.left = false;
+				keys.right = false;
+			}
+			this.lastSensorValue = sensorValue;
+			this.actions.setEventKeys(keys);
+		}
+	}
+
 	createObject(item, group) {
 		this[group].push(item);
 		if (group === 'bullets' && item.iAm == 'shipBullet') {
@@ -241,8 +270,14 @@ export default class Chronoverse extends Component {
 					this.actions.setCurrentShield(this.getState().stats.currentShield - 1);
 					this.actions.setShieldUsage(this.getState().stats.shieldUsage + 1);
 					this.lastShield = Date.now();
+
+					if(!PLAYLIST.SHIELD.playing())
+						PLAYLIST.SHIELD.play();
 				}
 				return true;
+			} else {
+				if(!PLAYLIST.SHIELD_OUT.playing())
+					PLAYLIST.SHIELD_OUT.play();
 			}
 		}
 		return false;
@@ -281,12 +316,14 @@ export default class Chronoverse extends Component {
 	addAsteroidsDestroyed() {
 		if (this.isInGame()) {
 			this.actions.setAsteroidsDestroyed(this.getState().stats.asteroidsDestroyed + 1);
+			PLAYLIST.EXPLOSION.play();
 		}
 	}
 
 	addEnemiesDestroyed() {
 		if (this.isInGame()) {
 			this.actions.setEnemiesDestroyed(this.getState().stats.enemiesDestroyed + 1);
+			PLAYLIST.EXPLOSION.play();
 		}
 	}
 
@@ -305,17 +342,18 @@ export default class Chronoverse extends Component {
 	addPowerUpUsage() {
 		if (this.isInGame()) {
 			this.actions.setPowerUpUsage(this.getState().stats.powerUpUsage + 1);
+			PLAYLIST.POWERUP.play();
 		}
 	}
 
 	updateTopScore() {
 		if (this.getState().stats.currentScore > this.getState().stats.topScoreInUse) {
 			if (this.getState().game.inClassicGame) {
-				localStorage[STORAGE_CLASSIC_TOP_SCORE] = this.getState().stats.currentScore;
+				setStorageClassicTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreClassic(this.getState().stats.currentScore);
 			}
 			if (this.getState().game.inSpaceRaceGame) {
-				localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = this.getState().stats.currentScore;
+				setStorageSpaceRaceTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreSpaceRace(this.getState().stats.currentScore);
 			}
 		}
@@ -336,9 +374,9 @@ export default class Chronoverse extends Component {
 		this.actions.setShieldUsage(0);
 		this.actions.setCurrentShield(100);
 		this.actions.setCurrentScore(0);
-		this.actions.setTopScoreInUse(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);   		// v1.2.0 <-- topScoreInUse: 0,
-		this.actions.setTopScoreClassic(localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0);
-		this.actions.setTopScoreSpaceRace(localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0);
+		this.actions.setTopScoreInUse(0);
+		this.actions.setTopScoreClassic(getStorageClassicTopScore());
+		this.actions.setTopScoreSpaceRace(getStorageSpaceRaceTopScore());
 	}
 
 	setIntro() {
@@ -350,21 +388,11 @@ export default class Chronoverse extends Component {
 	}
 
 	setGameOptions() {
-		/* DELETE FOR NEXT VERSION */
-		this.actions.resetEventKeys();
-		this.resetGameCounters();
-		this.resetStats();
-
-		this.startClassicGame();
-		/* - - - */
-
-		/*v1.2.0: Enable select game
 		this.actions.setGameState(GAME_STATE.SELECT);
 
 		this.actions.resetEventKeys();
 		this.resetGameCounters();
 		this.resetStats();
-		/* - - - */
 	}
 
 	startClassicGame() {
@@ -374,8 +402,7 @@ export default class Chronoverse extends Component {
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		//v1.2.0: Enable this...
-		//this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic;
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic);
 		this.factoryClassic.generateShip();
 	}
 
@@ -386,7 +413,7 @@ export default class Chronoverse extends Component {
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
-		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace());
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace);
 		this.factorySpaceRace.generateShip();
 	}
 
@@ -416,22 +443,19 @@ export default class Chronoverse extends Component {
 		if (this.getState().game.intro) {
 			introGame = <Intro
 				appversion={this.appVersion}
-				displayAbout={this.displayAbout.bind(this)}
-				displayAwards={this.displayAwards.bind(this)}
-				gameOptions={this.setGameOptions.bind(this)}
-				topScore={this.getState().stats.topScoreClassic} />
+				gameOptions={this.setGameOptions.bind(this)} />
 		}
 		if (this.getState().game.select) {
 			selectGame = <SelectGame
-				stats={this.getState().stats}
-				setIntro={this.setIntro.bind(this)}
+				displayAbout={this.displayAbout.bind(this)}
+				displayAwards={this.displayAwards.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
 				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)} />
 		}
 		if (this.isInGame()) {
 			let buttonsPanel;
 			let scorePanel = <ScorePanel
-				topScore={this.getState().stats.topScoreClassic}
+				topScore={this.getState().stats.topScoreInUse}
 				currentScore={this.getState().stats.currentScore}
 				currentShield={this.getState().stats.currentShield}
 				timeValue={this.getState().timeValue} />
@@ -458,12 +482,12 @@ export default class Chronoverse extends Component {
 		}
 		if (this.getState().game.about) {
 			about = <About
-				setIntro={this.setIntro.bind(this)}
+				gameOptions={this.setGameOptions.bind(this)}
 				appversion={this.appVersion} />
 		}
 		if (this.getState().game.awards) {
 			awards = <Awards
-				setIntro={this.setIntro.bind(this)} />
+				gameOptions={this.setGameOptions.bind(this)} />
 		}
 
 		return (

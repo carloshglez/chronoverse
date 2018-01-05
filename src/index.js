@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import Connector from './Connector';
 import storefactory from './appStateStore'
-import { STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE } from './util/constants';
+import { getStorageClassicTopScore, getStorageSpaceRaceTopScore } from './util/localStorageHelper';
 
 const initialState = {
     context: null,
@@ -23,7 +23,7 @@ const initialState = {
     asteroidCount: 0,
     powerUpCount: 0,
     enemyCount: 0,
-    timeValue: 100,
+    timeValue: 0,
     stats: {
         asteroidsDestroyed: 0,
         enemiesDestroyed: 0,
@@ -34,8 +34,8 @@ const initialState = {
         currentShield: 100,
         currentScore: 0,
         topScoreInUse: 0,
-        topScoreClassic: localStorage[STORAGE_CLASSIC_TOP_SCORE] || 0,
-        topScoreSpaceRace: localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0
+        topScoreClassic: getStorageClassicTopScore(),
+        topScoreSpaceRace: getStorageSpaceRaceTopScore()
     },
     game: {
         intro: true,

@@ -38,3 +38,25 @@ export const GAME_STATE = {
 	ABOUT: 'about',
 	AWARDS: 'awards'
 };
+
+/**
+ *
+ */
+export const GAME_RULES = {
+    CLASSIC: {
+		id: 1,
+		title: 'Classic',
+		topScore: 0,
+		onClickEvent: null,
+		unlockAt: 0,
+		unlockMessage: ''
+	},
+    SPACE_RACE: {
+		id: 2,
+		title: 'Space Race',
+		topScore: 0,
+		onClickEvent: null,
+		unlockAt: 2000,
+		unlockMessage: 'Get 2000 points'
+	}
+};

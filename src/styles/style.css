@@ -93,3 +93,27 @@ canvas {
 	background-color: #ffffff;
 	color: #000000;
 }
+
+.iconPanel {
+    display: block;
+	position: absolute;
+    user-select: none;
+	z-index: 1;
+	font-size: 25px;
+}
+.upper-corner-left-first {
+	top: 10px;
+    left: 30px;
+}
+.upper-corner-left-second {
+	top: 30px;
+    left: 30px;
+}
+.upper-corner-right-first {
+    top: 10px;
+    right: 25px;
+}
+.upper-corner-right-second {
+    top: 30px;
+    right: 25px;
+}
