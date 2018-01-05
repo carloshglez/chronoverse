@@ -23,7 +23,7 @@ const initialState = {
     asteroidCount: 0,
     powerUpCount: 0,
     enemyCount: 0,
-    timeValue: 100,
+    timeValue: 0,
     stats: {
         asteroidsDestroyed: 0,
         enemiesDestroyed: 0,

@@ -30,6 +30,7 @@ export default class Chronoverse extends Component {
 		this.powerUps = [];
 		this.enemies = [];
 		this.lastShield = 0;
+		this.lastSensorValue =  this.getState().screen.height / 2;
 
 		let factoryInit = {
 			screenWidth: window.innerWidth,
@@ -54,6 +55,7 @@ export default class Chronoverse extends Component {
 		window.addEventListener('keyup', this.handleKeys.bind(this, false));
 		window.addEventListener('keydown', this.handleKeys.bind(this, true));
 		window.addEventListener('resize', this.handleResize.bind(this, false));
+		window.addEventListener('deviceorientation', this.handleDeviceOrientation.bind(this, true));
 
 		const context = this.refs.canvas.getContext('2d');
 		this.actions.setContext(context);
@@ -64,6 +66,7 @@ export default class Chronoverse extends Component {
 		window.removeEventListener('keyup', this.handleKeys);
 		window.removeEventListener('keydown', this.handleKeys);
 		window.removeEventListener('resize', this.handleResize);
+		window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
 	}
 
 	update() {
@@ -152,6 +155,30 @@ export default class Chronoverse extends Component {
 			} else if (value === 'mouseUp' || value === 'touchEnd') {
 				keys[action] = false;
 			}
+			this.actions.setEventKeys(keys);
+		}
+	}
+
+	handleDeviceOrientation(value, e) {
+		if (this.getState().game.inSpaceRaceGame) {
+			var maxY = this.getState().screen.height - 20;
+			var y = e.gamma + 90;
+			let sensorValue = Math.floor((maxY*y/180));
+
+			let keys = this.getState().keys;
+			if(sensorValue > this.lastSensorValue) {
+				//UP
+				keys.left = true;
+				keys.right = false;
+			} else if(sensorValue < this.lastSensorValue) {
+				//DOWN
+				keys.left = false;
+				keys.right = true;
+			} else {
+				keys.left = false;
+				keys.right = false;
+			}
+			this.lastSensorValue = sensorValue;
 			this.actions.setEventKeys(keys);
 		}
 	}
