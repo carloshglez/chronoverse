@@ -49,7 +49,7 @@ export function randomNumBetweenExcluding(min, max, exMin, exMax) {
 };
 
 
-import Particle from '../classic/components/Particle';
+import Particle from '../factory/components/Particle';
 
 /**
  *
@@ -76,6 +76,21 @@ export function doExplode(radius, position, create, color = 'White') {
 			color: color
 		});
 		create(particle, 'particles');
+	}
+}
+
+/**
+ *
+ */
+export function getBulletObject(shipRotation, shipPosition, radius, directionValueX, bounce, color, iAm) {
+	return {
+		shipRotation,
+		shipPosition,
+		radius,
+		directionValueX,
+		bounce,
+		color,
+		iAm
 	}
 }
 
