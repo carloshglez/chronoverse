@@ -24,13 +24,12 @@ export default class ButtonsPanelSpaceRace extends React.Component {
                 </div>
             );
         } else {
-            let shieldValue = Math.floor((this.props.currentShield));
             buttonsLayer = (
                 <div>
-                    <button id='left' 	className='actionButton btnLeft_sp' 	{...this.props.customEvents}> 	<MdArrowUpward />		</button>
-                    <button id='right' 	className='actionButton btnRight_sp' 	{...this.props.customEvents}>	<MdArrowDownward />	</button>
+                    {/*<button id='left' 	className='actionButton btnLeft_sp' 	{...this.props.customEvents}> 	<MdArrowUpward />		</button>
+                    <button id='right' 	className='actionButton btnRight_sp' 	{...this.props.customEvents}>	<MdArrowDownward />	</button>*/}
                     <button id='shoot' 	className='actionButton btnShoot_sp' 	{...this.props.customEvents}>	<MdGpsFixed />		</button>
-                    <button id='shield' 	className={(shieldValue <= 0) ? 'disabledButton btnShield_sp' : 'actionButton btnShield_sp'}
+                    <button id='shield' 	className={(this.props.currentShield <= 0) ? 'disabledButton btnShield_sp' : 'actionButton btnShield_sp'}
                         {...this.props.customEvents}>	<FaShield />
                     </button>
                 </div>

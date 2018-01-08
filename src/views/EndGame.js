@@ -6,6 +6,7 @@ import FaRepeat from 'react-icons/lib/fa/repeat'
 import MdExitToApp from 'react-icons/lib/md/exit-to-app'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import { evaluateResults } from '../util/awardsHelper';
+import { PLAYLIST } from '../util/soundHelper';
 
 export default class EndGame extends React.Component {
 	constructor() {
@@ -17,6 +18,12 @@ export default class EndGame extends React.Component {
 		//Verify if an award has been won
 		let newAward = evaluateResults(this.props.stats);
 		this.gotAward = (newAward) ? (<div><div className='got-award'><FaTrophy/></div>¡You won an award!</div>) : null;
+
+		PLAYLIST.END_GAME.play();
+	}
+
+	componentWillUnmount() {
+		PLAYLIST.OPTION_SELECT.play();
 	}
 
 	render() {
@@ -60,7 +67,7 @@ export default class EndGame extends React.Component {
 							{this.props.stats.bulletsHit}	<br/>
 							{hitPercentaje}%				<br/>
 							<br/>
-							{Math.floor(this.props.stats.shieldUsage + 0.9)}	<br/>
+							{this.props.stats.shieldUsage}	<br/>
 							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
 							{this.props.stats.topScoreInUse}		<br/>

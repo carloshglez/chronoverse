@@ -8,6 +8,7 @@ import FaTrophy from 'react-icons/lib/fa/trophy'
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
 import { isPassive, isMobileDevice } from '../util/helpers';
 import { getAwardsArray, wonAwards } from '../util/awardsHelper';
+import { PLAYLIST } from '../util/soundHelper';
 
 export default class Awards extends React.Component {
     constructor() {
@@ -23,10 +24,11 @@ export default class Awards extends React.Component {
                 passive: false
             } : false
         );
-
+        PLAYLIST.OPTION_SELECT.play();
     }
 
     componentWillUnmount() {
+        PLAYLIST.OPTION_SELECT.play();
         this.destroy();
     }
 
@@ -49,14 +51,13 @@ export default class Awards extends React.Component {
 
         return (
             <div>
-                <span className='score top-score'>
-                    <FaTrophy/> {wonAwards.length} / {getAwardsArray().length}
-                </span>
-                <ul className='gameAwards'>
-                    <li>
-                        <MdHighlightRemove onClick={this.props.setIntro} />
-                    </li>
-                </ul>
+                <div className='iconPanel upper-corner-left-first'>
+                    <FaTrophy/> <span className='score-award'>{wonAwards.length} / {getAwardsArray().length}</span>
+				</div>
+				<div className='iconPanel upper-corner-right-first'>
+                    <MdHighlightRemove onClick={this.props.gameOptions} />
+				</div>
+
                 <div className='selectgame'>
                     <h3>Your Awards:</h3>
                 </div>

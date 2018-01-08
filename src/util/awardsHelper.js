@@ -1,5 +1,5 @@
 import React from 'react';
-import { STORAGE_AWARDS } from './constants';
+import { setStorageAwards, getStorageAwards } from './localStorageHelper';
 import FaTrophy from 'react-icons/lib/fa/trophy'
 
 /**
@@ -90,9 +90,7 @@ const AWARDS = [
 
 ];
 
-export const wonAwards = (localStorage[STORAGE_AWARDS])
-    ? localStorage[STORAGE_AWARDS].split(",").map(Number)
-    : [];
+export const wonAwards = getStorageAwards();
 
 export function getAwardsArray() {
     AWARDS.forEach((item) => {
@@ -118,7 +116,7 @@ function isAwardIdInArray(id, array) {
 function storeAwards(id) {
     if (!isAwardIdInArray(id, wonAwards)) {
         wonAwards.push(id);
-        localStorage[STORAGE_AWARDS] = wonAwards;
+        setStorageAwards(wonAwards);
     }
 }
 

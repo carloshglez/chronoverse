@@ -9,23 +9,3 @@
     user-select: none;
     width: 50%;
 }
-.gameAwards {
-    display: block;
-    position: absolute;
-    user-select: none;
-    list-style-type: none;
-    float: left;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    top: 10px;
-    right: 20px;
-    font-size: 25px;
-}
-.gameAwards li {
-    float: left;
-    padding-left: 20px;
-}
-.aboutImg {
-    width: 80px;
-}

@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.carloshglez.asteroids" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.carloshglez.asteroids" version="1.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Chronoverse</name>
     <description>
-        ReactJS Project based on "reacteroids" game
+        Implementation of an asteroids game using agile development tools for Web and Mobile.
     </description>
-    <author email="carlos-horacio.gonzalez-gordillo@hpe.com" href="https://github.houston.entsvcs.net/carlos-horacio-gonzalez-gordillo/react-game.git">
+    <author email="carlos3349@gmail.com" href="https://github.com/carloshglez/chronoverse.git">
         carloshglez
     </author>
     <preference name="Orientation" value="landscape" />

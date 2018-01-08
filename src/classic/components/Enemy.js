@@ -1,6 +1,7 @@
 import Particle from './Particle';
 import Bullet from './Bullet';
 import { ENEMY_TYPE } from '../../util/constants';
+import { PLAYLIST } from '../../util/soundHelper';
 import { randomNumBetween, doExplode } from '../../util/helpers';
 
 export default class Enemy {
@@ -33,6 +34,7 @@ export default class Enemy {
 
     // Explode
     doExplode(this.radius, this.position, this.create, this.color);
+    PLAYLIST.ENEMY_EXPLOSION.play();
   }
 
   rotate(){
@@ -85,6 +87,9 @@ export default class Enemy {
         });
         this.create(bullet, 'bullets');
       }
+
+      if(this.type === ENEMY_TYPE.EXPLORER) PLAYLIST.ENEMY_SHOOT_EXPLORER.play();
+      if(this.type === ENEMY_TYPE.HUNTER) PLAYLIST.ENEMY_SHOOT_HUNTER.play();
       this.lastShot = Date.now();
     }
   }
@@ -97,8 +102,13 @@ export default class Enemy {
     // Rotation
     this.rotate();
 
-    //Attack
-    this.shoot();
+    if(!this.ship.delete) {
+      //Attack if player ship is alive
+      this.shoot();
+    } else {
+      //Otherwise, become explorer enemy.
+      this.type = ENEMY_TYPE.EXPLORER;
+    }
 
     // Screen edges
     if(this.position.x > state.screen.width) this.position.x = 0;
