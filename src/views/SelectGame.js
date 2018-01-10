@@ -13,7 +13,7 @@ import FaTrophy from 'react-icons/lib/fa/trophy'
 import { isPassive, isMobileDevice } from '../util/helpers';
 import { GAME_MODE } from '../util/factoryHelper';
 import { PLAYLIST } from '../util/soundHelper';
-import { getStorageClassicTopScore, getStorageSpaceRaceTopScore} from '../util/localStorageHelper';
+import { LocalStorageManager } from '../util/localStorageHelper';
 
 export default class SelectGame extends React.Component {
 	constructor(props) {
@@ -21,9 +21,9 @@ export default class SelectGame extends React.Component {
 		this.myScroll = null;
 
 		GAME_MODE.CLASSIC.rules.onClickEvent = props.startClassicGame;
-		GAME_MODE.CLASSIC.rules.topScore = getStorageClassicTopScore();
+		GAME_MODE.CLASSIC.rules.topScore = LocalStorageManager.getClassicTopScore();
 		GAME_MODE.SPACE_RACE.rules.onClickEvent = props.startSpaceRaceGame;
-		GAME_MODE.SPACE_RACE.rules.topScore = getStorageSpaceRaceTopScore();
+		GAME_MODE.SPACE_RACE.rules.topScore = LocalStorageManager.getSpaceRaceTopScore();
 	}
 
 	componentDidMount() {

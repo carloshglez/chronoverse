@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import Connector from './Connector';
 import storefactory from './appStateStore'
-import { getStorageClassicTopScore, getStorageSpaceRaceTopScore } from './util/localStorageHelper';
+import { LocalStorageManager } from './util/localStorageHelper';
 
 const initialState = {
     context: null,
@@ -34,8 +34,8 @@ const initialState = {
         currentShield: 100,
         currentScore: 0,
         topScoreInUse: 0,
-        topScoreClassic: getStorageClassicTopScore(),
-        topScoreSpaceRace: getStorageSpaceRaceTopScore()
+        topScoreClassic: LocalStorageManager.getClassicTopScore(),
+        topScoreSpaceRace: LocalStorageManager.getSpaceRaceTopScore()
     },
     game: {
         intro: true,

@@ -14,7 +14,7 @@ import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 import Factory from './factory';
 import { KEY, GAME_STATE } from './util/constants';
 import { GAME_MODE } from './util/factoryHelper';
-import { getStorageClassicTopScore, getStorageSpaceRaceTopScore, setStorageClassicTopScore, setStorageSpaceRaceTopScore } from './util/localStorageHelper';
+import { LocalStorageManager } from './util/localStorageHelper';
 import { PLAYLIST } from './util/soundHelper';
 
 export default class Chronoverse extends Component {
@@ -279,19 +279,19 @@ export default class Chronoverse extends Component {
 		return false;
 	}
 
-	increaseShield() {
+	increaseShield(value) {
 		if (this.isInGame()) {
-			this.actions.setCurrentShield(this.getState().stats.currentShield + 30);
+			this.actions.setCurrentShield(this.getState().stats.currentShield + value);
 		}
 	}
 
-	increaseTimeCounter(time = 5) {
+	increaseTimeCounter(time) {
 		if (this.isInGame()) {
 			this.actions.setTimeValue(this.getState().timeValue + time);
 		}
 	}
 
-	startTimer(item, time = 10) {
+	startTimer(item, time) {
 		this.increaseTimeCounter(time);
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -345,11 +345,11 @@ export default class Chronoverse extends Component {
 	updateTopScore() {
 		if (this.getState().stats.currentScore > this.getState().stats.topScoreInUse) {
 			if (this.getState().game.inClassicGame) {
-				setStorageClassicTopScore(this.getState().stats.currentScore);
+				LocalStorageManager.setClassicTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreClassic(this.getState().stats.currentScore);
 			}
 			if (this.getState().game.inSpaceRaceGame) {
-				setStorageSpaceRaceTopScore(this.getState().stats.currentScore);
+				LocalStorageManager.setSpaceRaceTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreSpaceRace(this.getState().stats.currentScore);
 			}
 		}
@@ -371,8 +371,8 @@ export default class Chronoverse extends Component {
 		this.actions.setCurrentShield(100);
 		this.actions.setCurrentScore(0);
 		this.actions.setTopScoreInUse(0);
-		this.actions.setTopScoreClassic(getStorageClassicTopScore());
-		this.actions.setTopScoreSpaceRace(getStorageSpaceRaceTopScore());
+		this.actions.setTopScoreClassic(LocalStorageManager.getClassicTopScore());
+		this.actions.setTopScoreSpaceRace(LocalStorageManager.getSpaceRaceTopScore());
 	}
 
 	setIntro() {
