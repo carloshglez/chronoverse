@@ -28,7 +28,8 @@ export default class ScorePanel extends React.Component {
                 </span>
                 <span className='score shield-score'>
                     <div style={{float: 'left'}}><FaShield /></div>
-                    <Progress className='shield-meter' color='Blue' completed={shieldValueForlabel}/>
+                    <Progress className={(shieldValueForlabel < 30 && shieldValueForlabel > 0) ? 'shield-meter flashit' : 'shield-meter'}
+                        color='Blue' completed={shieldValueForlabel}/>
                 </span>
                 <span className='score time-score'>
                     <div style={{float: 'left'}}><MdAccessAlarm /></div>
