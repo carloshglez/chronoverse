@@ -21,10 +21,10 @@ export default class ScorePanel extends React.Component {
         return (
             <div>
                 <span className='score top-score'>
-                    <MdStars /> Top Score: {this.props.topScore}
+                    <MdStars /> Top Score: {new Intl.NumberFormat().format(this.props.topScore)}
                 </span>
                 <span className='score current-score'>
-                    <MdStarOutline /> Score: {this.props.currentScore}
+                    <MdStarOutline /> Score: {new Intl.NumberFormat().format(this.props.currentScore)}
                 </span>
                 <span className='score shield-score'>
                     <div style={{float: 'left'}}><FaShield /></div>

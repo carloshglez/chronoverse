@@ -76,7 +76,7 @@ export default class SelectGame extends React.Component {
 
 		gameInfo = <div>
 				{(enabled) ? topScoreLabel : <MdLock />}
-				<div>{(enabled) ? game.topScore : game.unlockMessage}</div>
+				<div>{(enabled) ? new Intl.NumberFormat().format(game.topScore) : game.unlockMessage}</div>
 			</div>
 
 		return (
