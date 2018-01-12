@@ -25,7 +25,7 @@ export default class Ship {
 		this.shotFrequency = 300;
 		this.create = args.create;
 		this.onDie = args.onDie;
-		this.invencible = false;
+		this.shieldEnabled = false;
 		this.superShip = false;
 		this.bounceSkill = false;
 		this.multiBulletSkill = false;
@@ -42,7 +42,7 @@ export default class Ship {
 	}
 
 	isShieldEnabled() {
-		return (this.invencible);
+		return (this.shieldEnabled);
 	}
 
 	enableSuperBullets() {
@@ -194,7 +194,7 @@ export default class Ship {
 
 	render(state) {
 		let colorStroke = 'red';
-		this.invencible = false;
+		this.shieldEnabled = false;
 
 		// Controls
 		if (state.keys.up || this.gameMode === GAME_MODE.SPACE_RACE) {
@@ -214,9 +214,9 @@ export default class Ship {
 		if (state.keys.shield) {
 			if (this.useShield()) {
 				colorStroke = 'blue';
-				this.invencible = true;
+				this.shieldEnabled = true;
 			} else {
-				this.invencible = false;
+				this.shieldEnabled = false;
 			}
 		}
 
@@ -260,6 +260,10 @@ export default class Ship {
 			context.lineTo(5, 7);
 			context.lineTo(-5, 7);
 			context.lineTo(-10, 10);
+		}
+		if (this.shieldEnabled) {
+			context.shadowBlur = 150;
+			context.shadowColor = colorStroke;
 		}
 		context.closePath();
 		context.fill();
