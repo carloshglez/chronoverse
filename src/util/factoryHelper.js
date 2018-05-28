@@ -42,7 +42,7 @@ export const GAME_MODE = {
             topScore: 0,
             onClickEvent: null,
             unlockAt: 2000,
-            unlockMessage: 'Get 2000 points'
+            unlockMessage: 'Get 2,000 points'
         },
         getShipPosition: (width, height) => {
             return { x: width / 8, y: height / 2 }

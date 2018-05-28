@@ -1,7 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+	mode: 'production',
+	performance: { hints: false },
 	devtool: 'source-map',
 	entry: './src/index',
 	output: {
@@ -16,9 +19,11 @@ module.exports = {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin({
-			compressor: {
-				warnings: false
+		new UglifyJsPlugin({
+			uglifyOptions: {
+				compress: {
+					warnings: false
+				}
 			}
 		})
 	],

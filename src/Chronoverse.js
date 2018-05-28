@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
@@ -487,7 +488,7 @@ export default class Chronoverse extends Component {
 			awards = <Awards
 				gameOptions={this.setGameOptions.bind(this)} />
 		}
-
+		//console.log('STATE: ' + JSON.stringify(this.getState()) + '#');
 		return (
 			<div>
 				{/*
@@ -510,5 +511,5 @@ export default class Chronoverse extends Component {
 	}
 }
 Chronoverse.contextTypes = {
-	store: React.PropTypes.object
+	store: PropTypes.object
 }
