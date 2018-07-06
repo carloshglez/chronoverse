@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Intro from './views/Intro';
 import SelectGame from './views/SelectGame';
@@ -11,10 +12,10 @@ import ScorePanel from './views/panels/ScorePanel';
 import ButtonsPanelClassic from './views/panels/ButtonsPanelClassic';
 import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 
-import FactoryClassic from './classic/Factory';
-import FactorySpaceRace from './spaceRace/Factory';
+import Factory from './factory';
 import { KEY, GAME_STATE } from './util/constants';
-import { getStorageClassicTopScore, getStorageSpaceRaceTopScore, setStorageClassicTopScore, setStorageSpaceRaceTopScore } from './util/localStorageHelper';
+import { GAME_MODE } from './util/factoryHelper';
+import { LocalStorageManager } from './util/localStorageHelper';
 import { PLAYLIST } from './util/soundHelper';
 
 export default class Chronoverse extends Component {
@@ -22,7 +23,7 @@ export default class Chronoverse extends Component {
 		super(props);
 		this.actions = props.actions;
 
-		this.appVersion = '1.2.0';
+		this.appVersion = '1.2.5';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
@@ -43,8 +44,7 @@ export default class Chronoverse extends Component {
 			setEnemyCount: this.actions.setEnemyCount.bind(this),
 			setPowerUpCount: this.actions.setPowerUpCount.bind(this)
 		};
-		this.factoryClassic = new FactoryClassic(factoryInit);
-		this.factorySpaceRace = new FactorySpaceRace(factoryInit);
+		this.factory = new Factory(factoryInit);
 	}
 
 	getState() {
@@ -84,11 +84,8 @@ export default class Chronoverse extends Component {
 		context.globalAlpha = 1;
 
 		// Next set of elements
-		if (this.getState().game.inClassicGame && !this.asteroids.length) {
-			this.factoryClassic.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
-		}
-		if (this.getState().game.inSpaceRaceGame && !this.asteroids.length) {
-			this.factorySpaceRace.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
+		if (this.isInGame() && !this.asteroids.length) {
+			this.factory.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
 		}
 
 		// Check for colisions
@@ -283,19 +280,19 @@ export default class Chronoverse extends Component {
 		return false;
 	}
 
-	increaseShield() {
+	increaseShield(value) {
 		if (this.isInGame()) {
-			this.actions.setCurrentShield(this.getState().stats.currentShield + 30);
+			this.actions.setCurrentShield(this.getState().stats.currentShield + value);
 		}
 	}
 
-	increaseTimeCounter(time = 5) {
+	increaseTimeCounter(time) {
 		if (this.isInGame()) {
 			this.actions.setTimeValue(this.getState().timeValue + time);
 		}
 	}
 
-	startTimer(item, time = 10) {
+	startTimer(item, time) {
 		this.increaseTimeCounter(time);
 		clearInterval(this.timerID);
 		this.timerID = setInterval(
@@ -349,11 +346,11 @@ export default class Chronoverse extends Component {
 	updateTopScore() {
 		if (this.getState().stats.currentScore > this.getState().stats.topScoreInUse) {
 			if (this.getState().game.inClassicGame) {
-				setStorageClassicTopScore(this.getState().stats.currentScore);
+				LocalStorageManager.setClassicTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreClassic(this.getState().stats.currentScore);
 			}
 			if (this.getState().game.inSpaceRaceGame) {
-				setStorageSpaceRaceTopScore(this.getState().stats.currentScore);
+				LocalStorageManager.setSpaceRaceTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreSpaceRace(this.getState().stats.currentScore);
 			}
 		}
@@ -375,8 +372,8 @@ export default class Chronoverse extends Component {
 		this.actions.setCurrentShield(100);
 		this.actions.setCurrentScore(0);
 		this.actions.setTopScoreInUse(0);
-		this.actions.setTopScoreClassic(getStorageClassicTopScore());
-		this.actions.setTopScoreSpaceRace(getStorageSpaceRaceTopScore());
+		this.actions.setTopScoreClassic(LocalStorageManager.getClassicTopScore());
+		this.actions.setTopScoreSpaceRace(LocalStorageManager.getSpaceRaceTopScore());
 	}
 
 	setIntro() {
@@ -397,24 +394,26 @@ export default class Chronoverse extends Component {
 
 	startClassicGame() {
 		this.actions.setGameState(GAME_STATE.CLASSIC);
+		this.factory.setGameMode(GAME_MODE.CLASSIC);
 
 		this.asteroids = [];
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
 		this.actions.setTopScoreInUse(this.getState().stats.topScoreClassic);
-		this.factoryClassic.generateShip();
+		this.factory.generateShip();
 	}
 
 	startSpaceRaceGame() {
 		this.actions.setGameState(GAME_STATE.SPACE_RACE);
+		this.factory.setGameMode(GAME_MODE.SPACE_RACE);
 
 		this.asteroids = [];
 		this.bullets = [];
 		this.powerUps = [];
 		this.enemies = [];
 		this.actions.setTopScoreInUse(this.getState().stats.topScoreSpaceRace);
-		this.factorySpaceRace.generateShip();
+		this.factory.generateShip();
 	}
 
 	gameOver() {
@@ -489,7 +488,7 @@ export default class Chronoverse extends Component {
 			awards = <Awards
 				gameOptions={this.setGameOptions.bind(this)} />
 		}
-
+		//console.log('STATE: ' + JSON.stringify(this.getState()) + '#');
 		return (
 			<div>
 				{/*
@@ -512,5 +511,5 @@ export default class Chronoverse extends Component {
 	}
 }
 Chronoverse.contextTypes = {
-	store: React.PropTypes.object
+	store: PropTypes.object
 }

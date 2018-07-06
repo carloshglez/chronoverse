@@ -11,19 +11,19 @@ import MdLock from 'react-icons/lib/md/lock'
 import MdInfo from 'react-icons/lib/md/info'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import { isPassive, isMobileDevice } from '../util/helpers';
-import { GAME_RULES } from '../util/constants';
+import { GAME_MODE } from '../util/factoryHelper';
 import { PLAYLIST } from '../util/soundHelper';
-import { getStorageClassicTopScore, getStorageSpaceRaceTopScore} from '../util/localStorageHelper';
+import { LocalStorageManager } from '../util/localStorageHelper';
 
 export default class SelectGame extends React.Component {
 	constructor(props) {
 		super(props);
 		this.myScroll = null;
 
-		GAME_RULES.CLASSIC.onClickEvent = props.startClassicGame;
-		GAME_RULES.CLASSIC.topScore = getStorageClassicTopScore();
-		GAME_RULES.SPACE_RACE.onClickEvent = props.startSpaceRaceGame;
-		GAME_RULES.SPACE_RACE.topScore = getStorageSpaceRaceTopScore();
+		GAME_MODE.CLASSIC.rules.onClickEvent = props.startClassicGame;
+		GAME_MODE.CLASSIC.rules.topScore = LocalStorageManager.getClassicTopScore();
+		GAME_MODE.SPACE_RACE.rules.onClickEvent = props.startSpaceRaceGame;
+		GAME_MODE.SPACE_RACE.rules.topScore = LocalStorageManager.getSpaceRaceTopScore();
 	}
 
 	componentDidMount() {
@@ -76,7 +76,7 @@ export default class SelectGame extends React.Component {
 
 		gameInfo = <div>
 				{(enabled) ? topScoreLabel : <MdLock />}
-				<div>{(enabled) ? game.topScore : game.unlockMessage}</div>
+				<div>{(enabled) ? new Intl.NumberFormat().format(game.topScore) : game.unlockMessage}</div>
 			</div>
 
 		return (
@@ -103,11 +103,11 @@ export default class SelectGame extends React.Component {
 				<div id='wrapper' className='wrapper-sg' ref='wrapper'>
 					<div id='scroller' className='scroller-sg'>
 						<ul>
-							{this.getGameSelection(GAME_RULES.CLASSIC,
-								(GAME_RULES.CLASSIC.topScore >= GAME_RULES.CLASSIC.unlockAt))
+							{this.getGameSelection(GAME_MODE.CLASSIC.rules,
+								(GAME_MODE.CLASSIC.rules.topScore >= GAME_MODE.CLASSIC.rules.unlockAt))
 							}
-							{this.getGameSelection(GAME_RULES.SPACE_RACE,
-								(GAME_RULES.CLASSIC.topScore >= GAME_RULES.SPACE_RACE.unlockAt))
+							{this.getGameSelection(GAME_MODE.SPACE_RACE.rules,
+								(GAME_MODE.CLASSIC.rules.topScore >= GAME_MODE.SPACE_RACE.rules.unlockAt))
 							}
 						</ul>
 					</div>

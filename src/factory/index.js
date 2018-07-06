@@ -5,11 +5,13 @@ import Enemy from './components/Enemy';
 import { PW } from '../util/powerUpHelper';
 import { ENEMY_TYPE } from '../util/constants';
 import { PLAYLIST } from '../util/soundHelper';
-import { randomNumBetweenExcluding, randomNumBetween, getRandomItem,
-    getNextAsteroidsCount, getNextPowerUpCount } from '../util/helpers';
+import { randomNumBetween, getRandomItem, getNextAsteroidsCount, getNextPowerUpCount } from '../util/helpers';
+import { GAME_MODE } from '../util/factoryHelper';
 
 export default class Factory {
     constructor(args) {
+        this.gameMode = null
+
         this.screenWidth = args.screenWidth
         this.screenHeight = args.screenHeight
         this.ship = null
@@ -23,15 +25,17 @@ export default class Factory {
         this.setPowerUpCount = args.setPowerUpCount
     }
 
+    setGameMode(gameMode) {
+        this.gameMode = gameMode
+    }
+
     generateShip() {
         let ship = new Ship({
-            position: {
-                x: this.screenWidth / 2,
-                y: this.screenHeight / 2
-            },
+            position: this.gameMode.getShipPosition(this.screenWidth, this.screenHeight),
             create: this.createObject,
             onDie: this.gameOver,
-            useShield: this.useShield
+            useShield: this.useShield,
+            gameMode: this.gameMode
         })
         this.createObject(ship, 'ship')
         this.ship = ship
@@ -41,12 +45,10 @@ export default class Factory {
         for (let i = 0; i < howMany; i++) {
             let asteroid = new Asteroid({
                 size: randomNumBetween(10, 60),
-                position: {
-                    x: randomNumBetweenExcluding(0, this.screenWidth, this.ship.position.x - 60, this.ship.position.x + 60),
-                    y: randomNumBetweenExcluding(0, this.screenHeight, this.ship.position.y - 60, this.ship.position.y + 60)
-                },
+                position: this.gameMode.getAsteroidPosition(this.screenWidth, this.screenHeight, this.ship.position),
                 create: this.createObject,
-                addScore: this.addScore
+                addScore: this.addScore,
+                gameMode: this.gameMode
             });
             this.createObject(asteroid, 'asteroids');
         }
@@ -56,14 +58,12 @@ export default class Factory {
     generateEnemy(howMany) {
         for (let i = 0; i < howMany; i++) {
             let enemy = new Enemy({
-                position: {
-                    x: randomNumBetweenExcluding(0, this.screenWidth, this.ship.position.x - 60, this.ship.position.x + 60),
-                    y: randomNumBetweenExcluding(0, this.screenHeight, this.ship.position.y - 60, this.ship.position.y + 60)
-                },
+                position: this.gameMode.getEnemyPosition(this.screenWidth, this.screenHeight, this.ship.position),
                 ship: this.ship,
                 type: getRandomItem(ENEMY_TYPE),
                 addScore: this.addScore,
-                create: this.createObject
+                create: this.createObject,
+                gameMode: this.gameMode
             });
             this.createObject(enemy, 'enemies');
         }
@@ -73,12 +73,10 @@ export default class Factory {
     generatePowerUp(howMany) {
         for (let i = 0; i < howMany; i++) {
             let powerUp = new PowerUp({
-                position: {
-                    x: randomNumBetweenExcluding(0, this.screenWidth, this.ship.position.x - 60, this.ship.position.x + 60),
-                    y: randomNumBetweenExcluding(0, this.screenHeight, this.ship.position.y - 60, this.ship.position.y + 60)
-                },
+                position: this.gameMode.getPowerUpPosition(this.screenWidth, this.screenHeight, this.ship.position),
                 create: this.createObject,
-                powerUp: getRandomItem(PW)
+                powerUp: getRandomItem(PW),
+                gameMode: this.gameMode
             });
             this.createObject(powerUp, 'powerUps');
         }

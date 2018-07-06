@@ -29,8 +29,6 @@ export function setContext (context) {
     }
 }
 
-/*----------------------------------------------------------*/
-/*----------------------------------------------------------*/
 export function setGameState (gameState) {
     return {
         type: C.SET_GAME_STATE,
