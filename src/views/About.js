@@ -2,8 +2,8 @@ import React from 'react';
 import '../styles/style.css';
 import '../styles/intro.css';
 
-import MdInfo from 'react-icons/lib/md/info'
 import { PLAYLIST } from '../util/soundHelper';
+import { strings } from '../util/strings';
 
 export default class About extends React.Component {
     componentDidMount() {
@@ -18,15 +18,15 @@ export default class About extends React.Component {
         return (
             <div>
                 <div className='intro'>
-                    <h2>Chronoverse</h2>
+                    <h2>{strings.title}</h2>
                     <img className='aboutImg' src={'./webapp/icon.png'}/>
-                    <br/>Version {this.props.appversion}<br/>
+                    <br/>{strings.lbVersion} {this.props.appversion}<br/>
                     <p>carloshglez &copy;2018</p>
                     <br/>
                     <button
                         className='infoButton'
                         onClick={this.props.gameOptions}>
-                        Thanks for playing!
+                        {strings.lbThanks}
                     </button>
                 </div>
             </div>

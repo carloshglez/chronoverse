@@ -1,4 +1,5 @@
 import { notify } from 'react-notify-toast'
+import { strings } from './strings';
 
 /**
  *
@@ -8,7 +9,7 @@ export const PW = {
     id: 1,
     color: 'Blue',
     drawShape: getShieldShape,
-    text: 'Shield Up!',
+    text: strings.pwShield,
     incrementValue: 30,
     apply: applyShield
   },
@@ -16,7 +17,7 @@ export const PW = {
     id: 2,
     color: 'GoldenRod',
     drawShape: getDefaultShape,
-    text: 'SUPER Bullets!',
+    text: strings.pwSuperBullet,
     time: 5,
     apply: applySuperBullet
   },
@@ -24,7 +25,7 @@ export const PW = {
     id: 3,
     color: 'ForestGreen',
     drawShape: getFastBulletShape,
-    text: 'WOW Fast Bullets!',
+    text: strings.pwFastBullet,
     time: 5,
     apply: applyFastBullet
   },
@@ -32,7 +33,7 @@ export const PW = {
     id: 4,
     color: 'Purple',
     drawShape: getBigShipShape,
-    text: 'Giant Ship!',
+    text: strings.pwBigShip,
     time: 5,
     apply: applyBigShip
   },
@@ -40,7 +41,7 @@ export const PW = {
     id: 5,
     color: 'Orange',
     drawShape: getSpeedShape,
-    text: 'WOW Fast Ship!',
+    text: strings.pwFastShip,
     time: 10,
     apply: applySpeed
   },
@@ -48,7 +49,7 @@ export const PW = {
     id: 6,
     color: 'DarkTurquoise',
     drawShape: getBounceBulletShape,
-    text: 'Bounce Bullets!',
+    text: strings.pwBounceBullet,
     time: 5,
     apply: applyBounceBullet
   },
@@ -56,7 +57,7 @@ export const PW = {
     id: 7,
     color: 'Pink',
     drawShape: getMultiBulletShape,
-    text: 'Weapon Increased!',
+    text: strings.pwMultiBullet,
     time: 15,
     apply: applyMultiBullet
   },
@@ -64,7 +65,7 @@ export const PW = {
     id: 8,
     color: 'White',
     drawShape: getTimeBonusShape,
-    text: 'Time Bonus! (+5)',
+    text: strings.pwTimeBonus,
     time: 5,
     apply: applyTimeBonus
   },
@@ -72,7 +73,7 @@ export const PW = {
     id: 9,
     color: 'Maroon',
     drawShape: getDefaultShape,
-    text: 'Fire Ring!',
+    text: strings.pwFireRing,
     time: 5,
     apply: applyFireRing
   }
@@ -131,8 +132,8 @@ function applyMultiBullet(_this, ship) {
 }
 
 function applyTimeBonus(_this) {
-    showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
     _this.increaseTimeCounter(PW.TIME_BONUS.time);
+    showNotification(PW.TIME_BONUS.color, PW.TIME_BONUS.text)
 }
 
 function applyFireRing(_this, ship) {

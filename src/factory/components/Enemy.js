@@ -1,4 +1,3 @@
-import Particle from './Particle';
 import Bullet from './Bullet';
 import { ENEMY_TYPE } from '../../util/constants';
 import { PLAYLIST } from '../../util/soundHelper';

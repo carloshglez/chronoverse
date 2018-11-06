@@ -8,6 +8,7 @@ import MdStars from 'react-icons/lib/md/stars'
 import MdStarOutline from 'react-icons/lib/md/star-outline'
 import Progress from 'react-progressbar';
 import { PLAYLIST } from '../../util/soundHelper';
+import { strings } from '../../util/strings';
 
 export default class ScorePanel extends React.Component {
     componentDidMount() {
@@ -21,10 +22,10 @@ export default class ScorePanel extends React.Component {
         return (
             <div>
                 <span className='score top-score'>
-                    <MdStars /> Top Score: {new Intl.NumberFormat().format(this.props.topScore)}
+                    <MdStars /> {strings.lbTopScore}: {new Intl.NumberFormat().format(this.props.topScore)}
                 </span>
                 <span className='score current-score'>
-                    <MdStarOutline /> Score: {new Intl.NumberFormat().format(this.props.currentScore)}
+                    <MdStarOutline /> {strings.lbScore}: {new Intl.NumberFormat().format(this.props.currentScore)}
                 </span>
                 <span className='score shield-score'>
                     <div style={{float: 'left'}}><FaShield /></div>

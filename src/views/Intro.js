@@ -3,6 +3,7 @@ import '../styles/style.css';
 import '../styles/intro.css';
 
 import { PLAYLIST } from '../util/soundHelper';
+import { strings } from '../util/strings';
 
 export default class Intro extends React.Component {
     componentWillUnmount() {
@@ -13,11 +14,11 @@ export default class Intro extends React.Component {
         return (
             <div>
                 <div className='intro'>
-                    <h2>Chronoverse</h2>
+                    <h2>{strings.title}</h2>
                     <button
                         className='infoButton'
                         onClick={this.props.gameOptions}>
-                        S T A R T
+                        {strings.btStart}
                     </button>
                 </div>
                 <div className='help-info legal'>

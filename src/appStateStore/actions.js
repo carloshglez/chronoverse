@@ -1,4 +1,6 @@
 import C from './constants'
+import { strings } from '../util/strings';
+import { enableSound } from '../util/soundHelper';
 
 /*----------------------------------------------------------*/
 /*----------------------------------------------------------*/
@@ -33,6 +35,22 @@ export function setGameState (gameState) {
     return {
         type: C.SET_GAME_STATE,
         payload: gameState
+    }
+}
+
+export function setGameSound (gameSound) {
+    enableSound(gameSound);
+    return {
+        type: C.SET_GAME_SOUND,
+        payload: gameSound
+    }
+}
+
+export function setGameLang (gameLang) {
+    strings.setLanguage(gameLang);
+    return {
+        type: C.SET_GAME_LANG,
+        payload: gameLang
     }
 }
 

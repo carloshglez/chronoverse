@@ -6,7 +6,7 @@ import '../styles/style.css';
 import '../styles/selectGame.css';
 
 import MdStars from 'react-icons/lib/md/stars'
-import MdArrowBack from 'react-icons/lib/md/arrow-back'
+import MdSettings from 'react-icons/lib/md/settings'
 import MdLock from 'react-icons/lib/md/lock'
 import MdInfo from 'react-icons/lib/md/info'
 import FaTrophy from 'react-icons/lib/fa/trophy'
@@ -14,6 +14,7 @@ import { isPassive, isMobileDevice } from '../util/helpers';
 import { GAME_MODE } from '../util/factoryHelper';
 import { PLAYLIST } from '../util/soundHelper';
 import { LocalStorageManager } from '../util/localStorageHelper';
+import { strings } from '../util/strings';
 
 export default class SelectGame extends React.Component {
 	constructor(props) {
@@ -35,8 +36,6 @@ export default class SelectGame extends React.Component {
 					passive: false
 				} : false
 			);
-			/*this.myScroll.on('scroll', this.goBackToIntro.bind(this, this.myScroll));
-			this.myScroll.on('scrollEnd', this.goBackToIntro.bind(this, this.myScroll));*/
 		}
 	}
 
@@ -52,13 +51,6 @@ export default class SelectGame extends React.Component {
 		this.myScroll = null;
 	}
 
-	/*goBackToIntro(iScroll) {
-		if(iScroll.x > 300) {
-			iScroll.destroy();
-			this.props.setIntro();
-		}
-	}*/
-
 	playDisableSound() {
 		PLAYLIST.OPTION_DISABLED.play();
 	}
@@ -66,7 +58,7 @@ export default class SelectGame extends React.Component {
 	getGameSelection(game, enabled) {
 		let gameButton;
 		let gameInfo;
-		let topScoreLabel = <div><MdStars /> Top Score:</div>;
+		let topScoreLabel = <div><MdStars /> {strings.lbTopScore}:</div>;
 
 		gameButton = <button
 				className='infoButton'
@@ -93,12 +85,15 @@ export default class SelectGame extends React.Component {
 				<div className='iconPanel upper-corner-left-first'>
 					<FaTrophy onClick={this.props.displayAwards}/>
 				</div>
+				<div className='iconPanel upper-corner-left-first-2'>
+					<MdSettings onClick={this.props.displaySettings}/>
+				</div>
 				<div className='iconPanel upper-corner-right-first'>
 					<MdInfo onClick={this.props.displayAbout}/>
 				</div>
 
 				<div className='selectgame'>
-					<h3>Select a Game:</h3>
+					<h3>{strings.lbSelectGame}</h3>
 				</div>
 				<div id='wrapper' className='wrapper-sg' ref='wrapper'>
 					<div id='scroller' className='scroller-sg'>

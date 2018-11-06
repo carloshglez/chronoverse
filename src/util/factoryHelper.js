@@ -1,10 +1,11 @@
-import { randomNumBetweenExcluding, randomNumBetween } from '../util/helpers';
+import { randomNumBetweenExcluding, randomNumBetween } from './helpers';
+import { strings } from './strings';
 
 export const GAME_MODE = {
     CLASSIC: {
         rules: {
             id: 1,
-            title: 'Classic',
+            title: strings.lbClassic,
             topScore: 0,
             onClickEvent: null,
             unlockAt: 0,
@@ -38,11 +39,11 @@ export const GAME_MODE = {
     SPACE_RACE: {
         rules: {
             id: 2,
-            title: 'Space Race',
+            title: strings.lbSpaceRace,
             topScore: 0,
             onClickEvent: null,
             unlockAt: 2000,
-            unlockMessage: 'Get 2,000 points'
+            unlockMessage: strings.lbSpaceRaceUnlockMsg
         },
         getShipPosition: (width, height) => {
             return { x: width / 8, y: height / 2 }
