@@ -1,4 +1,4 @@
-import { STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE, STORAGE_AWARDS } from './constants';
+import { STORAGE_CLASSIC_TOP_SCORE, STORAGE_SPACE_RACE_TOP_SCORE, STORAGE_BATTLE_TOP_SCORE, STORAGE_AWARDS } from './constants';
 
 export const LocalStorageManager = {
 	setClassicTopScore: (value) => {
@@ -6,6 +6,9 @@ export const LocalStorageManager = {
 	},
 	setSpaceRaceTopScore: (value) => {
 		localStorage[STORAGE_SPACE_RACE_TOP_SCORE] = value;
+	},
+	setBattleTopScore: (value) => {
+		localStorage[STORAGE_BATTLE_TOP_SCORE] = value;
 	},
 	setAwards: (value) => {
 		localStorage[STORAGE_AWARDS] = value;
@@ -15,6 +18,9 @@ export const LocalStorageManager = {
 	},
 	getSpaceRaceTopScore: () => {
 		return localStorage[STORAGE_SPACE_RACE_TOP_SCORE] || 0;
+	},
+	getBattleTopScore: () => {
+		return localStorage[STORAGE_BATTLE_TOP_SCORE] || 0;
 	},
 	getAwards: () => {
 		return (localStorage[STORAGE_AWARDS])

@@ -5,7 +5,7 @@ import Enemy from './components/Enemy';
 import { PW } from '../util/powerUpHelper';
 import { ENEMY_TYPE } from '../util/constants';
 import { PLAYLIST } from '../util/soundHelper';
-import { randomNumBetween, getRandomItem, getNextAsteroidsCount, getNextPowerUpCount } from '../util/helpers';
+import { randomNumBetween, getRandomItem, getNextAsteroidsCount, getNextPowerUpCount, getNextEnemyCount } from '../util/helpers';
 import { GAME_MODE } from '../util/factoryHelper';
 
 export default class Factory {
@@ -83,18 +83,36 @@ export default class Factory {
         this.setPowerUpCount(howMany);
     }
 
-    nextSetOfComponents(currentScore, enemyCount, currentAsteroidCount, powerUpsArray) {
-        let nextAsteroidCount = getNextAsteroidsCount(currentAsteroidCount);
-        this.generateAsteroids(nextAsteroidCount)
+    nextSetOfComponents(currentScore, enemyCount, currentAsteroidCount, powerUpsArray, asteroidsArray, enemiesArray) {
+        if (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.SPACE_RACE) {
+            if (!asteroidsArray.length) {
+                let nextAsteroidCount = getNextAsteroidsCount(currentAsteroidCount);
+                this.generateAsteroids(nextAsteroidCount)
+        
+                let powerUpCount = getNextPowerUpCount(powerUpsArray, nextAsteroidCount);
+                this.generatePowerUp(powerUpCount);
+        
+                let enemyGoal = enemyCount + 1000;
+                if (currentScore >= enemyGoal) {
+                    let enemyCount = (Math.floor((enemyGoal) / 1000));
+                    this.generateEnemy(enemyCount)
+                    PLAYLIST.ENEMY.play();
+                }
+            }
+        }
+        if (this.gameMode === GAME_MODE.BATTLE) {
+            if (!enemiesArray.length) {
+                if (enemyCount >= 1000) {
+                    enemyCount = (Math.floor((enemyCount) / 1000));
+                }
 
-        let powerUpCount = getNextPowerUpCount(powerUpsArray, nextAsteroidCount);
-        this.generatePowerUp(powerUpCount)
-
-        let enemyGoal = enemyCount + 1000;
-        if (currentScore >= enemyGoal) {
-            let enemyCount = (Math.floor((enemyGoal) / 1000));
-            this.generateEnemy(enemyCount)
-            PLAYLIST.ENEMY.play();
+                let nextEnemyCount = getNextEnemyCount(enemyCount);
+                this.generateEnemy(nextEnemyCount);
+                
+                let powerUpCount = getNextPowerUpCount(powerUpsArray, nextEnemyCount);
+                this.generatePowerUp(powerUpCount);
+                PLAYLIST.ENEMY.play();
+            }
         }
     }
 }

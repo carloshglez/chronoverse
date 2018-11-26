@@ -46,6 +46,7 @@ export const game = (state = {}, action) => {
                 select: (action.payload === GAME_STATE.SELECT) ? true : false,
                 inClassicGame: (action.payload === GAME_STATE.CLASSIC) ? true : false,
                 inSpaceRaceGame: (action.payload === GAME_STATE.SPACE_RACE) ? true : false,
+                inBattleGame: (action.payload === GAME_STATE.BATTLE) ? true : false,
                 over: (action.payload === GAME_STATE.OVER) ? true : false,
                 about: (action.payload === GAME_STATE.ABOUT) ? true : false,
                 awards: (action.payload === GAME_STATE.AWARDS) ? true : false,
@@ -209,6 +210,15 @@ export const topScoreSpaceRace = (state = 0, action) => {
     }
 }
 
+export const topScoreBattle = (state = 0, action) => {
+    switch (action.type) {
+        case C.SET_TOP_SCORE_BATTLE:
+            return parseInt(action.payload)
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     context,
     screen,
@@ -231,6 +241,7 @@ export default combineReducers({
         currentScore,
         topScoreInUse,
         topScoreClassic,
-        topScoreSpaceRace
+        topScoreSpaceRace,
+        topScoreBattle
     })
 })

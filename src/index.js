@@ -35,13 +35,15 @@ const initialState = {
         currentScore: 0,
         topScoreInUse: 0,
         topScoreClassic: LocalStorageManager.getClassicTopScore(),
-        topScoreSpaceRace: LocalStorageManager.getSpaceRaceTopScore()
+        topScoreSpaceRace: LocalStorageManager.getSpaceRaceTopScore(),
+        topScoreBattle: LocalStorageManager.getBattleTopScore()
     },
     game: {
         intro: true,
         select: false,
         inClassicGame: false,
         inSpaceRaceGame: false,
+        inBattleGame: false,
         over: false,
         about: false,
         awards: false

@@ -9,7 +9,6 @@ import MdVolumeUp from 'react-icons/lib/md/volume-up'
 import MdLanguage from 'react-icons/lib/md/language'
 import { PLAYLIST } from '../util/soundHelper';
 import { strings } from '../util/strings';
-import { GAME_MODE } from '../util/factoryHelper';
 
 export default class Settings extends React.Component {
     constructor(props) {

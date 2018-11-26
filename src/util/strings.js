@@ -21,6 +21,8 @@ export const strings = new LocalizedStrings({
         lbClassic: 'Classic',
         lbSpaceRace: 'Space Race',
         lbSpaceRaceUnlockMsg: 'Get 2,000 points',
+        lbBattle: 'Battle',
+        lbBattleUnlockMsg: 'Get 5,000 points',
 
         // EndGame
         btTryAgain: 'Try Again?',
@@ -93,6 +95,8 @@ export const strings = new LocalizedStrings({
         lbClassic: 'Clásico',
         lbSpaceRace: 'Carrera',
         lbSpaceRaceUnlockMsg: '2,000 puntos',
+        lbBattle: 'Batalla',
+        lbBattleUnlockMsg: '5,000 puntos',
 
         // EndGame
         btTryAgain: 'Jugar',

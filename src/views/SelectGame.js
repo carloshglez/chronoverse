@@ -25,6 +25,8 @@ export default class SelectGame extends React.Component {
 		GAME_MODE.CLASSIC.rules.topScore = LocalStorageManager.getClassicTopScore();
 		GAME_MODE.SPACE_RACE.rules.onClickEvent = props.startSpaceRaceGame;
 		GAME_MODE.SPACE_RACE.rules.topScore = LocalStorageManager.getSpaceRaceTopScore();
+		GAME_MODE.BATTLE.rules.onClickEvent = props.startBattleGame;
+		GAME_MODE.BATTLE.rules.topScore = LocalStorageManager.getBattleTopScore();
 	}
 
 	componentDidMount() {
@@ -103,6 +105,9 @@ export default class SelectGame extends React.Component {
 							}
 							{this.getGameSelection(GAME_MODE.SPACE_RACE.rules,
 								(GAME_MODE.CLASSIC.rules.topScore >= GAME_MODE.SPACE_RACE.rules.unlockAt))
+							}
+							{this.getGameSelection(GAME_MODE.BATTLE.rules,
+								(GAME_MODE.CLASSIC.rules.topScore + GAME_MODE.SPACE_RACE.rules.topScore >= GAME_MODE.BATTLE.rules.unlockAt))
 							}
 						</ul>
 					</div>

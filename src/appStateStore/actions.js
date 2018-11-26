@@ -162,3 +162,10 @@ export function setTopScoreSpaceRace (score) {
         payload: score
     }
 }
+
+export function setTopScoreBattle (score) {
+    return {
+        type: C.SET_TOP_SCORE_BATTLE,
+        payload: score
+    }
+}
