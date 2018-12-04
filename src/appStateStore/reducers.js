@@ -48,9 +48,27 @@ export const game = (state = {}, action) => {
                 inSpaceRaceGame: (action.payload === GAME_STATE.SPACE_RACE) ? true : false,
                 over: (action.payload === GAME_STATE.OVER) ? true : false,
                 about: (action.payload === GAME_STATE.ABOUT) ? true : false,
-                awards: (action.payload === GAME_STATE.AWARDS) ? true : false
-            }
-            )
+                awards: (action.payload === GAME_STATE.AWARDS) ? true : false,
+                settings: (action.payload === GAME_STATE.SETTINGS) ? true : false
+            })
+        default:
+            return state
+    }
+}
+
+export const sound = (state = false, action) => {
+    switch (action.type) {
+        case C.SET_GAME_SOUND:
+            return action.payload
+        default:
+            return state
+    }
+}
+
+export const language = (state = 'es', action) => {
+    switch (action.type) {
+        case C.SET_GAME_LANG:
+            return action.payload
         default:
             return state
     }
@@ -196,6 +214,8 @@ export default combineReducers({
     screen,
     keys,
     game,
+    sound,
+    language,
     asteroidCount,
     powerUpCount,
     enemyCount,

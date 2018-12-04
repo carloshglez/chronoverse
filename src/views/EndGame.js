@@ -7,6 +7,7 @@ import MdExitToApp from 'react-icons/lib/md/exit-to-app'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import { evaluateResults } from '../util/awardsHelper';
 import { PLAYLIST } from '../util/soundHelper';
+import { strings } from '../util/strings';
 
 export default class EndGame extends React.Component {
 	constructor() {
@@ -17,7 +18,7 @@ export default class EndGame extends React.Component {
 	componentWillMount() {
 		//Verify if an award has been won
 		let newAward = evaluateResults(this.props.stats);
-		this.gotAward = (newAward) ? (<div><div className='got-award'><FaTrophy/></div>¡You won an award!</div>) : null;
+		this.gotAward = (newAward) ? (<div><div className='got-award'><FaTrophy/></div>{strings.lbMsgAwardWon}</div>) : null;
 
 		PLAYLIST.END_GAME.play();
 	}
@@ -29,11 +30,11 @@ export default class EndGame extends React.Component {
 	render() {
 		let message
         if (this.props.stats.currentScore <= 0) {
-		  	message = '0 points... So sad.'
+		  	message = strings.lbNoPoints
         } else if (this.props.stats.currentScore >= this.props.stats.topScoreInUse){
-          	message = 'You got a New Record!'
+          	message = strings.lbNewRecord
 		} else {
-			message = 'Good Job! :)'
+			message = strings.lbGoodJob
 		}
 
 		let hitPercentaje = 0
@@ -45,17 +46,17 @@ export default class EndGame extends React.Component {
       		<div className='endgame'>
 				<div className='stats'>
 					<div className='stat-title'>
-						<h4>Results:</h4>
+						<h4>{strings.lbResults}</h4>
 						<p>
-							Bullets Fired:<br/>
-							Bullets Hit:<br/>
-							Hit Percentaje:<br/>
+							{strings.lbBulletsFired}<br/>
+							{strings.lbBulletsHit}<br/>
+							{strings.lbHitPercentaje}<br/>
 							<br/>
-							Shield Usage:<br/>
-							Power-Up Usage:<br/>
+							{strings.lbShieldUsage}<br/>
+							{strings.lbPowerUpUsage}<br/>
 							<br/>
-							Top Score:<br/>
-							Your Score:<br/>
+							{strings.lbTopScore}<br/>
+							{strings.lbYourScore}<br/>
 						</p>
 						<hr/>
 						<b>&nbsp;{ message }</b>
@@ -76,16 +77,16 @@ export default class EndGame extends React.Component {
 					</div>
 				</div>
 				<div className='retry'>
-					<h3>Game Over!</h3>
+					<h3>{strings.lbGameOver}</h3>
 					<button
 						className='infoButton'
 						onClick={ this.props.retryOption }>
-						<FaRepeat/> Try again?
+						<FaRepeat/> {strings.btTryAgain}
 					</button>
 					<button
 						className='infoButton'
 						onClick={ this.props.setIntro }>
-						<MdExitToApp/> Exit
+						<MdExitToApp/> {strings.btExit}
 					</button>
 					{this.gotAward}
 				</div>

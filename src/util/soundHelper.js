@@ -1,6 +1,5 @@
 import { Howl } from 'howler';
 
-//Howler.mute(true);
 Howler.volume(0.5);
 
 /**
@@ -31,3 +30,7 @@ export const PLAYLIST = {
     START_GAME: new Howl({src: ['./sounds/startGame.wav']}),
     END_GAME: new Howl({src: ['./sounds/endGame.wav']})
 };
+
+export function enableSound(value) {
+    Howler.mute(value);
+}

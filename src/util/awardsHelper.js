@@ -1,91 +1,92 @@
 import React from 'react';
 import { LocalStorageManager } from './localStorageHelper';
+import { strings } from './strings';
 import FaTrophy from 'react-icons/lib/fa/trophy'
 
 /**
  *
  */
 let index = 0;
-const AWARDS = [
+export const AWARDS = [
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Play for the first time'
+        text: strings.lbAward00
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Score: 500 points'
+        text: strings.lbAward01
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Score: 1,000 points'
+        text: strings.lbAward02
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Score: 2,000 points'
+        text: strings.lbAward03
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Score: +3,000 points'
+        text: strings.lbAward04
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Destroy 10 asteroids'
+        text: strings.lbAward05
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Destroy 50 asteroids'
+        text: strings.lbAward06
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Destroy +100 asteroids'
+        text: strings.lbAward07
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Destroy 3 enemies'
+        text: strings.lbAward08
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Destroy +5 enemies'
+        text: strings.lbAward09
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Hit Percentage +50% and +10 bullets'
+        text: strings.lbAward10
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Hit Percentage +80% and +10 bullets'
+        text: strings.lbAward11
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Hit Percentage 100% and +10 bullets'
+        text: strings.lbAward12
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Bullets Fired: 100'
+        text: strings.lbAward13
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Bullets Fired: 300'
+        text: strings.lbAward14
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Bullets Fired: +500'
+        text: strings.lbAward15
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Run out the shield'
+        text: strings.lbAward16
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Shield usage: 50%'
+        text: strings.lbAward17
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Use 3 power-ups'
+        text: strings.lbAward18
     },
     {
         id: index++, won: false, icon: <FaTrophy />,
-        text: 'Use +5 power-ups'
+        text: strings.lbAward19
     }
 
 ];

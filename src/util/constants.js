@@ -36,5 +36,6 @@ export const GAME_STATE = {
     SPACE_RACE: 'inSpaceRaceGame',
 	OVER: 'over',
 	ABOUT: 'about',
-	AWARDS: 'awards'
+	AWARDS: 'awards',
+	SETTINGS: 'settings'
 };

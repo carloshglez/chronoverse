@@ -9,6 +9,7 @@ import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
 import { isPassive, isMobileDevice } from '../util/helpers';
 import { getAwardsArray, wonAwards } from '../util/awardsHelper';
 import { PLAYLIST } from '../util/soundHelper';
+import { strings } from '../util/strings';
 
 export default class Awards extends React.Component {
     constructor() {
@@ -59,7 +60,7 @@ export default class Awards extends React.Component {
 				</div>
 
                 <div className='selectgame'>
-                    <h3>Your Awards:</h3>
+                    <h3>{strings.lbYourAwards}</h3>
                 </div>
                 <div>
                     <div id='wrapper' className='wrapper-award' ref='wrapper'>

@@ -6,6 +6,7 @@ import SelectGame from './views/SelectGame';
 import EndGame from './views/EndGame';
 import About from './views/About';
 import Awards from './views/Awards';
+import Settings from './views/Settings';
 
 import ControlPanel from './views/panels/ControlPanel';
 import ScorePanel from './views/panels/ScorePanel';
@@ -13,9 +14,10 @@ import ButtonsPanelClassic from './views/panels/ButtonsPanelClassic';
 import ButtonsPanelSpaceRace from './views/panels/ButtonsPanelSpaceRace';
 
 import Factory from './factory';
+import { LocalStorageManager } from './util/localStorageHelper';
+import { updateInnerStrings } from './util/helpers';
 import { KEY, GAME_STATE } from './util/constants';
 import { GAME_MODE } from './util/factoryHelper';
-import { LocalStorageManager } from './util/localStorageHelper';
 import { PLAYLIST } from './util/soundHelper';
 
 export default class Chronoverse extends Component {
@@ -23,7 +25,7 @@ export default class Chronoverse extends Component {
 		super(props);
 		this.actions = props.actions;
 
-		this.appVersion = '1.2.5';
+		this.appVersion = '1.2.6';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
@@ -51,6 +53,12 @@ export default class Chronoverse extends Component {
 		return this.props.state;
 	}
 
+	initLanguage(value = 'en') {
+		this.actions.setGameLang(value);
+		/*Handle update for strings inside const objects*/
+		updateInnerStrings();
+	}
+
 	componentDidMount() {
 		window.addEventListener('keyup', this.handleKeys.bind(this, false));
 		window.addEventListener('keydown', this.handleKeys.bind(this, true));
@@ -59,6 +67,7 @@ export default class Chronoverse extends Component {
 
 		const context = this.refs.canvas.getContext('2d');
 		this.actions.setContext(context);
+		this.initLanguage();
 		requestAnimationFrame(() => { this.update() });
 	}
 
@@ -431,6 +440,10 @@ export default class Chronoverse extends Component {
 		this.actions.setGameState(GAME_STATE.AWARDS);
 	}
 
+	displaySettings() {
+		this.actions.setGameState(GAME_STATE.SETTINGS);
+	}
+
 	render() {
 		let introGame;
 		let selectGame;
@@ -438,6 +451,7 @@ export default class Chronoverse extends Component {
 		let endGame;
 		let about;
 		let awards;
+		let settings;
 
 		if (this.getState().game.intro) {
 			introGame = <Intro
@@ -448,6 +462,7 @@ export default class Chronoverse extends Component {
 			selectGame = <SelectGame
 				displayAbout={this.displayAbout.bind(this)}
 				displayAwards={this.displayAwards.bind(this)}
+				displaySettings={this.displaySettings.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
 				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)} />
 		}
@@ -488,6 +503,15 @@ export default class Chronoverse extends Component {
 			awards = <Awards
 				gameOptions={this.setGameOptions.bind(this)} />
 		}
+		if (this.getState().game.settings) {
+			settings = <Settings
+				soundValue={this.getState().sound}
+				langValue={this.getState().language}
+				updateSound={this.actions.setGameSound}
+				updateLang={this.initLanguage.bind(this)}
+				gameOptions={this.setGameOptions.bind(this)} />
+		}
+
 		//console.log('STATE: ' + JSON.stringify(this.getState()) + '#');
 		return (
 			<div>
@@ -502,6 +526,7 @@ export default class Chronoverse extends Component {
 				{endGame}
 				{about}
 				{awards}
+				{settings}
 
 				<canvas ref='canvas'
 					width={this.getState().screen.width * this.getState().screen.ratio}
