@@ -23,6 +23,7 @@ export const PLAYLIST = {
     POWERUP: new Howl({src: ['./sounds/powerup.wav']}),
     SHIELD: new Howl({src: ['./sounds/shield.wav']}),
     SHIELD_OUT: new Howl({src: ['./sounds/shieldOut.wav']}),
+    LIFE_WARNING: new Howl({src: ['./sounds/lifeWarning.wav']}),
 
     INTRO_SELECT: new Howl({src: ['./sounds/introSelect.wav']}),
     OPTION_SELECT: new Howl({src: ['./sounds/optionSelect.wav']}),

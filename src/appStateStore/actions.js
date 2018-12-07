@@ -135,6 +135,13 @@ export function setCurrentShield (value) {
     }
 }
 
+export function setCurrentLife (value) {
+    return {
+        type: C.SET_CURRENT_LIFE,
+        payload: value
+    }
+}
+
 export function setCurrentScore (score) {
     return {
         type: C.SET_CURRENT_SCORE,

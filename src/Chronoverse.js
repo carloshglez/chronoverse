@@ -238,7 +238,11 @@ export default class Chronoverse extends Component {
 		if (item1.iAm === 'ship') {
 			if (item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
 				if (!item1.isShieldEnabled()) {
-					item1.destroy();
+					if (this.getState().game.inBattleGame && this.getState().stats.currentLife > 0) {
+						this.useLife(20);
+					} else {
+						item1.destroy();
+					}
 				}
 				item2.destroy();
 			}
@@ -264,6 +268,15 @@ export default class Chronoverse extends Component {
 	addScore(points) {
 		if (this.isInGame()) {
 			this.actions.setCurrentScore(this.getState().stats.currentScore + points);
+		}
+	}
+
+	useLife(value) {
+		if (this.isInGame()) {
+			this.actions.setCurrentLife(this.getState().stats.currentLife - value);
+			if (this.getState().stats.currentLife <= 20) {
+				PLAYLIST.LIFE_WARNING.play();
+			}
 		}
 	}
 
@@ -382,6 +395,7 @@ export default class Chronoverse extends Component {
 		this.actions.setPowerUpUsage(0);
 		this.actions.setShieldUsage(0);
 		this.actions.setCurrentShield(100);
+		this.actions.setCurrentLife(100);
 		this.actions.setCurrentScore(0);
 		this.actions.setTopScoreInUse(0);
 		this.actions.setTopScoreClassic(LocalStorageManager.getClassicTopScore());
@@ -489,7 +503,7 @@ export default class Chronoverse extends Component {
 				topScore={this.getState().stats.topScoreInUse}
 				currentScore={this.getState().stats.currentScore}
 				currentShield={this.getState().stats.currentShield}
-				currentLife={100}
+				currentLife={this.getState().stats.currentLife}
 				currentTime={this.getState().timeValue} />
 
 			if (this.getState().game.inClassicGame || this.getState().game.inBattleGame) {

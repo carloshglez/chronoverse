@@ -174,6 +174,15 @@ export const currentShield = (state = 0, action) => {
     }
 }
 
+export const currentLife = (state = 0, action) => {
+    switch (action.type) {
+        case C.SET_CURRENT_LIFE:
+            return parseInt(action.payload)
+        default:
+            return state
+    }
+}
+
 export const currentScore = (state = 0, action) => {
     switch (action.type) {
         case C.SET_CURRENT_SCORE:
@@ -238,6 +247,7 @@ export default combineReducers({
         powerUpUsage,
         shieldUsage,
         currentShield,
+        currentLife,
         currentScore,
         topScoreInUse,
         topScoreClassic,

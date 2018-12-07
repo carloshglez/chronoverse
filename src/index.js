@@ -32,6 +32,7 @@ const initialState = {
         powerUpUsage: 0,
         shieldUsage: 0,
         currentShield: 100,
+        currentLife: 100,
         currentScore: 0,
         topScoreInUse: 0,
         topScoreClassic: LocalStorageManager.getClassicTopScore(),
