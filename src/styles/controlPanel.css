@@ -20,7 +20,7 @@
 }
 .shield-meter {
 	border-radius: 0px 10px;
-	box-shadow: 0px 0px 10px 3px rgba(0, 0, 255, .75);
+	box-shadow: 0px 0px 10px 3px rgba(0, 0, 255, 0.75);
 	margin-left: 20px;
 	margin-top: 3px;
 }
@@ -32,6 +32,17 @@
 .time-meter {
 	border-radius: 0px 10px;
 	box-shadow: 0px 0px 10px 3px rgba(150, 150, 150, 0.75);
+	margin-left: 20px;
+	margin-top: 3px;
+}
+.life-score {
+    top: 50px;
+	right: 20px;
+	width: 20%;
+}
+.life-meter {
+	border-radius: 0px 10px;
+	box-shadow: 0px 0px 10px 3px rgba(255, 0, 0, 0.75);
 	margin-left: 20px;
 	margin-top: 3px;
 }

@@ -66,7 +66,7 @@ export const strings = new LocalizedStrings({
         lbAward09: 'Destroy 5 enemies',
         lbAward10: 'Hit Percentage +50% and +10 bullets',
         lbAward11: 'Hit Percentage +80% and +10 bullets',
-        lbAward12: 'it Percentage 100% and +10 bullets',
+        lbAward12: 'Hit Percentage 100% and +10 bullets',
         lbAward13: 'Bullets Fired: 100',
         lbAward14: 'Bullets Fired: 300',
         lbAward15: 'Bullets Fired: 500',

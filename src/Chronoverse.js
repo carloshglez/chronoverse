@@ -485,10 +485,12 @@ export default class Chronoverse extends Component {
 		if (this.isInGame()) {
 			let buttonsPanel;
 			let scorePanel = <ScorePanel
+				inBattleGame={this.getState().game.inBattleGame}
 				topScore={this.getState().stats.topScoreInUse}
 				currentScore={this.getState().stats.currentScore}
 				currentShield={this.getState().stats.currentShield}
-				timeValue={this.getState().timeValue} />
+				currentLife={100}
+				currentTime={this.getState().timeValue} />
 
 			if (this.getState().game.inClassicGame || this.getState().game.inBattleGame) {
 				buttonsPanel = <ButtonsPanelClassic
