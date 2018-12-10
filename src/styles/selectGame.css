@@ -48,6 +48,7 @@
 	-ms-text-size-adjust: none;
 	-o-text-size-adjust: none;
     text-size-adjust: none;
+    cursor: move;
 }
 .scroller-sg ul {
     height: 100%;

@@ -53,10 +53,10 @@ export default class ScorePanel extends React.Component {
         return (
             <div>
                 <span className='score top-score'>
-                    <MdStars /> {strings.lbTopScore}: {new Intl.NumberFormat().format(this.props.topScore)}
+                    <MdStars /> {strings.lbTopScore}: {new Intl.NumberFormat("en-EN").format(this.props.topScore)}
                 </span>
                 <span className='score current-score'>
-                    <MdStarOutline /> {strings.lbScore}: {new Intl.NumberFormat().format(this.props.currentScore)}
+                    <MdStarOutline /> {strings.lbScore}: {new Intl.NumberFormat("en-EN").format(this.props.currentScore)}
                 </span>
                 {this.getShield(this.props.currentShield)}
                 {this.getTime(this.props.currentTime)}

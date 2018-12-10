@@ -10,7 +10,7 @@ import MdSettings from 'react-icons/lib/md/settings'
 import MdLock from 'react-icons/lib/md/lock'
 import MdInfo from 'react-icons/lib/md/info'
 import FaTrophy from 'react-icons/lib/fa/trophy'
-import { isPassive, isMobileDevice } from '../util/helpers';
+import { isPassive } from '../util/helpers';
 import { GAME_MODE } from '../util/factoryHelper';
 import { PLAYLIST } from '../util/soundHelper';
 import { LocalStorageManager } from '../util/localStorageHelper';
@@ -30,21 +30,17 @@ export default class SelectGame extends React.Component {
 	}
 
 	componentDidMount() {
-		if (isMobileDevice()) {
-			this.myScroll = new IScroll(this.refs.wrapper, { scrollX: true, scrollY: false, probeType: 3 });
-			window.addEventListener('touchmove', function (e) { e.preventDefault(); },
-				isPassive() ? {
-					capture: false,
-					passive: false
-				} : false
-			);
-		}
+		this.myScroll = new IScroll(this.refs.wrapper, { scrollX: true, scrollY: false, probeType: 3 });
+		window.addEventListener('touchmove', function (e) { e.preventDefault(); },
+			isPassive() ? {
+				capture: false,
+				passive: false
+			} : false
+		);
 	}
 
 	componentWillUnmount() {
-		if (isMobileDevice()) {
-			this.destroy();
-		}
+		this.destroy();
 	}
 
 	destroy() {
@@ -70,7 +66,7 @@ export default class SelectGame extends React.Component {
 
 		gameInfo = <div>
 				{(enabled) ? topScoreLabel : <MdLock />}
-				<div>{(enabled) ? new Intl.NumberFormat().format(game.topScore) : game.unlockMessage}</div>
+				<div>{(enabled) ? new Intl.NumberFormat("en-EN").format(game.topScore) : game.unlockMessage}</div>
 			</div>
 
 		return (
