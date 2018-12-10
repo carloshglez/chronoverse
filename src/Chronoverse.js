@@ -400,6 +400,7 @@ export default class Chronoverse extends Component {
 		this.actions.setTopScoreInUse(0);
 		this.actions.setTopScoreClassic(LocalStorageManager.getClassicTopScore());
 		this.actions.setTopScoreSpaceRace(LocalStorageManager.getSpaceRaceTopScore());
+		this.actions.setTopScoreBattle(LocalStorageManager.getBattleTopScore());
 	}
 
 	setIntro() {
