@@ -21,7 +21,7 @@ export default class About extends React.Component {
                     <h2>{strings.title}</h2>
                     <img className='aboutImg' src={'./webapp/icon.png'}/>
                     <br/>{strings.lbVersion} {this.props.appversion}<br/>
-                    <p>carloshglez &copy;2018</p>
+                    <p>carloshglez &copy;2018, 2019</p>
                     <br/>
                     <button
                         className='infoButton'
