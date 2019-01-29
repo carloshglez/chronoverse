@@ -25,7 +25,7 @@ export default class Chronoverse extends Component {
 		super(props);
 		this.actions = props.actions;
 
-		this.appVersion = '1.2.6';
+		this.appVersion = '1.2.8';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
@@ -93,9 +93,8 @@ export default class Chronoverse extends Component {
 		context.globalAlpha = 1;
 
 		// Next set of elements
-		if (this.isInGame() && !this.asteroids.length) {
-			this.factory.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, this.powerUps);
-		}
+		this.factory.nextSetOfComponents(this.getState().stats.currentScore, this.getState().enemyCount, this.getState().asteroidCount, 
+			this.powerUps, this.asteroids, this.enemies);
 
 		// Check for colisions
 		this.checkCollisionsWith(this.bullets, this.asteroids);
@@ -239,7 +238,11 @@ export default class Chronoverse extends Component {
 		if (item1.iAm === 'ship') {
 			if (item2.iAm === 'asteroid' || item2.iAm === 'enemy' || item2.iAm === 'enemyBullet') {
 				if (!item1.isShieldEnabled()) {
-					item1.destroy();
+					if (this.getState().game.inBattleGame && this.getState().stats.currentLife > 0) {
+						this.useLife(20);
+					} else {
+						item1.destroy();
+					}
 				}
 				item2.destroy();
 			}
@@ -259,12 +262,21 @@ export default class Chronoverse extends Component {
 	}
 
 	isInGame() {
-		return (this.getState().game.inClassicGame || this.getState().game.inSpaceRaceGame);
+		return (this.getState().game.inClassicGame || this.getState().game.inSpaceRaceGame || this.getState().game.inBattleGame);
 	}
 
 	addScore(points) {
 		if (this.isInGame()) {
 			this.actions.setCurrentScore(this.getState().stats.currentScore + points);
+		}
+	}
+
+	useLife(value) {
+		if (this.isInGame()) {
+			this.actions.setCurrentLife(this.getState().stats.currentLife - value);
+			if (this.getState().stats.currentLife <= 20) {
+				PLAYLIST.LIFE_WARNING.play();
+			}
 		}
 	}
 
@@ -362,6 +374,10 @@ export default class Chronoverse extends Component {
 				LocalStorageManager.setSpaceRaceTopScore(this.getState().stats.currentScore);
 				this.actions.setTopScoreSpaceRace(this.getState().stats.currentScore);
 			}
+			if (this.getState().game.inBattleGame) {
+				LocalStorageManager.setBattleTopScore(this.getState().stats.currentScore);
+				this.actions.setTopScoreBattle(this.getState().stats.currentScore);
+			}
 		}
 	}
 
@@ -379,10 +395,12 @@ export default class Chronoverse extends Component {
 		this.actions.setPowerUpUsage(0);
 		this.actions.setShieldUsage(0);
 		this.actions.setCurrentShield(100);
+		this.actions.setCurrentLife(100);
 		this.actions.setCurrentScore(0);
 		this.actions.setTopScoreInUse(0);
 		this.actions.setTopScoreClassic(LocalStorageManager.getClassicTopScore());
 		this.actions.setTopScoreSpaceRace(LocalStorageManager.getSpaceRaceTopScore());
+		this.actions.setTopScoreBattle(LocalStorageManager.getBattleTopScore());
 	}
 
 	setIntro() {
@@ -425,6 +443,18 @@ export default class Chronoverse extends Component {
 		this.factory.generateShip();
 	}
 
+	startBattleGame() {
+		this.actions.setGameState(GAME_STATE.BATTLE);
+		this.factory.setGameMode(GAME_MODE.BATTLE);
+
+		this.asteroids = [];
+		this.bullets = [];
+		this.powerUps = [];
+		this.enemies = [];
+		this.actions.setTopScoreInUse(this.getState().stats.topScoreBattle);
+		this.factory.generateShip();
+	}
+
 	gameOver() {
 		// Replace top score
 		this.updateTopScore();
@@ -464,17 +494,20 @@ export default class Chronoverse extends Component {
 				displayAwards={this.displayAwards.bind(this)}
 				displaySettings={this.displaySettings.bind(this)}
 				startClassicGame={this.startClassicGame.bind(this)}
-				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)} />
+				startSpaceRaceGame={this.startSpaceRaceGame.bind(this)}
+				startBattleGame={this.startBattleGame.bind(this)} />
 		}
 		if (this.isInGame()) {
 			let buttonsPanel;
 			let scorePanel = <ScorePanel
+				inBattleGame={this.getState().game.inBattleGame}
 				topScore={this.getState().stats.topScoreInUse}
 				currentScore={this.getState().stats.currentScore}
 				currentShield={this.getState().stats.currentShield}
-				timeValue={this.getState().timeValue} />
+				currentLife={this.getState().stats.currentLife}
+				currentTime={this.getState().timeValue} />
 
-			if (this.getState().game.inClassicGame) {
+			if (this.getState().game.inClassicGame || this.getState().game.inBattleGame) {
 				buttonsPanel = <ButtonsPanelClassic
 					customEvents={this.getTouchEvents()}
 					currentShield={this.getState().stats.currentShield} />

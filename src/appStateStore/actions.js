@@ -135,6 +135,13 @@ export function setCurrentShield (value) {
     }
 }
 
+export function setCurrentLife (value) {
+    return {
+        type: C.SET_CURRENT_LIFE,
+        payload: value
+    }
+}
+
 export function setCurrentScore (score) {
     return {
         type: C.SET_CURRENT_SCORE,
@@ -159,6 +166,13 @@ export function setTopScoreClassic (score) {
 export function setTopScoreSpaceRace (score) {
     return {
         type: C.SET_TOP_SCORE_SPACERACE,
+        payload: score
+    }
+}
+
+export function setTopScoreBattle (score) {
+    return {
+        type: C.SET_TOP_SCORE_BATTLE,
         payload: score
     }
 }

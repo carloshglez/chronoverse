@@ -30,7 +30,8 @@
 .scroller-sg {
 	position: absolute;
     z-index: 1;
-	width: 101%;
+    width: 140%;
+    padding-right: 5%;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	-webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
@@ -47,6 +48,7 @@
 	-ms-text-size-adjust: none;
 	-o-text-size-adjust: none;
     text-size-adjust: none;
+    cursor: move;
 }
 .scroller-sg ul {
     height: 100%;
@@ -58,7 +60,8 @@
 .scroller-sg li {
 	width: 30%;
     height: 100%;
-    padding-right: 10%;
+    padding-right: 5%;
+    padding-left: 5%;
 	text-align: center;
     display: flex;
     flex-direction: column;

@@ -10,7 +10,7 @@ import MdArrowDownward from 'react-icons/lib/md/arrow-downward'
 import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
 import FaShield from 'react-icons/lib/fa/shield'
 
-export default class ClassicButtonsPanel extends React.Component {
+export default class ButtonsPanelClassic extends React.Component {
     render() {
         let buttonsLayer;
         let keysHelp;

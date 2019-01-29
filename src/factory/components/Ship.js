@@ -15,7 +15,7 @@ export default class Ship {
 			x: 0,
 			y: 0
 		}
-		this.rotation = (this.gameMode === GAME_MODE.CLASSIC) ? 0 : 90;
+		this.rotation = (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) ? 0 : 90;
 		this.rotationSpeed = 6;
 		this.speed = 0.15;
 		this.inertia = 0.99;
@@ -98,7 +98,7 @@ export default class Ship {
 	}
 
 	accelerate(val) {
-		if (this.gameMode === GAME_MODE.CLASSIC) {
+		if (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) {
 			this.velocity.x -= Math.sin(-this.rotation * Math.PI / 180) * this.speed;
 			this.velocity.y -= Math.cos(-this.rotation * Math.PI / 180) * this.speed;
 		}
@@ -126,7 +126,7 @@ export default class Ship {
 			bulletArrayDirectionsX = [-5, 0, 5];
 		}
 		if (this.fireRingSkill) {
-			if (this.gameMode === GAME_MODE.CLASSIC) {
+			if (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) {
 				this.fireRing();
 				return;
 			} else {
@@ -203,10 +203,10 @@ export default class Ship {
 				PLAYLIST.SHIP.play();
 		}
 		if (state.keys.left) {
-			(this.gameMode === GAME_MODE.CLASSIC) ? this.rotate('LEFT') : this.velocity.y -= this.speed;
+			(this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) ? this.rotate('LEFT') : this.velocity.y -= this.speed;
 		}
 		if (state.keys.right) {
-			(this.gameMode === GAME_MODE.CLASSIC) ? this.rotate('RIGHT') : this.velocity.y += this.speed;
+			(this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) ? this.rotate('RIGHT') : this.velocity.y += this.speed;
 		}
 		if (state.keys.shoot && Date.now() - this.lastShot > this.shotFrequency) {
 			this.fireBullet();

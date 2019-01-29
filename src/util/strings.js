@@ -21,6 +21,8 @@ export const strings = new LocalizedStrings({
         lbClassic: 'Classic',
         lbSpaceRace: 'Space Race',
         lbSpaceRaceUnlockMsg: 'Get 2,000 points',
+        lbBattle: 'Battle',
+        lbBattleUnlockMsg: 'Get 5,000 points',
 
         // EndGame
         btTryAgain: 'Try Again?',
@@ -64,7 +66,7 @@ export const strings = new LocalizedStrings({
         lbAward09: 'Destroy 5 enemies',
         lbAward10: 'Hit Percentage +50% and +10 bullets',
         lbAward11: 'Hit Percentage +80% and +10 bullets',
-        lbAward12: 'it Percentage 100% and +10 bullets',
+        lbAward12: 'Hit Percentage 100% and +10 bullets',
         lbAward13: 'Bullets Fired: 100',
         lbAward14: 'Bullets Fired: 300',
         lbAward15: 'Bullets Fired: 500',
@@ -93,6 +95,8 @@ export const strings = new LocalizedStrings({
         lbClassic: 'Clásico',
         lbSpaceRace: 'Carrera',
         lbSpaceRaceUnlockMsg: '2,000 puntos',
+        lbBattle: 'Batalla',
+        lbBattleUnlockMsg: '5,000 puntos',
 
         // EndGame
         btTryAgain: 'Jugar',

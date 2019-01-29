@@ -78,6 +78,34 @@ export const GAME_MODE = {
                 y: velocityY
             }
         }
+    },
+    BATTLE: {
+        rules: {
+            id: 3,
+            title: strings.lbBattle,
+            topScore: 0,
+            onClickEvent: null,
+            unlockAt: 5000,
+            unlockMessage: strings.lbBattleUnlockMsg
+        },
+        getShipPosition: (width, height) => {
+            return GAME_MODE.CLASSIC.getShipPosition(width, height);
+        },
+        getAsteroidPosition: (width, height, shipPosition) => {
+            return GAME_MODE.CLASSIC.getAsteroidPosition(width, height, shipPosition)
+        },
+        getEnemyPosition: (width, height, shipPosition) => {
+            return GAME_MODE.CLASSIC.getEnemyPosition(width, height, shipPosition)
+        },
+        getPowerUpPosition: (width, height, shipPosition) => {
+            return GAME_MODE.CLASSIC.getPowerUpPosition(width, height, shipPosition)
+        },
+        getVelocity: () => {
+            return GAME_MODE.CLASSIC.getVelocity();
+        },
+        getNewPosition: (velocityX, velocityY) => {
+            return GAME_MODE.CLASSIC.getNewPosition(velocityX, velocityY);
+        }
     }
 }
 

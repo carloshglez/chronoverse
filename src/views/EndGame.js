@@ -64,15 +64,15 @@ export default class EndGame extends React.Component {
 					<div className='stat-value'>
 						<h3>&nbsp;</h3>
 						<p>
-							{new Intl.NumberFormat().format(this.props.stats.bulletsFired)}	<br/>
-							{new Intl.NumberFormat().format(this.props.stats.bulletsHit)}	<br/>
+							{new Intl.NumberFormat("en-EN").format(this.props.stats.bulletsFired)}	<br/>
+							{new Intl.NumberFormat("en-EN").format(this.props.stats.bulletsHit)}	<br/>
 							{hitPercentaje}%				<br/>
 							<br/>
 							{this.props.stats.shieldUsage}	<br/>
 							{this.props.stats.powerUpUsage}	<br/>
 							<br/>
-							{new Intl.NumberFormat().format(this.props.stats.topScoreInUse)}	<br/>
-							{new Intl.NumberFormat().format(this.props.stats.currentScore)}	<br/>
+							{new Intl.NumberFormat("en-EN").format(this.props.stats.topScoreInUse)}	<br/>
+							{new Intl.NumberFormat("en-EN").format(this.props.stats.currentScore)}	<br/>
 						</p>
 					</div>
 				</div>

@@ -60,7 +60,7 @@ export default class Enemy {
 			this.accFrequency = randomNumBetween(100, 250);
 		}
 
-		if (this.gameMode === GAME_MODE.CLASSIC) {
+		if (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) {
 			this.position.x += this.velocity.x;
 			this.position.y += this.velocity.y;
 			this.velocity.x *= this.inertia;
@@ -115,12 +115,24 @@ export default class Enemy {
 		}
 
 		// Screen edges
-		if (this.gameMode === GAME_MODE.CLASSIC) {
-			if (this.position.x > state.screen.width) this.position.x = 0;
+		if (this.gameMode === GAME_MODE.CLASSIC || this.gameMode === GAME_MODE.BATTLE) {
+			if (this.position.x > state.screen.width) 
+				this.position.x = 0;
+			else if (this.position.x < 0) 
+				this.position.x = state.screen.width;
+			if (this.position.y > state.screen.height) 
+				this.position.y = 0;
+			else if (this.position.y < 0) 
+				this.position.y = state.screen.height;
 		}
-		else if (this.position.x < 0) this.position.x = state.screen.width;
-		if (this.position.y > state.screen.height) this.position.y = 0;
-		else if (this.position.y < 0) this.position.y = state.screen.height;
+		else {
+			if (this.position.x < 0) 
+				this.position.x = state.screen.width;
+			if (this.position.y > state.screen.height) 
+				this.position.y = 0;
+			else if (this.position.y < 0) 
+				this.position.y = state.screen.height;
+		}
 
 		// Draw
 		const context = state.context;

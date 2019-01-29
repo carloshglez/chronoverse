@@ -114,6 +114,10 @@ export function getNextPowerUpCount(powerUpArray, asteroidCount) {
 	return ((asteroidCount % 3 === 0) ? 2 : 0) - powerUpArray.length;
 }
 
+export function getNextEnemyCount(currentEnemyCount) {
+	return (currentEnemyCount < 5) ? currentEnemyCount + 1 : 1;
+}
+
 export function isPassive() {
 	var supportsPassiveOption = false;
 	try {
@@ -138,7 +142,10 @@ export function isMobileDevice() {
 export function updateInnerStrings() {
     GAME_MODE.CLASSIC.rules.title = strings.lbClassic;
     GAME_MODE.SPACE_RACE.rules.title = strings.lbSpaceRace;
-    GAME_MODE.SPACE_RACE.rules.unlockMessage = strings.lbSpaceRaceUnlockMsg;
+	GAME_MODE.SPACE_RACE.rules.unlockMessage = strings.lbSpaceRaceUnlockMsg;
+	GAME_MODE.BATTLE.rules.title = strings.lbBattle;
+	GAME_MODE.BATTLE.rules.unlockMessage = strings.lbBattleUnlockMsg;
+
     var keyNames = Object.keys(strings);
     var i = 0;
     keyNames.forEach(name => {

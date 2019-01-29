@@ -6,7 +6,7 @@ import '../styles/awards.css';
 import MdHighlightRemove from 'react-icons/lib/md/highlight-remove'
 import FaTrophy from 'react-icons/lib/fa/trophy'
 import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
-import { isPassive, isMobileDevice } from '../util/helpers';
+import { isPassive } from '../util/helpers';
 import { getAwardsArray, wonAwards } from '../util/awardsHelper';
 import { PLAYLIST } from '../util/soundHelper';
 import { strings } from '../util/strings';

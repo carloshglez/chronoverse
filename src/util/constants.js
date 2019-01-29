@@ -1,6 +1,7 @@
 
 export const STORAGE_CLASSIC_TOP_SCORE = 'topscore';
 export const STORAGE_SPACE_RACE_TOP_SCORE = 'topscore_sp';
+export const STORAGE_BATTLE_TOP_SCORE = 'topscore_bt';
 export const STORAGE_AWARDS = 'awards';
 
 /**
@@ -33,7 +34,8 @@ export const GAME_STATE = {
 	INTRO: 'intro',
     SELECT: 'select',
     CLASSIC: 'inClassicGame',
-    SPACE_RACE: 'inSpaceRaceGame',
+	SPACE_RACE: 'inSpaceRaceGame',
+	BATTLE: 'inBattle',
 	OVER: 'over',
 	ABOUT: 'about',
 	AWARDS: 'awards',
