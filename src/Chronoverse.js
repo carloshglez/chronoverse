@@ -25,7 +25,7 @@ export default class Chronoverse extends Component {
 		super(props);
 		this.actions = props.actions;
 
-		this.appVersion = '1.2.8';
+		this.appVersion = '1.2.9';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
