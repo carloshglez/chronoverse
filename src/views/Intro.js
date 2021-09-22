@@ -22,7 +22,7 @@ export default class Intro extends React.Component {
                     </button>
                 </div>
                 <div className='help-info legal'>
-                    v{this.props.appversion} - &copy;2018, 2019
+                    v{AppVersion} - &copy; 2021
                 </div>
             </div>
         );

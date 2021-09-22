@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+const pkg = require('./package.json');
 
 module.exports = {
     mode: 'development',
@@ -18,7 +19,13 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+				'NODE_ENV': JSON.stringify('development')
+			},
+            AppVersion: JSON.stringify(pkg.version)
+        })
     ],
     module: {
         rules: [
