@@ -20,8 +20,8 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <icon src="www/webapp/icon.png" />
-        <custom-preference name="android-manifest/application/@android:hardwareAccelerated" value="false" />
-        <custom-preference name="android-manifest/@android:hardwareAccelerated" value="false" />
+        <custom-preference name="android-manifest/application/@android:hardwareAccelerated" value="true" />
+        <custom-preference name="android-manifest/@android:hardwareAccelerated" value="true" />
         <preference name="android-targetSdkVersion" value="28" />
         <preference name="android-minSdkVersion" value="19" />
     </platform>
