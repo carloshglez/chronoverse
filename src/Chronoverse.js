@@ -25,7 +25,6 @@ export default class Chronoverse extends Component {
 		super(props);
 		this.actions = props.actions;
 
-		this.appVersion = '1.2.9';
 		this.ship = [];
 		this.asteroids = [];
 		this.bullets = [];
@@ -485,7 +484,6 @@ export default class Chronoverse extends Component {
 
 		if (this.getState().game.intro) {
 			introGame = <Intro
-				appversion={this.appVersion}
 				gameOptions={this.setGameOptions.bind(this)} />
 		}
 		if (this.getState().game.select) {
@@ -529,8 +527,7 @@ export default class Chronoverse extends Component {
 		}
 		if (this.getState().game.about) {
 			about = <About
-				gameOptions={this.setGameOptions.bind(this)}
-				appversion={this.appVersion} />
+				gameOptions={this.setGameOptions.bind(this)} />
 		}
 		if (this.getState().game.awards) {
 			awards = <Awards

@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const pkg = require('./package.json');
 
 module.exports = {
 	mode: 'production',
@@ -17,7 +18,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
-			}
+			},
+			AppVersion: JSON.stringify(pkg.version)
 		}),
 		new UglifyJsPlugin({
 			uglifyOptions: {
