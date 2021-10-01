@@ -103,7 +103,7 @@ export default class SelectGame extends React.Component {
 								(GAME_MODE.CLASSIC.rules.topScore >= GAME_MODE.SPACE_RACE.rules.unlockAt))
 							}
 							{this.getGameSelection(GAME_MODE.BATTLE.rules,
-								(GAME_MODE.CLASSIC.rules.topScore + GAME_MODE.SPACE_RACE.rules.topScore >= GAME_MODE.BATTLE.rules.unlockAt))
+								(parseInt(GAME_MODE.CLASSIC.rules.topScore) + parseInt(GAME_MODE.SPACE_RACE.rules.topScore) >= GAME_MODE.BATTLE.rules.unlockAt))
 							}
 						</ul>
 					</div>

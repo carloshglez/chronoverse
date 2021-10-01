@@ -1,3 +1,4 @@
+import './styles/fonts/PTMono/PTMono-Regular.woff2';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux'

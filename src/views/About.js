@@ -20,8 +20,8 @@ export default class About extends React.Component {
                 <div className='intro'>
                     <h2>{strings.title}</h2>
                     <img className='aboutImg' src={'./webapp/icon.png'}/>
-                    <br/>{strings.lbVersion} {this.props.appversion}<br/>
-                    <p>carloshglez &copy;2018, 2019</p>
+                    <br/>{strings.lbVersion} {AppVersion}<br/>
+                    <p>carloshglez - &copy; 2021</p>
                     <br/>
                     <button
                         className='infoButton'

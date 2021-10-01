@@ -14,4 +14,4 @@ This game is inspired by the following projects:
 * [Reacteroids](https://github.com/chriz001/Reacteroids): A ReactJS Game.
 * [Astrorock](https://www.gamespot.com/astrorock/): A childhood favorite game.
 
-##### &copy; carloshglez - 2018, 2019
+##### &copy; carloshglez - 2021
