@@ -19,7 +19,7 @@ export default class About extends React.Component {
             <div>
                 <div className='intro'>
                     <h2>{strings.title}</h2>
-                    <img className='aboutImg' src={'./webapp/icon.png'}/>
+                    <img className='aboutImg' src={'./res/mipmap-hdpi/ic_launcher.png'}/>
                     <br/>{strings.lbVersion} {AppVersion}<br/>
                     <p>carloshglez - &copy; 2021</p>
                     <br/>
