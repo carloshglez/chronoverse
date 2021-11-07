@@ -43,7 +43,9 @@
       "cordova-plugin-whitelist": {},
       "cordova-custom-config": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
