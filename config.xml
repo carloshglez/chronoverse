@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.carloshglez.asteroids" version="1.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.carloshglez.asteroids" 
+    version="1.3.1">
     <name>Chronoverse</name>
     <description>
         Implementation of an asteroids game using agile development tools for Web and Mobile.
@@ -10,16 +13,13 @@
     <preference name="Orientation" value="landscape" />
     <preference name="Fullscreen" value="true" />
     <content src="index.html" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
     <platform name="android">
-        <allow-intent href="market:*" />
-        <icon src="www/webapp/icon.png" />
+        <icon background="www/res/mipmap-ldpi/ic_launcher_background.png"    foreground="www/res/mipmap-ldpi/ic_launcher_foreground.png"     density="ldpi"   />
+        <icon background="www/res/mipmap-mdpi/ic_launcher_background.png"    foreground="www/res/mipmap-mdpi/ic_launcher_foreground.png"     density="mdpi"   />
+        <icon background="www/res/mipmap-hdpi/ic_launcher_background.png"    foreground="www/res/mipmap-hdpi/ic_launcher_foreground.png"     density="hdpi"   />
+        <icon background="www/res/mipmap-xhdpi/ic_launcher_background.png"   foreground="www/res/mipmap-xhdpi/ic_launcher_foreground.png"    density="xhdpi"  />
+        <icon background="www/res/mipmap-xxhdpi/ic_launcher_background.png"  foreground="www/res/mipmap-xxhdpi/ic_launcher_foreground.png"   density="xxhdpi" />
+        <icon background="www/res/mipmap-xxxhdpi/ic_launcher_background.png" foreground="www/res/mipmap-xxxhdpi/ic_launcher_foreground.png"  density="xxxhdpi"/>
         <custom-preference name="android-manifest/application/@android:hardwareAccelerated" value="true" />
         <custom-preference name="android-manifest/@android:hardwareAccelerated" value="true" />
         <preference name="android-targetSdkVersion" value="30" />
