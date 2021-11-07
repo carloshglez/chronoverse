@@ -1,7 +1,7 @@
 {
   "name": "com.carloshglez.asteroids",
   "displayName": "Chronoverse",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Implementation of an asteroids game using agile development tools for Web and Mobile.",
   "main": "index.html",
   "scripts": {
