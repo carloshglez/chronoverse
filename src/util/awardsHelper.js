@@ -1,7 +1,7 @@
 import React from 'react';
 import { LocalStorageManager } from './localStorageHelper';
 import { strings } from './strings';
-import FaTrophy from 'react-icons/lib/fa/trophy'
+import { FaTrophy } from 'react-icons/fa'
 
 /**
  *

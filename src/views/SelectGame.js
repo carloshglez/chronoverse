@@ -5,11 +5,11 @@ import IScroll from 'iscroll'
 import '../styles/style.css';
 import '../styles/selectGame.css';
 
-import MdStars from 'react-icons/lib/md/stars'
-import MdSettings from 'react-icons/lib/md/settings'
-import MdLock from 'react-icons/lib/md/lock'
-import MdInfo from 'react-icons/lib/md/info'
-import FaTrophy from 'react-icons/lib/fa/trophy'
+import { MdStars  } from 'react-icons/md'
+import { MdSettings } from 'react-icons/md'
+import { MdLock } from 'react-icons/md'
+import { MdInfo } from 'react-icons/md'
+import { FaTrophy } from 'react-icons/fa'
 import { isPassive } from '../util/helpers';
 import { GAME_MODE } from '../util/factoryHelper';
 import { PLAYLIST } from '../util/soundHelper';
@@ -66,7 +66,7 @@ export default class SelectGame extends React.Component {
 
 		gameInfo = <div>
 				{(enabled) ? topScoreLabel : <MdLock />}
-				<div>{(enabled) ? new Intl.NumberFormat("en-EN").format(game.topScore) : game.unlockMessage}</div>
+				<div>{(enabled) ? new Intl.NumberFormat('en-EN').format(game.topScore) : game.unlockMessage}</div>
 			</div>
 
 		return (

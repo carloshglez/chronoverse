@@ -3,9 +3,9 @@ import IScroll from 'iscroll'
 import '../styles/style.css';
 import '../styles/awards.css';
 
-import MdHighlightRemove from 'react-icons/lib/md/highlight-remove'
-import FaTrophy from 'react-icons/lib/fa/trophy'
-import FaCheckSquareO from 'react-icons/lib/fa/check-square-o'
+import { MdHighlightRemove } from 'react-icons/md'
+import { FaTrophy } from 'react-icons/fa'
+import { FaCheckSquareO } from 'react-icons/fa'
 import { isPassive } from '../util/helpers';
 import { getAwardsArray, wonAwards } from '../util/awardsHelper';
 import { PLAYLIST } from '../util/soundHelper';

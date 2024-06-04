@@ -23,9 +23,7 @@ module.exports = {
 		}),
 		new UglifyJsPlugin({
 			uglifyOptions: {
-				compress: {
-					warnings: false
-				}
+				warnings: false
 			}
 		})
 	],
@@ -49,6 +47,11 @@ module.exports = {
 					limit: 10000,
 					outputPath: '/fonts/'
 				}
+			},
+			{
+				test: /\.mjs$/,
+				include: /node_modules/,
+				type: 'javascript/auto'
 			}
 		]
 	}

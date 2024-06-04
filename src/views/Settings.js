@@ -1,12 +1,12 @@
 import React from 'react';
-import Switch from "react-switch";
+import Switch from 'react-switch';
 import '../styles/style.css';
 import '../styles/settings.css';
 
-import MdHighlightRemove from 'react-icons/lib/md/highlight-remove'
-import MdSettings from 'react-icons/lib/md/settings'
-import MdVolumeUp from 'react-icons/lib/md/volume-up'
-import MdLanguage from 'react-icons/lib/md/language'
+import { MdHighlightRemove } from 'react-icons/md'
+import { MdSettings } from 'react-icons/md'
+import { MdVolumeUp } from 'react-icons/md'
+import { MdLanguage } from 'react-icons/md'
 import { PLAYLIST } from '../util/soundHelper';
 import { strings } from '../util/strings';
 
@@ -41,12 +41,12 @@ export default class Settings extends React.Component {
 
     render() {
         let switchProps = {
-            offColor: "#333",
-            onColor: "#999",
-            offHandleColor: "#fff",
-            onHandleColor: "#fff",
-            boxShadow: "0px 1px 5px rgba(255, 255, 255, 255.6)",
-            activeBoxShadow: "0px 0px 1px 10px rgba(255, 255, 255, 0.2)"
+            offColor: '#333',
+            onColor: '#999',
+            offHandleColor: '#fff',
+            onHandleColor: '#fff',
+            boxShadow: '0px 1px 5px rgba(255, 255, 255, 255.6)',
+            activeBoxShadow: '0px 0px 1px 10px rgba(255, 255, 255, 0.2)'
         };
 
         return (
