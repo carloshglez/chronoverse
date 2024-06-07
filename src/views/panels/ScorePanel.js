@@ -4,7 +4,7 @@ import '../../styles/controlPanel.css';
 
 import { FaShield } from 'react-icons/fa'
 import { MdAccessAlarm } from 'react-icons/md'
-import { FaHeart } from 'react-icons/io'
+import { IoIosHeart } from 'react-icons/io';
 import { MdStars } from 'react-icons/md'
 import { MdStarOutline } from 'react-icons/md'
 import Progress from 'react-progressbar';
@@ -42,7 +42,7 @@ export default class ScorePanel extends React.Component {
         let lifeValueForLabel = (currentLife > 100) ? 100 : currentLife;
         return (
             <span className='score life-score'>
-                    <div style={{float: 'left'}}><FaHeart /></div>
+                    <div style={{float: 'left'}}><IoIosHeart /></div>
                     <Progress className={(lifeValueForLabel <= 40 && lifeValueForLabel > 0) ? 'life-meter flashit' : 'life-meter'}
                         color='Red' completed={lifeValueForLabel}/>
 				</span>
