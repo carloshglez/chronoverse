@@ -21,7 +21,7 @@ export default class About extends React.Component {
                     <h2>{strings.title}</h2>
                     <img className='aboutImg' src={'./res/mipmap-hdpi/ic_launcher.png'}/>
                     <br/>{strings.lbVersion} {AppVersion}<br/>
-                    <p>carloshglez - &copy; 2021</p>
+                    <p>carloshglez - &copy; 2024</p>
                     <br/>
                     <button
                         className='infoButton'
