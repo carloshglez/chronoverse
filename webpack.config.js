@@ -47,7 +47,12 @@ module.exports = {
                     limit: 10000,
                     outputPath: '/fonts/'
                 }
-            }
+            },
+			{
+				test: /\.mjs$/,
+				include: /node_modules/,
+				type: 'javascript/auto'
+			}
         ]
     }
 }

@@ -3,12 +3,12 @@ import '../../styles/style.css';
 import '../../styles/controlPanel.css';
 import { isMobileDevice } from '../../util/helpers';
 
-import MdArrowBack from 'react-icons/lib/md/arrow-back'
-import MdArrowForward from 'react-icons/lib/md/arrow-forward'
-import MdArrowUpward from 'react-icons/lib/md/arrow-upward'
-import MdArrowDownward from 'react-icons/lib/md/arrow-downward'
-import MdGpsFixed from 'react-icons/lib/md/gps-fixed'
-import FaShield from 'react-icons/lib/fa/shield'
+import { MdArrowBack } from 'react-icons/md'
+import { MdArrowUpward } from 'react-icons/md'
+import { MdArrowForward } from 'react-icons/md'
+import { MdArrowDownward } from 'react-icons/md'
+import { MdGpsFixed } from 'react-icons/md'
+import { FaShield } from 'react-icons/fa'
 
 export default class ButtonsPanelSpaceRace extends React.Component {
     render() {

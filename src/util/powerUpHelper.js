@@ -1,4 +1,5 @@
-import { notify } from 'react-notify-toast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { strings } from './strings';
 
 /**
@@ -79,14 +80,14 @@ export const PW = {
   }
 };
 
-var showNotify = notify.createShowQueue();
-function showNotification(color, text) {
+//var showNotify = notify.createShowQueue();
+function showNotification(backColor, text) {
     let textColor = 'White'
-    if (color === 'White') {
+    if (backColor === 'White') {
         textColor = 'Black'
     }
-    let notificationColor = { background: color, text: textColor };
-    showNotify(text, 'custom', 5000, notificationColor);
+    let notificationColor = { background: backColor, color: textColor };
+    toast(text, {style: notificationColor});
 }
 
 
