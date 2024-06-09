@@ -1,7 +1,7 @@
 {
   "name": "com.carloshglez.asteroids",
   "displayName": "Chronoverse",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Implementation of an asteroids game using agile development tools for Web and Mobile.",
   "main": "index.html",
   "scripts": {
@@ -20,7 +20,7 @@
   "author": "Carlos Gonzalez",
   "license": "ISC",
   "dependencies": {
-    "cordova-custom-config": "^5.1.0",
+    "cordova-custom-config": "^5.1.1",
     "cordova-plugin-whitelist": "^1.3.5",
     "glob": "^7.1.3",
     "howler": "^2.0.15",
@@ -54,7 +54,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "cordova-android": "^9.1.0",
+    "cordova-android": "^13.0.0",
     "css-loader": "^0.28.11",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0",
